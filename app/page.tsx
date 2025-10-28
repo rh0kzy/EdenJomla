@@ -106,10 +106,15 @@ export default function Home() {
   return (
     <div className="container">
       <div className="card">
-        <h1>🌸 EdenJomla - Perfume Factures</h1>
-        <p style={{ color: '#718096', marginBottom: '20px' }}>
-          Manage your perfume invoices with weight and pricing
-        </p>
+        <div className="logo-container">
+          <img src="/logo.png" alt="EdenJomla Logo" className="logo" />
+          <div>
+            <h1 style={{ margin: 0 }}>EdenJomla - Perfume Factures</h1>
+            <p style={{ color: '#9090a0', marginBottom: 0, marginTop: '8px' }}>
+              Manage your perfume invoices with weight and pricing
+            </p>
+          </div>
+        </div>
         
         <button 
           className="btn btn-primary" 
@@ -218,7 +223,7 @@ export default function Home() {
                       </td>
                     </tr>
                   ))}
-                  <tr style={{ fontWeight: 'bold', background: '#f7fafc' }}>
+                  <tr style={{ fontWeight: 'bold', background: '#2a2a3e' }}>
                     <td colSpan={4}>Total Amount</td>
                     <td colSpan={2}>
                       €{items.reduce((sum, item) => sum + item.totalPrice, 0).toFixed(2)}
@@ -242,7 +247,7 @@ export default function Home() {
       <div className="card">
         <h2>Factures List</h2>
         {factures.length === 0 ? (
-          <p style={{ color: '#718096', textAlign: 'center', padding: '40px' }}>
+          <p style={{ color: '#9090a0', textAlign: 'center', padding: '40px' }}>
             No factures yet. Create your first one!
           </p>
         ) : (
@@ -265,7 +270,7 @@ export default function Home() {
                     <td>{facture.clientName}</td>
                     <td>
                       {facture.items.map((item, idx) => (
-                        <div key={idx} style={{ fontSize: '12px', color: '#718096' }}>
+                        <div key={idx} style={{ fontSize: '12px', color: '#9090a0' }}>
                           {item.name} ({item.weight}{item.weightUnit})
                         </div>
                       ))}
