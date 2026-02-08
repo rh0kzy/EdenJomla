@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Parfum {
+  id          Int               @id @default(autoincrement())
+  nom         String
+  marque      String
+  description String?
+  references  ParfumReference[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
+model Fournisseur {
+  id         Int               @id @default(autoincrement())
+  nom        String
+  telephone  String?
+  email      String?
+  references ParfumReference[]
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+}
+
+model Client {
+  id        Int      @id @default(autoincrement())
+  nom       String
+  telephone String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ParfumReference {
+  id            Int         @id @default(autoincrement())
+  parfumId      Int
+  fournisseurId Int
+  referenceCode String      @unique
+  unite         String
+  prixUnitaire  Float
+  parfum        Parfum      @relation(fields: [parfumId], references: [id])
+  fournisseur   Fournisseur @relation(fields: [fournisseurId], references: [id])
+  stock         Stock?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model Stock {
+  id                Int             @id @default(autoincrement())
+  parfumReferenceId Int             @unique
+  quantite          Float
+  reference         ParfumReference @relation(fields: [parfumReferenceId], references: [id])
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}

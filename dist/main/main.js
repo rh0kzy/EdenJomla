@@ -1,0 +1,938 @@
+"use strict";
+const electron = require("electron");
+const require$$1 = require("path");
+const utils = require("@electron-toolkit/utils");
+const client = require("@prisma/client");
+const require$$0 = require("fs");
+const require$$2 = require("os");
+const require$$3 = require("crypto");
+var config = {};
+var main = { exports: {} };
+const version = "16.6.1";
+const require$$4 = {
+  version
+};
+var hasRequiredMain;
+function requireMain() {
+  if (hasRequiredMain) return main.exports;
+  hasRequiredMain = 1;
+  const fs = require$$0;
+  const path = require$$1;
+  const os = require$$2;
+  const crypto = require$$3;
+  const packageJson = require$$4;
+  const version2 = packageJson.version;
+  const LINE = /(?:^|^)\s*(?:export\s+)?([\w.-]+)(?:\s*=\s*?|:\s+?)(\s*'(?:\\'|[^'])*'|\s*"(?:\\"|[^"])*"|\s*`(?:\\`|[^`])*`|[^#\r\n]+)?\s*(?:#.*)?(?:$|$)/mg;
+  function parse(src) {
+    const obj = {};
+    let lines = src.toString();
+    lines = lines.replace(/\r\n?/mg, "\n");
+    let match;
+    while ((match = LINE.exec(lines)) != null) {
+      const key = match[1];
+      let value = match[2] || "";
+      value = value.trim();
+      const maybeQuote = value[0];
+      value = value.replace(/^(['"`])([\s\S]*)\1$/mg, "$2");
+      if (maybeQuote === '"') {
+        value = value.replace(/\\n/g, "\n");
+        value = value.replace(/\\r/g, "\r");
+      }
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function _parseVault(options) {
+    options = options || {};
+    const vaultPath = _vaultPath(options);
+    options.path = vaultPath;
+    const result = DotenvModule.configDotenv(options);
+    if (!result.parsed) {
+      const err = new Error(`MISSING_DATA: Cannot parse ${vaultPath} for an unknown reason`);
+      err.code = "MISSING_DATA";
+      throw err;
+    }
+    const keys = _dotenvKey(options).split(",");
+    const length = keys.length;
+    let decrypted;
+    for (let i = 0; i < length; i++) {
+      try {
+        const key = keys[i].trim();
+        const attrs = _instructions(result, key);
+        decrypted = DotenvModule.decrypt(attrs.ciphertext, attrs.key);
+        break;
+      } catch (error) {
+        if (i + 1 >= length) {
+          throw error;
+        }
+      }
+    }
+    return DotenvModule.parse(decrypted);
+  }
+  function _warn(message) {
+    console.log(`[dotenv@${version2}][WARN] ${message}`);
+  }
+  function _debug(message) {
+    console.log(`[dotenv@${version2}][DEBUG] ${message}`);
+  }
+  function _log(message) {
+    console.log(`[dotenv@${version2}] ${message}`);
+  }
+  function _dotenvKey(options) {
+    if (options && options.DOTENV_KEY && options.DOTENV_KEY.length > 0) {
+      return options.DOTENV_KEY;
+    }
+    if (process.env.DOTENV_KEY && process.env.DOTENV_KEY.length > 0) {
+      return process.env.DOTENV_KEY;
+    }
+    return "";
+  }
+  function _instructions(result, dotenvKey) {
+    let uri;
+    try {
+      uri = new URL(dotenvKey);
+    } catch (error) {
+      if (error.code === "ERR_INVALID_URL") {
+        const err = new Error("INVALID_DOTENV_KEY: Wrong format. Must be in valid uri format like dotenv://:key_1234@dotenvx.com/vault/.env.vault?environment=development");
+        err.code = "INVALID_DOTENV_KEY";
+        throw err;
+      }
+      throw error;
+    }
+    const key = uri.password;
+    if (!key) {
+      const err = new Error("INVALID_DOTENV_KEY: Missing key part");
+      err.code = "INVALID_DOTENV_KEY";
+      throw err;
+    }
+    const environment = uri.searchParams.get("environment");
+    if (!environment) {
+      const err = new Error("INVALID_DOTENV_KEY: Missing environment part");
+      err.code = "INVALID_DOTENV_KEY";
+      throw err;
+    }
+    const environmentKey = `DOTENV_VAULT_${environment.toUpperCase()}`;
+    const ciphertext = result.parsed[environmentKey];
+    if (!ciphertext) {
+      const err = new Error(`NOT_FOUND_DOTENV_ENVIRONMENT: Cannot locate environment ${environmentKey} in your .env.vault file.`);
+      err.code = "NOT_FOUND_DOTENV_ENVIRONMENT";
+      throw err;
+    }
+    return { ciphertext, key };
+  }
+  function _vaultPath(options) {
+    let possibleVaultPath = null;
+    if (options && options.path && options.path.length > 0) {
+      if (Array.isArray(options.path)) {
+        for (const filepath of options.path) {
+          if (fs.existsSync(filepath)) {
+            possibleVaultPath = filepath.endsWith(".vault") ? filepath : `${filepath}.vault`;
+          }
+        }
+      } else {
+        possibleVaultPath = options.path.endsWith(".vault") ? options.path : `${options.path}.vault`;
+      }
+    } else {
+      possibleVaultPath = path.resolve(process.cwd(), ".env.vault");
+    }
+    if (fs.existsSync(possibleVaultPath)) {
+      return possibleVaultPath;
+    }
+    return null;
+  }
+  function _resolveHome(envPath) {
+    return envPath[0] === "~" ? path.join(os.homedir(), envPath.slice(1)) : envPath;
+  }
+  function _configVault(options) {
+    const debug = Boolean(options && options.debug);
+    const quiet = options && "quiet" in options ? options.quiet : true;
+    if (debug || !quiet) {
+      _log("Loading env from encrypted .env.vault");
+    }
+    const parsed = DotenvModule._parseVault(options);
+    let processEnv = process.env;
+    if (options && options.processEnv != null) {
+      processEnv = options.processEnv;
+    }
+    DotenvModule.populate(processEnv, parsed, options);
+    return { parsed };
+  }
+  function configDotenv(options) {
+    const dotenvPath = path.resolve(process.cwd(), ".env");
+    let encoding = "utf8";
+    const debug = Boolean(options && options.debug);
+    const quiet = options && "quiet" in options ? options.quiet : true;
+    if (options && options.encoding) {
+      encoding = options.encoding;
+    } else {
+      if (debug) {
+        _debug("No encoding is specified. UTF-8 is used by default");
+      }
+    }
+    let optionPaths = [dotenvPath];
+    if (options && options.path) {
+      if (!Array.isArray(options.path)) {
+        optionPaths = [_resolveHome(options.path)];
+      } else {
+        optionPaths = [];
+        for (const filepath of options.path) {
+          optionPaths.push(_resolveHome(filepath));
+        }
+      }
+    }
+    let lastError;
+    const parsedAll = {};
+    for (const path2 of optionPaths) {
+      try {
+        const parsed = DotenvModule.parse(fs.readFileSync(path2, { encoding }));
+        DotenvModule.populate(parsedAll, parsed, options);
+      } catch (e) {
+        if (debug) {
+          _debug(`Failed to load ${path2} ${e.message}`);
+        }
+        lastError = e;
+      }
+    }
+    let processEnv = process.env;
+    if (options && options.processEnv != null) {
+      processEnv = options.processEnv;
+    }
+    DotenvModule.populate(processEnv, parsedAll, options);
+    if (debug || !quiet) {
+      const keysCount = Object.keys(parsedAll).length;
+      const shortPaths = [];
+      for (const filePath of optionPaths) {
+        try {
+          const relative = path.relative(process.cwd(), filePath);
+          shortPaths.push(relative);
+        } catch (e) {
+          if (debug) {
+            _debug(`Failed to load ${filePath} ${e.message}`);
+          }
+          lastError = e;
+        }
+      }
+      _log(`injecting env (${keysCount}) from ${shortPaths.join(",")}`);
+    }
+    if (lastError) {
+      return { parsed: parsedAll, error: lastError };
+    } else {
+      return { parsed: parsedAll };
+    }
+  }
+  function config2(options) {
+    if (_dotenvKey(options).length === 0) {
+      return DotenvModule.configDotenv(options);
+    }
+    const vaultPath = _vaultPath(options);
+    if (!vaultPath) {
+      _warn(`You set DOTENV_KEY but you are missing a .env.vault file at ${vaultPath}. Did you forget to build it?`);
+      return DotenvModule.configDotenv(options);
+    }
+    return DotenvModule._configVault(options);
+  }
+  function decrypt(encrypted, keyStr) {
+    const key = Buffer.from(keyStr.slice(-64), "hex");
+    let ciphertext = Buffer.from(encrypted, "base64");
+    const nonce = ciphertext.subarray(0, 12);
+    const authTag = ciphertext.subarray(-16);
+    ciphertext = ciphertext.subarray(12, -16);
+    try {
+      const aesgcm = crypto.createDecipheriv("aes-256-gcm", key, nonce);
+      aesgcm.setAuthTag(authTag);
+      return `${aesgcm.update(ciphertext)}${aesgcm.final()}`;
+    } catch (error) {
+      const isRange = error instanceof RangeError;
+      const invalidKeyLength = error.message === "Invalid key length";
+      const decryptionFailed = error.message === "Unsupported state or unable to authenticate data";
+      if (isRange || invalidKeyLength) {
+        const err = new Error("INVALID_DOTENV_KEY: It must be 64 characters long (or more)");
+        err.code = "INVALID_DOTENV_KEY";
+        throw err;
+      } else if (decryptionFailed) {
+        const err = new Error("DECRYPTION_FAILED: Please check your DOTENV_KEY");
+        err.code = "DECRYPTION_FAILED";
+        throw err;
+      } else {
+        throw error;
+      }
+    }
+  }
+  function populate(processEnv, parsed, options = {}) {
+    const debug = Boolean(options && options.debug);
+    const override = Boolean(options && options.override);
+    if (typeof parsed !== "object") {
+      const err = new Error("OBJECT_REQUIRED: Please check the processEnv argument being passed to populate");
+      err.code = "OBJECT_REQUIRED";
+      throw err;
+    }
+    for (const key of Object.keys(parsed)) {
+      if (Object.prototype.hasOwnProperty.call(processEnv, key)) {
+        if (override === true) {
+          processEnv[key] = parsed[key];
+        }
+        if (debug) {
+          if (override === true) {
+            _debug(`"${key}" is already defined and WAS overwritten`);
+          } else {
+            _debug(`"${key}" is already defined and was NOT overwritten`);
+          }
+        }
+      } else {
+        processEnv[key] = parsed[key];
+      }
+    }
+  }
+  const DotenvModule = {
+    configDotenv,
+    _configVault,
+    _parseVault,
+    config: config2,
+    decrypt,
+    parse,
+    populate
+  };
+  main.exports.configDotenv = DotenvModule.configDotenv;
+  main.exports._configVault = DotenvModule._configVault;
+  main.exports._parseVault = DotenvModule._parseVault;
+  main.exports.config = DotenvModule.config;
+  main.exports.decrypt = DotenvModule.decrypt;
+  main.exports.parse = DotenvModule.parse;
+  main.exports.populate = DotenvModule.populate;
+  main.exports = DotenvModule;
+  return main.exports;
+}
+var envOptions;
+var hasRequiredEnvOptions;
+function requireEnvOptions() {
+  if (hasRequiredEnvOptions) return envOptions;
+  hasRequiredEnvOptions = 1;
+  const options = {};
+  if (process.env.DOTENV_CONFIG_ENCODING != null) {
+    options.encoding = process.env.DOTENV_CONFIG_ENCODING;
+  }
+  if (process.env.DOTENV_CONFIG_PATH != null) {
+    options.path = process.env.DOTENV_CONFIG_PATH;
+  }
+  if (process.env.DOTENV_CONFIG_QUIET != null) {
+    options.quiet = process.env.DOTENV_CONFIG_QUIET;
+  }
+  if (process.env.DOTENV_CONFIG_DEBUG != null) {
+    options.debug = process.env.DOTENV_CONFIG_DEBUG;
+  }
+  if (process.env.DOTENV_CONFIG_OVERRIDE != null) {
+    options.override = process.env.DOTENV_CONFIG_OVERRIDE;
+  }
+  if (process.env.DOTENV_CONFIG_DOTENV_KEY != null) {
+    options.DOTENV_KEY = process.env.DOTENV_CONFIG_DOTENV_KEY;
+  }
+  envOptions = options;
+  return envOptions;
+}
+var cliOptions;
+var hasRequiredCliOptions;
+function requireCliOptions() {
+  if (hasRequiredCliOptions) return cliOptions;
+  hasRequiredCliOptions = 1;
+  const re = /^dotenv_config_(encoding|path|quiet|debug|override|DOTENV_KEY)=(.+)$/;
+  cliOptions = function optionMatcher(args) {
+    const options = args.reduce(function(acc, cur) {
+      const matches = cur.match(re);
+      if (matches) {
+        acc[matches[1]] = matches[2];
+      }
+      return acc;
+    }, {});
+    if (!("quiet" in options)) {
+      options.quiet = "true";
+    }
+    return options;
+  };
+  return cliOptions;
+}
+var hasRequiredConfig;
+function requireConfig() {
+  if (hasRequiredConfig) return config;
+  hasRequiredConfig = 1;
+  (function() {
+    requireMain().config(
+      Object.assign(
+        {},
+        requireEnvOptions(),
+        requireCliOptions()(process.argv)
+      )
+    );
+  })();
+  return config;
+}
+requireConfig();
+const prisma = new client.PrismaClient();
+class ParfumRepository {
+  async getAll() {
+    return prisma.parfum.findMany({
+      include: { references: true }
+    });
+  }
+  async getById(id) {
+    return prisma.parfum.findUnique({
+      where: { id },
+      include: { references: true }
+    });
+  }
+  async create(data) {
+    return prisma.parfum.create({
+      data: {
+        nom: data.nom,
+        marque: data.marque,
+        description: data.description
+      }
+    });
+  }
+  async update(id, data) {
+    return prisma.parfum.update({
+      where: { id },
+      data
+    });
+  }
+  async delete(id) {
+    return prisma.parfum.delete({
+      where: { id }
+    });
+  }
+}
+class ParfumService {
+  repo = new ParfumRepository();
+  async getAllParfums() {
+    try {
+      const parfums = await this.repo.getAll();
+      return { success: true, data: parfums };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async createParfum(data) {
+    try {
+      if (!data.nom || !data.marque) {
+        return { success: false, error: "Nom et marque sont obligatoires" };
+      }
+      const parfum = await this.repo.create(data);
+      return { success: true, data: parfum };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async updateParfum(id, data) {
+    try {
+      const parfum = await this.repo.update(id, data);
+      return { success: true, data: parfum };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async deleteParfum(id) {
+    try {
+      await this.repo.delete(id);
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+}
+class FournisseurRepository {
+  async getAll() {
+    return prisma.fournisseur.findMany();
+  }
+  async getById(id) {
+    return prisma.fournisseur.findUnique({
+      where: { id }
+    });
+  }
+  async create(data) {
+    return prisma.fournisseur.create({
+      data
+    });
+  }
+  async update(id, data) {
+    return prisma.fournisseur.update({
+      where: { id },
+      data
+    });
+  }
+  async delete(id) {
+    return prisma.fournisseur.delete({
+      where: { id }
+    });
+  }
+}
+class FournisseurService {
+  repo = new FournisseurRepository();
+  async getAll() {
+    try {
+      const result = await this.repo.getAll();
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async create(data) {
+    try {
+      const result = await this.repo.create(data);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async update(id, data) {
+    try {
+      const result = await this.repo.update(id, data);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async delete(id) {
+    try {
+      await this.repo.delete(id);
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+}
+class ClientRepository {
+  async getAll() {
+    return prisma.client.findMany();
+  }
+  async getById(id) {
+    return prisma.client.findUnique({
+      where: { id }
+    });
+  }
+  async create(data) {
+    return prisma.client.create({
+      data
+    });
+  }
+  async update(id, data) {
+    return prisma.client.update({
+      where: { id },
+      data
+    });
+  }
+  async delete(id) {
+    return prisma.client.delete({
+      where: { id }
+    });
+  }
+}
+class ClientService {
+  repo = new ClientRepository();
+  async getAll() {
+    try {
+      const result = await this.repo.getAll();
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async create(data) {
+    try {
+      const result = await this.repo.create(data);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async update(id, data) {
+    try {
+      const result = await this.repo.update(id, data);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async delete(id) {
+    try {
+      await this.repo.delete(id);
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+}
+class ParfumReferenceRepository {
+  async getAll() {
+    return prisma.parfumReference.findMany({
+      include: {
+        parfum: true,
+        fournisseur: true,
+        stock: true
+      }
+    });
+  }
+  async getById(id) {
+    return prisma.parfumReference.findUnique({
+      where: { id },
+      include: {
+        parfum: true,
+        fournisseur: true,
+        stock: true
+      }
+    });
+  }
+  async getByCode(referenceCode) {
+    return prisma.parfumReference.findUnique({
+      where: { referenceCode }
+    });
+  }
+  async create(data) {
+    return prisma.parfumReference.create({
+      data: {
+        referenceCode: data.referenceCode,
+        unite: data.unite,
+        prixUnitaire: data.prixUnitaire,
+        parfumId: data.parfumId,
+        fournisseurId: data.fournisseurId,
+        stock: {
+          create: { quantite: 0 }
+        }
+      }
+    });
+  }
+  async update(id, data) {
+    return prisma.parfumReference.update({
+      where: { id },
+      data: {
+        referenceCode: data.referenceCode,
+        unite: data.unite,
+        prixUnitaire: data.prixUnitaire,
+        parfumId: data.parfumId,
+        fournisseurId: data.fournisseurId
+      }
+    });
+  }
+  async delete(id) {
+    return prisma.parfumReference.delete({
+      where: { id }
+    });
+  }
+}
+class ParfumReferenceService {
+  repo = new ParfumReferenceRepository();
+  async getAll() {
+    try {
+      const result = await this.repo.getAll();
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async create(data) {
+    try {
+      const existing = await this.repo.getByCode(data.referenceCode);
+      if (existing) {
+        return { success: false, error: "Ce code de référence existe déjà" };
+      }
+      const result = await this.repo.create(data);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async update(id, data) {
+    try {
+      if (data.referenceCode) {
+        const existing = await this.repo.getByCode(data.referenceCode);
+        if (existing && existing.id !== id) {
+          return { success: false, error: "Ce code de référence existe déjà" };
+        }
+      }
+      const result = await this.repo.update(id, data);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async delete(id) {
+    try {
+      await this.repo.delete(id);
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+}
+class StockRepository {
+  async getAll() {
+    return prisma.stock.findMany({
+      include: {
+        reference: {
+          include: {
+            parfum: true,
+            fournisseur: true
+          }
+        }
+      }
+    });
+  }
+  async updateQuantity(referenceId, delta) {
+    const stock = await prisma.stock.findUnique({
+      where: { parfumReferenceId: referenceId }
+    });
+    if (!stock) {
+      return prisma.stock.create({
+        data: {
+          parfumReferenceId: referenceId,
+          quantite: delta
+        }
+      });
+    }
+    return prisma.stock.update({
+      where: { parfumReferenceId: referenceId },
+      data: {
+        quantite: stock.quantite + delta
+      }
+    });
+  }
+  async setQuantity(referenceId, quantity) {
+    return prisma.stock.upsert({
+      where: { parfumReferenceId: referenceId },
+      update: { quantite: quantity },
+      create: {
+        parfumReferenceId: referenceId,
+        quantite: quantity
+      }
+    });
+  }
+}
+class StockService {
+  repo = new StockRepository();
+  async getAll() {
+    try {
+      const result = await this.repo.getAll();
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async updateQuantity(referenceId, delta) {
+    try {
+      const result = await this.repo.updateQuantity(referenceId, delta);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async setQuantity(referenceId, quantity) {
+    try {
+      const result = await this.repo.setQuantity(referenceId, quantity);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+}
+function registerIpcHandlers() {
+  const parfumService = new ParfumService();
+  const fournisseurService = new FournisseurService();
+  const clientService = new ClientService();
+  const referenceService = new ParfumReferenceService();
+  const stockService = new StockService();
+  electron.ipcMain.handle("parfum:getAll", () => parfumService.getAllParfums());
+  electron.ipcMain.handle("parfum:create", (_, data) => parfumService.createParfum(data));
+  electron.ipcMain.handle("parfum:update", (_, { id, data }) => parfumService.updateParfum(id, data));
+  electron.ipcMain.handle("parfum:delete", (_, id) => parfumService.deleteParfum(id));
+  electron.ipcMain.handle("fournisseur:getAll", () => fournisseurService.getAll());
+  electron.ipcMain.handle("fournisseur:create", (_, data) => fournisseurService.create(data));
+  electron.ipcMain.handle("fournisseur:update", (_, { id, data }) => fournisseurService.update(id, data));
+  electron.ipcMain.handle("fournisseur:delete", (_, id) => fournisseurService.delete(id));
+  electron.ipcMain.handle("client:getAll", () => clientService.getAll());
+  electron.ipcMain.handle("client:create", (_, data) => clientService.create(data));
+  electron.ipcMain.handle("client:update", (_, { id, data }) => clientService.update(id, data));
+  electron.ipcMain.handle("client:delete", (_, id) => clientService.delete(id));
+  electron.ipcMain.handle("reference:getAll", () => referenceService.getAll());
+  electron.ipcMain.handle("reference:create", (_, data) => referenceService.create(data));
+  electron.ipcMain.handle("reference:update", (_, { id, data }) => referenceService.update(id, data));
+  electron.ipcMain.handle("reference:delete", (_, id) => referenceService.delete(id));
+  electron.ipcMain.handle("stock:getAll", () => stockService.getAll());
+  electron.ipcMain.handle("stock:updateQuantity", (_, { referenceId, delta }) => stockService.updateQuantity(referenceId, delta));
+  electron.ipcMain.handle("stock:setQuantity", (_, { referenceId, quantity }) => stockService.setQuantity(referenceId, quantity));
+}
+let splashWindow = null;
+let mainWindow = null;
+function createSplashWindow() {
+  splashWindow = new electron.BrowserWindow({
+    width: 400,
+    height: 300,
+    frame: false,
+    alwaysOnTop: true,
+    resizable: false,
+    show: false,
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true
+    }
+  });
+  const splashContent = `
+    <!DOCTYPE html>
+    <html lang="fr">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Parfum Depot - Chargement...</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <style>
+          body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+          }
+
+          .splash-container {
+            text-align: center;
+            color: white;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeIn 0.5s ease-in-out;
+          }
+
+          .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          }
+
+          .subtitle {
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 30px;
+            opacity: 0.9;
+          }
+
+          .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+          }
+
+          .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #fff, #e0e0e0);
+            border-radius: 2px;
+            animation: loading 2s ease-in-out infinite;
+            width: 100%;
+          }
+
+          .loading-text {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            animation: pulse 1.5s ease-in-out infinite;
+          }
+
+          @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+          }
+
+          @keyframes loading {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(0%); }
+            100% { transform: translateX(100%); }
+          }
+
+          @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="splash-container">
+          <div class="logo">Parfum Depot</div>
+          <div class="subtitle">Gestion de Stock Professionnelle</div>
+          <div class="loading-bar">
+            <div class="loading-progress"></div>
+          </div>
+          <div class="loading-text">Chargement en cours...</div>
+        </div>
+      </body>
+    </html>
+  `;
+  splashWindow.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(splashContent)}`);
+  splashWindow.on("ready-to-show", () => {
+    splashWindow?.show();
+  });
+}
+function createWindow() {
+  mainWindow = new electron.BrowserWindow({
+    width: 1200,
+    height: 800,
+    show: false,
+    autoHideMenuBar: true,
+    webPreferences: {
+      preload: require$$1.join(__dirname, "../preload/preload.js"),
+      sandbox: false,
+      contextIsolation: true,
+      nodeIntegration: false
+    }
+  });
+  mainWindow.on("ready-to-show", () => {
+    setTimeout(() => {
+      mainWindow?.show();
+      if (splashWindow && !splashWindow.isDestroyed()) {
+        splashWindow.close();
+        splashWindow = null;
+      }
+    }, 1e3);
+  });
+  mainWindow.webContents.setWindowOpenHandler((details) => {
+    electron.shell.openExternal(details.url);
+    return { action: "deny" };
+  });
+  if (utils.is.dev && process.env["ELECTRON_RENDERER_URL"]) {
+    mainWindow.loadURL(process.env["ELECTRON_RENDERER_URL"]);
+  } else {
+    mainWindow.loadFile(require$$1.join(__dirname, "../renderer/index.html"));
+  }
+}
+electron.app.whenReady().then(() => {
+  utils.electronApp.setAppUserModelId("com.edenjomla.parfumdepot");
+  electron.app.on("browser-window-created", (_, window) => {
+    utils.optimizer.watchWindowShortcuts(window);
+  });
+  registerIpcHandlers();
+  createSplashWindow();
+  setTimeout(() => {
+    createWindow();
+  }, 500);
+  electron.app.on("activate", function() {
+    if (electron.BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+});
+electron.app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
+    electron.app.quit();
+  }
+});

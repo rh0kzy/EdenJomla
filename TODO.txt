@@ -1,0 +1,660 @@
+═══════════════════════════════════════════════════════════════════════════════
+                      TODOLIST - PARFUM DEPOT STOCK MANAGEMENT
+                                  Application Parfaite
+═══════════════════════════════════════════════════════════════════════════════
+
+📋 LÉGENDE:
+[ ] - À faire
+[~] - En cours
+[✓] - Terminé
+[!] - Priorité haute
+[*] - Important
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🎨 INTERFACE UTILISATEUR & DESIGN
+═══════════════════════════════════════════════════════════════════════════════
+
+✨ Design Moderne
+  [✓] Implémenter le thème moderne avec gradients
+  [✓] Ajouter les animations et transitions
+  [✓] Implémenter le glassmorphism
+  [✓] Ajouter un splash screen au démarrage
+  [ ] Créer une page d'accueil/dashboard avec statistiques
+  [ ] Ajouter des charts/graphiques pour visualiser les données
+  [ ] Implémenter des tooltips informatifs
+  [ ] Ajouter des notifications toast pour les actions
+  [ ] Créer un système de feedback visuel pour les erreurs
+  [ ] Ajouter un loader skeleton pour les chargements
+
+🎯 Navigation & UX
+  [ ] Ajouter le fil d'Ariane (breadcrumb)
+  [ ] Implémenter les raccourcis clavier
+  [ ] Ajouter un champ de recherche global
+  [ ] Créer une barre de recherche avancée avec filtres
+  [ ] Implémenter la navigation au clavier dans les tableaux
+  [ ] Ajouter un menu de contexte (clic droit)
+  [ ] Créer un système d'aide contextuelle (?)
+  [ ] Implémenter un tour guidé pour les nouveaux utilisateurs
+  [ ] Ajouter des favoris/raccourcis personnalisables
+
+📊 Dashboard Principal
+  [ ] Créer une page d'accueil avec widgets
+  [ ] Afficher le nombre total de parfums
+  [ ] Afficher le nombre total de références
+  [ ] Afficher la valeur totale du stock
+  [ ] Montrer les produits en rupture de stock
+  [ ] Afficher les produits avec stock faible (<10)
+  [ ] Créer un graphique d'évolution du stock
+  [ ] Afficher les statistiques par marque
+  [ ] Montrer les références les plus vendues
+  [ ] Afficher les dernières transactions
+  [ ] Créer un calendrier des réapprovisionnements
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🔧 FONCTIONNALITÉS CORE
+═══════════════════════════════════════════════════════════════════════════════
+
+💾 Gestion des Parfums
+  [✓] CRUD de base (Create, Read, Update, Delete)
+  [ ] Ajouter la gestion des images de parfums
+  [ ] Implémenter l'import en masse depuis CSV
+  [ ] Ajouter l'export des données en Excel/CSV/PDF
+  [ ] Créer une vue détaillée pour chaque parfum
+  [ ] Ajouter l'historique des modifications
+  [ ] Implémenter la duplication de parfum
+  [ ] Ajouter des notes/commentaires sur les parfums
+  [ ] Créer des catégories de parfums personnalisables
+  [ ] Ajouter des tags/étiquettes
+  [ ] Implémenter la recherche par code-barres
+  [ ] Générer automatiquement des codes QR
+
+📦 Gestion du Stock
+  [✓] Ajustement manuel de stock
+  [ ] Historique complet des mouvements de stock
+  [ ] Alertes de stock minimum
+  [ ] Alertes de stock maximum
+  [ ] Prédiction de rupture de stock (IA basique)
+  [ ] Traçabilité complète (qui, quand, combien)
+  [ ] Gestion des lots/numéros de série
+  [ ] Date de péremption pour chaque lot
+  [ ] Inventaire périodique avec scan
+  [ ] Réservation de stock
+  [ ] Gestion des emplacements physiques
+  [ ] Stock par entrepôt/magasin
+
+💰 Gestion des Prix
+  [ ] Modifier les prix pour 100g automatiquement
+  [ ] Historique des changements de prix
+  [ ] Prix selon la quantité (tarifs dégressifs)
+  [ ] Gestion des promotions/réductions
+  [ ] Prix différents par client/groupe
+  [ ] Calcul de marge bénéficiaire
+  [ ] Comparaison prix fournisseurs
+  [ ] Conversion devise (DZD, EUR, USD)
+
+📝 Gestion des Références
+  [✓] CRUD de base
+  [ ] Import automatique des références fournisseurs
+  [ ] Notification nouveaux produits fournisseurs
+  [ ] Comparateur de prix entre fournisseurs
+  [ ] Gestion des certifications/normes
+  [ ] Documents associés (fiches techniques, MSDS)
+  [ ] Historique des commandes par référence
+
+👥 Gestion des Clients
+  [✓] CRUD de base
+  [ ] Système de fidélité/points
+  [ ] Historique des achats par client
+  [ ] Carte de fidélité virtuelle
+  [ ] Gestion des adresses multiples
+  [ ] Notes sur le client
+  [ ] Segmentation clients (VIP, nouveau, etc.)
+  [ ] Envoi d'emails automatiques
+  [ ] Notifications SMS
+  [ ] Anniversaires et dates importantes
+  [ ] Analyse du comportement d'achat
+
+🏢 Gestion des Fournisseurs
+  [✓] CRUD de base
+  [ ] Évaluation/notation des fournisseurs
+  [ ] Historique des commandes passées
+  [ ] Délais de livraison moyens
+  [ ] Taux de fiabilité
+  [ ] Documents contractuels
+  [ ] Gestion des contacts multiples
+  [ ] Reminder rappel de commande
+  [ ] Comparaison entre fournisseurs
+
+
+═══════════════════════════════════════════════════════════════════════════════
+💼 FONCTIONNALITÉS BUSINESS
+═══════════════════════════════════════════════════════════════════════════════
+
+🛒 Point de Vente (POS)
+  [ ] Interface de vente rapide
+  [ ] Calculatrice de prix selon poids
+  [ ] Panier d'achat avec multiples articles
+  [ ] Gestion de plusieurs modes de paiement
+  [ ] Impression tickets de caisse
+  [ ] Caisse enregistreuse avec tiroir
+  [ ] Gestion des retours/remboursements
+  [ ] Calcul automatique de la monnaie
+  [ ] Codes promo et réductions
+  [ ] Ventes en attente (mise de côté)
+  [ ] Consultation rapide du stock disponible
+
+📄 Facturation & Devis
+  [ ] Génération automatique de factures
+  [ ] Génération de devis
+  [ ] Bon de livraison
+  [ ] Bon de commande
+  [ ] Templates personnalisables
+  [ ] Logo et informations entreprise
+  [ ] Numérotation automatique des documents
+  [ ] Envoi par email automatique
+  [ ] Impression PDF
+  [ ] Historique des factures/devis
+  [ ] Relance paiement automatique
+  [ ] Facturation récurrente
+
+📊 Commandes & Réapprovisionnement
+  [ ] Système de commande fournisseur
+  [ ] Suggestion de réapprovisionnement automatique
+  [ ] Calcul du point de commande optimal
+  [ ] Suivi des commandes en cours
+  [ ] Réception de marchandise
+  [ ] Validation/rejet de livraison
+  [ ] Gestion des écarts de livraison
+  [ ] Planning de réapprovisionnement
+  [ ] EDI avec fournisseurs (optionnel)
+
+💵 Comptabilité & Finance
+  [ ] Tableau de bord financier
+  [ ] Suivi chiffre d'affaires journalier
+  [ ] Suivi chiffre d'affaires mensuel/annuel
+  [ ] Calcul des marges bénéficiaires
+  [ ] Gestion des dépenses
+  [ ] Rapports TVA
+  [ ] Comptabilité simplifiée
+  [ ] Export pour expert-comptable
+  [ ] Budget prévisionnel
+  [ ] Analyse de rentabilité par produit
+  [ ] Tableau de trésorerie
+
+
+═══════════════════════════════════════════════════════════════════════════════
+📈 REPORTING & ANALYSES
+═══════════════════════════════════════════════════════════════════════════════
+
+📊 Rapports Prédéfinis
+  [ ] Rapport de ventes journalier
+  [ ] Rapport de ventes mensuel
+  [ ] Rapport de ventes annuel
+  [ ] Rapport de stock actuel
+  [ ] Produits les plus vendus (top 10/20/50)
+  [ ] Produits les moins vendus
+  [ ] Analyse ABC (Pareto)
+  [ ] Rapport de marge par produit
+  [ ] Rapport par fournisseur
+  [ ] Rapport par client
+  [ ] Rapport par marque
+  [ ] Rapport par catégorie
+  [ ] Évolution du stock dans le temps
+
+📉 Statistiques & KPIs
+  [ ] Dashboard avec graphiques interactifs
+  [ ] Taux de rotation des stocks
+  [ ] Stock moyen
+  [ ] Durée moyenne d'écoulement
+  [ ] Panier moyen
+  [ ] Taux de satisfaction client
+  [ ] Performance des fournisseurs
+  [ ] Taux de rupture de stock
+  [ ] Évolution CA mensuel/annuel
+  [ ] Croissance par période
+
+🎯 Business Intelligence
+  [ ] Prévisions de vente (tendances)
+  [ ] Détection de tendances saisonnières
+  [ ] Analyse de la rentabilité par produit
+  [ ] Cross-selling (produits achetés ensemble)
+  [ ] Segmentation RFM clients
+  [ ] Analyse de cohort
+  [ ] Benchmarking périodes
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🔐 SÉCURITÉ & AUTHENTIFICATION
+═══════════════════════════════════════════════════════════════════════════════
+
+👤 Gestion des Utilisateurs
+  [ ] Système de login/authentification
+  [ ] Création de comptes utilisateurs
+  [ ] Rôles et permissions (Admin, Manager, Vendeur, etc.)
+  [ ] Gestion des droits d'accès par module
+  [ ] Historique des connexions
+  [ ] Verrouillage après tentatives échouées
+  [ ] Réinitialisation de mot de passe
+  [ ] Authentification à deux facteurs (2FA)
+  [ ] Session timeout automatique
+  [ ] Politique de mot de passe fort
+  [ ] Chiffrement des données sensibles
+
+🔒 Logs & Audit
+  [ ] Log de toutes les actions critiques
+  [ ] Traçabilité des modifications
+  [ ] Journal d'audit complet
+  [ ] Détection d'activités suspectes
+  [ ] Sauvegarde des logs
+  [ ] Export des logs pour analyse
+  [ ] Alerte administrateur sur actions sensibles
+
+🛡️ Sécurité Données
+  [ ] Sauvegarde automatique de la base de données
+  [ ] Sauvegarde incrémentielle
+  [ ] Restauration de sauvegarde
+  [ ] Chiffrement des sauvegardes
+  [ ] Sauvegarde cloud/externe
+  [ ] Point de restauration
+  [ ] Protection contre injection SQL
+  [ ] Validation des entrées utilisateur
+  [ ] Sanitization des données
+
+
+═══════════════════════════════════════════════════════════════════════════════
+⚙️ CONFIGURATION & PARAMÈTRES
+═══════════════════════════════════════════════════════════════════════════════
+
+🏪 Paramètres Entreprise
+  [ ] Informations entreprise (nom, adresse, etc.)
+  [ ] Logo personnalisable
+  [ ] Coordonnées et informations légales
+  [ ] Paramètres fiscaux (TVA, etc.)
+  [ ] Numéro SIRET/NIF
+  [ ] Devise par défaut
+  [ ] Format de date/heure
+  [ ] Langue de l'interface
+  [ ] Fuseau horaire
+
+🎨 Personnalisation
+  [ ] Thèmes de couleurs personnalisables
+  [ ] Upload de logo personnalisé
+  [ ] Templates de documents personnalisables
+  [ ] Colonnes de tableaux configurables
+  [ ] Widgets dashboard déplaçables
+  [ ] Préférences utilisateur sauvegardées
+  [ ] Raccourcis personnalisés
+
+📧 Notifications & Alertes
+  [ ] Configuration des alertes email
+  [ ] Alertes stock minimum
+  [ ] Alertes produits périmés
+  [ ] Alertes commandes en attente
+  [ ] Notification nouvelle vente
+  [ ] Rappels automatiques
+  [ ] Fréquence des notifications configurables
+  [ ] Centre de notifications in-app
+
+🔧 Paramètres Système
+  [ ] Configuration de la base de données
+  [ ] Planification des sauvegardes
+  [ ] Gestion des imprimantes
+  [ ] Configuration emails (SMTP)
+  [ ] Intégrations tierces (APIs)
+  [ ] Paramètres de performance
+  [ ] Gestion du cache
+  [ ] Mode maintenance
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🔌 INTÉGRATIONS & EXTENSIONS
+═══════════════════════════════════════════════════════════════════════════════
+
+💻 Hardware
+  [ ] Support scanner code-barres
+  [ ] Support imprimante thermique
+  [ ] Support imprimante étiquettes
+  [ ] Support balance électronique
+  [ ] Support tiroir-caisse
+  [ ] Support lecteur de carte bancaire
+  [ ] Support écran client (affichage prix)
+
+🌐 Services Externes
+  [ ] API REST pour intégrations
+  [ ] Webhook pour événements
+  [ ] Export vers QuickBooks/Sage
+  [ ] Intégration comptabilité
+  [ ] SMS gateway pour notifications
+  [ ] Email marketing (Mailchimp, etc.)
+  [ ] Synchronisation cloud
+  [ ] Paiement en ligne (Stripe, PayPal)
+
+📱 Multi-plateforme
+  [ ] Version application mobile (React Native)
+  [ ] Application web responsive
+  [ ] Synchronisation entre devices
+  [ ] Mode hors ligne
+  [ ] Cloud sync temps réel
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🐛 CORRECTIONS & OPTIMISATIONS
+═══════════════════════════════════════════════════════════════════════════════
+
+🔍 Bugs à Corriger
+  [ ] Vérifier la gestion des erreurs partout
+  [ ] Tester la suppression en cascade
+  [ ] Validation formulaires côté serveur
+  [ ] Gestion des caractères spéciaux (arabe, etc.)
+  [ ] Test des performances avec gros volumes
+  [ ] Vérifier les fuites mémoire
+  [ ] Test cross-browser
+  [ ] Correction accessibilité (WCAG)
+
+⚡ Optimisations Performance
+  [ ] Lazy loading des composants
+  [ ] Pagination côté serveur
+  [ ] Cache des requêtes fréquentes
+  [ ] Optimisation des images
+  [ ] Minification des assets
+  [ ] Code splitting
+  [ ] Service worker pour cache
+  [ ] Compression gzip
+  [ ] Index base de données
+  [ ] Requêtes SQL optimisées
+  [ ] Virtual scrolling pour grandes listes
+
+🎨 Amélioration UI/UX
+  [ ] Tests utilisateurs
+  [ ] A/B testing des interfaces
+  [ ] Amélioration des messages d'erreur
+  [ ] Loading states partout
+  [ ] États vides (empty states)
+  [ ] Confirmation avant suppression
+  [ ] Undo/Redo pour actions critiques
+  [ ] Drag & drop pour certaines actions
+  [ ] Sélection multiple dans tableaux
+  [ ] Copier/coller dans tableaux
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🧪 TESTS & QUALITÉ
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ Tests Unitaires
+  [ ] Test des services backend
+  [ ] Test des repositories
+  [ ] Test des validations
+  [ ] Test des calculs de prix
+  [ ] Test des conversions d'unités
+  [ ] Couverture de code > 80%
+
+🔄 Tests d'Intégration
+  [ ] Test des flux complets
+  [ ] Test de l'API IPC
+  [ ] Test des transactions DB
+  [ ] Test des imports/exports
+  [ ] Test des sauvegardes/restauration
+
+🖱️ Tests E2E
+  [ ] Test du parcours utilisateur complet
+  [ ] Test de création de commande
+  [ ] Test de facturation
+  [ ] Test de gestion de stock
+  [ ] Playwright ou Cypress
+
+⚡ Tests de Performance
+  [ ] Load testing (1000+ produits)
+  [ ] Stress testing
+  [ ] Test de montée en charge
+  [ ] Profiling mémoire
+  [ ] Benchmark requêtes DB
+
+🔒 Tests de Sécurité
+  [ ] Penetration testing
+  [ ] Scan vulnérabilités
+  [ ] Test injection SQL
+  [ ] Test XSS
+  [ ] Test CSRF
+
+
+═══════════════════════════════════════════════════════════════════════════════
+📚 DOCUMENTATION
+═══════════════════════════════════════════════════════════════════════════════
+
+📖 Documentation Utilisateur
+  [ ] Guide de démarrage rapide
+  [ ] Manuel utilisateur complet
+  [ ] Tutoriels vidéo
+  [ ] FAQ détaillée
+  [ ] Glossaire des termes
+  [ ] Guide de dépannage
+  [ ] Captures d'écran annotées
+  [ ] Cas d'usage courants
+
+👨‍💻 Documentation Technique
+  [ ] Architecture de l'application
+  [ ] Schéma de base de données
+  [ ] Documentation API
+  [ ] Guide de contribution
+  [ ] Standards de code
+  [ ] Guide de déploiement
+  [ ] Configuration environnements
+  [ ] Troubleshooting technique
+
+🎓 Formation
+  [ ] Matériel de formation
+  [ ] Exercices pratiques
+  [ ] Certification utilisateurs
+  [ ] Support formation à distance
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🚀 DÉPLOIEMENT & DEVOPS
+═══════════════════════════════════════════════════════════════════════════════
+
+📦 Packaging & Distribution
+  [ ] Build automatisé
+  [ ] Création d'installateurs Windows
+  [ ] Création d'installateurs macOS
+  [ ] Création d'installateurs Linux
+  [ ] Auto-updater intégré
+  [ ] Versioning sémantique
+  [ ] Changelog automatique
+  [ ] Release notes
+
+🔄 CI/CD
+  [ ] GitHub Actions configuré
+  [ ] Tests automatiques sur commit
+  [ ] Build automatique
+  [ ] Déploiement automatique
+  [ ] Code review obligatoire
+  [ ] Analyse de code statique
+  [ ] Scan de sécurité automatique
+
+📊 Monitoring & Logs
+  [ ] Logging structuré
+  [ ] Error tracking (Sentry)
+  [ ] Analytics usage
+  [ ] Performance monitoring
+  [ ] Alertes erreurs critiques
+  [ ] Dashboard de monitoring
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🌟 FONCTIONNALITÉS AVANCÉES
+═══════════════════════════════════════════════════════════════════════════════
+
+🤖 Intelligence Artificielle
+  [ ] Prédiction de demande par ML
+  [ ] Recommandations produits
+  [ ] Détection d'anomalies de stock
+  [ ] Optimisation automatique des prix
+  [ ] Chatbot assistance client
+  [ ] OCR pour scan de factures
+  [ ] Classification automatique de produits
+
+📊 Analyses Avancées
+  [ ] Analyse de sentiment client
+  [ ] Heat map des ventes
+  [ ] Analyse géographique
+  [ ] Clustering de clients
+  [ ] Lifetime value client
+  [ ] Churn prediction
+
+💡 Innovations
+  [ ] Réalité augmentée pour visualiser produits
+  [ ] Reconnaissance vocale pour recherche
+  [ ] Interface conversationnelle
+  [ ] Blockchain pour traçabilité
+  [ ] IoT pour monitoring température/humidité
+  [ ] Gamification (badges, achievements)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🌍 CONFORMITÉ & LÉGAL
+═══════════════════════════════════════════════════════════════════════════════
+
+⚖️ Conformité Réglementaire
+  [ ] Conformité RGPD/données personnelles
+  [ ] Conformité fiscale Algérienne
+  [ ] Conformité loi de finances
+  [ ] Archivage légal des documents
+  [ ] Traçabilité comptable
+  [ ] Déclarations fiscales
+  [ ] Politique de confidentialité
+  [ ] CGU/CGV
+  [ ] Mentions légales
+
+🛡️ Protection Données
+  [ ] Consentement collecte données
+  [ ] Droit à l'oubli
+  [ ] Portabilité des données
+  [ ] Anonymisation données
+  [ ] Pseudonymisation
+  [ ] Registre des traitements
+
+
+═══════════════════════════════════════════════════════════════════════════════
+📱 EXPÉRIENCE MOBILE
+═══════════════════════════════════════════════════════════════════════════════
+
+📲 Application Mobile
+  [ ] Design responsive complet
+  [ ] Touch gestures optimisés
+  [ ] Mode portrait/paysage
+  [ ] Notifications push
+  [ ] Scan code-barres mobile
+  [ ] Géolocalisation magasins
+  [ ] Mode hors ligne
+  [ ] Synchronisation auto
+  [ ] Paiement mobile
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🎯 AMÉLIORATION CONTINUE
+═══════════════════════════════════════════════════════════════════════════════
+
+📈 Métriques & KPIs
+  [ ] Temps de réponse application
+  [ ] Taux d'erreur
+  [ ] Satisfaction utilisateur (NPS)
+  [ ] Adoption des fonctionnalités
+  [ ] Retention utilisateurs
+  [ ] Performance globale
+
+🔄 Feedback & Itération
+  [ ] Système de feedback in-app
+  [ ] Enquêtes de satisfaction
+  [ ] Beta testing programme
+  [ ] Roadmap publique
+  [ ] Votes fonctionnalités
+  [ ] Community forum
+
+
+═══════════════════════════════════════════════════════════════════════════════
+✨ PHASE FINALE - POLISH
+═══════════════════════════════════════════════════════════════════════════════
+
+💎 Finitions
+  [ ] Revue complète UX/UI
+  [ ] Refactoring code complet
+  [ ] Optimisation finale performances
+  [ ] Audit sécurité final
+  [ ] Tests exhaustifs
+  [ ] Documentation finalisée
+  [ ] Marketing material
+  [ ] Site web vitrine
+  [ ] Vidéo démo
+  [ ] Launch plan
+
+
+═══════════════════════════════════════════════════════════════════════════════
+📝 NOTES & PRIORITÉS
+═══════════════════════════════════════════════════════════════════════════════
+
+PRIORITÉ IMMÉDIATE (Sprint 1-2):
+  [!] Page Dashboard avec statistiques de base
+  [!] Système d'authentification et utilisateurs
+  [!] Point de Vente (POS) basique
+  [!] Génération de factures/tickets
+  [!] Alertes stock minimum
+  [!] Images pour les parfums
+  [!] Recherche globale rapide
+
+PRIORITÉ HAUTE (Sprint 3-5):
+  [*] Rapports de ventes
+  [*] Gestion des commandes fournisseurs
+  [*] Historique des modifications
+  [*] Export Excel/PDF
+  [*] Sauvegardes automatiques
+  [*] Multi-devises (DZD/EUR)
+  [*] Notifications système
+
+PRIORITÉ MOYENNE (Sprint 6-10):
+  - Analytics avancés
+  - Application mobile
+  - API REST publique
+  - Intégrations hardware
+  - IA prédictions
+  - Multi-warehouse
+
+PRIORITÉ BASSE (Futur):
+  - Blockchain
+  - Réalité augmentée
+  - Reconnaissance vocale
+  - Gamification
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🎉 CONCLUSION
+═══════════════════════════════════════════════════════════════════════════════
+
+Cette TODO liste représente une application enterprise-grade complète.
+Estimations:
+  - MVP (Minimum Viable Product): 2-3 mois
+  - Version 1.0 complète: 6-12 mois
+  - Application mature: 18-24 mois
+
+Équipe recommandée:
+  - 1-2 Développeurs Full-Stack
+  - 1 UI/UX Designer
+  - 1 QA Tester
+  - 1 Product Owner
+
+Technologies actuelles:
+  ✓ Electron + React + TypeScript
+  ✓ Material-UI
+  ✓ Prisma + SQLite
+  ✓ Zustand pour state management
+
+Prochaines étapes recommandées:
+  1. Implémenter le Dashboard principal
+  2. Ajouter l'authentification
+  3. Créer le module POS
+  4. Développer la facturation
+  5. Ajouter les rapports de base
+
+Bon courage! 🚀💪
