@@ -39,4 +39,14 @@ export class ClientService {
       return { success: false, error: error.message };
     }
   }
+
+  async getClientSpecificPricing(_clientId: number, basePrice: number): Promise<ApiResponse<number>> {
+    try {
+      // Logic for client-specific pricing (VIP/Regular) can be implemented here 
+      // when the client groups are added to the schema.
+      return { success: true, data: basePrice };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  }
 }

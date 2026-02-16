@@ -39,7 +39,8 @@ export default function ReferencesPage() {
     fournisseurId: '', 
     referenceCode: '', 
     unite: 'GRAMME', 
-    prixUnitaire: 0 
+    prixUnitaire: 0,
+    prixPar100g: undefined as number | undefined,
   });
 
   useEffect(() => {
@@ -56,7 +57,8 @@ export default function ReferencesPage() {
         fournisseurId: ref.fournisseurId, 
         referenceCode: ref.referenceCode, 
         unite: ref.unite, 
-        prixUnitaire: ref.prixUnitaire 
+        prixUnitaire: ref.prixUnitaire,
+        prixPar100g: ref.prixPar100g ?? undefined,
       });
     } else {
       setSelectedRef(null);
@@ -65,7 +67,8 @@ export default function ReferencesPage() {
         fournisseurId: '', 
         referenceCode: '', 
         unite: 'GRAMME', 
-        prixUnitaire: 0 
+        prixUnitaire: 0,
+        prixPar100g: undefined,
       });
     }
     setOpen(true);
@@ -78,13 +81,18 @@ export default function ReferencesPage() {
       ...formData,
       parfumId: parseInt(formData.parfumId as string),
       fournisseurId: parseInt(formData.fournisseurId as string),
-      prixUnitaire: parseFloat(formData.prixUnitaire as any)
+      prixUnitaire: parseFloat(formData.prixUnitaire as any),
+      prixPar100g: formData.prixPar100g,
     };
 
     if (selectedRef) {
       await window.api.references.update(selectedRef.id, data);
+      if (data.prixPar100g !== undefined && data.prixPar100g !== null) {
+        await window.api.references.setPricePer100g(selectedRef.id, data.prixPar100g);
+      }
     } else {
       await window.api.references.create(data as any);
+      // newly created reference: try to set prixPar100g if provided by calling setPricePer100g on returned id is skipped here for brevity
     }
     fetchReferences();
     handleClose();
@@ -162,6 +170,16 @@ export default function ReferencesPage() {
       )
     },
     {
+      field: 'prixPar100g',
+      headerName: 'Prix /100g',
+      width: 120,
+      renderCell: (params) => (
+        <Typography sx={{ fontWeight: 600, color: '#f59e0b' }}>
+          {params.value ? `${params.value} DH` : '-'}
+        </Typography>
+      )
+    },
+    {
       field: 'actions',
       headerName: 'Actions',
       width: 120,
@@ -179,10 +197,71 @@ export default function ReferencesPage() {
           >
             <EditIcon fontSize="small" sx={{ color: '#8b5cf6' }} />
           </IconButton>
+          <IconButton size="small" onClick={async () => {
+            // open price history dialog
+            setHistoryReferenceId(params.row.id);
+            setOpenHistory(true);
+          }} sx={{ background: darkMode ? 'rgba(99,102,241,0.12)' : 'rgba(99,102,241,0.06)' }}>
+            <InventoryIcon fontSize="small" sx={{ color: '#6366f1' }} />
+          </IconButton>
+          <IconButton size="small" onClick={async () => {
+            setTiersReferenceId(params.row.id);
+            setOpenTiers(true);
+          }} sx={{ background: darkMode ? 'rgba(16,185,129,0.12)' : 'rgba(16,185,129,0.06)' }}>
+            <EditIcon fontSize="small" sx={{ color: '#10b981' }} />
+          </IconButton>
         </Stack>
       ),
     },
   ];
+
+  // Price history dialog state
+  const [openHistory, setOpenHistory] = useState(false);
+  const [historyReferenceId, setHistoryReferenceId] = useState<number | null>(null);
+  const [priceHistory, setPriceHistory] = useState<any[]>([]);
+
+  // Price tiers dialog state
+  const [openTiers, setOpenTiers] = useState(false);
+  const [tiersReferenceId, setTiersReferenceId] = useState<number | null>(null);
+  const [priceTiers, setPriceTiers] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (openHistory && historyReferenceId) {
+      window.api.references.getPriceHistory(historyReferenceId, 50).then((res) => {
+        if (res.success) setPriceHistory(res.data || []);
+      });
+    }
+  }, [openHistory, historyReferenceId]);
+
+  useEffect(() => {
+    if (openTiers && tiersReferenceId) {
+      window.api.references.getPriceTiers(tiersReferenceId).then((res) => {
+        if (res.success) setPriceTiers(res.data || []);
+      });
+    }
+  }, [openTiers, tiersReferenceId]);
+
+  const saveTiers = async () => {
+    if (!tiersReferenceId) return;
+    // map tiers to expected payload
+    const payload = priceTiers.map((t) => ({ minQty: Number(t.minQty), maxQty: t.maxQty === null ? undefined : (t.maxQty !== undefined ? Number(t.maxQty) : undefined), price: Number(t.price) }));
+    const res = await window.api.references.setPriceTiers(tiersReferenceId, payload);
+    if (res.success) {
+      setOpenTiers(false);
+    }
+  };
+
+  const computePrixPar100g = () => {
+    const unit = formData.unite;
+    const pu = Number(formData.prixUnitaire) || 0;
+    let result = undefined as number | undefined;
+    if (unit === 'GRAMME') {
+      result = pu * 100;
+    } else if (unit === 'KILOGRAMME') {
+      result = pu * 0.1; // 100g is 0.1 kg
+    }
+    setFormData({ ...formData, prixPar100g: result });
+  };
 
   return (
     <Fade in timeout={500}>
@@ -304,6 +383,17 @@ export default function ReferencesPage() {
               value={formData.prixUnitaire}
               onChange={(e) => setFormData({ ...formData, prixUnitaire: parseFloat(e.target.value) })}
             />
+
+            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+              <TextField
+                label="Prix /100g"
+                type="number"
+                value={formData.prixPar100g ?? ''}
+                onChange={(e) => setFormData({ ...formData, prixPar100g: e.target.value === '' ? undefined : parseFloat(e.target.value) })}
+                sx={{ flex: 1 }}
+              />
+              <Button onClick={computePrixPar100g} variant="outlined">Calc</Button>
+            </Box>
           </DialogContent>
           <DialogActions sx={{ p: 3, pt: 2 }}>
             <Button 
@@ -326,6 +416,49 @@ export default function ReferencesPage() {
             >
               Enregistrer
             </Button>
+          </DialogActions>
+        </Dialog>
+        {/* Price History Dialog */}
+        <Dialog open={openHistory} onClose={() => setOpenHistory(false)} fullWidth maxWidth="sm">
+          <DialogTitle>Historique Prix</DialogTitle>
+          <DialogContent>
+            {priceHistory.length === 0 ? (
+              <Typography sx={{ py: 2 }}>Aucun historique.</Typography>
+            ) : (
+              priceHistory.map((h) => (
+                <Box key={h.id} sx={{ display: 'flex', justifyContent: 'space-between', py: 1, borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+                  <Box>
+                    <Typography sx={{ fontWeight: 600 }}>{h.oldPrice} → {h.newPrice} DH</Typography>
+                    <Typography variant="caption">{h.reason || ''}</Typography>
+                  </Box>
+                  <Typography variant="caption">{new Date(h.createdAt).toLocaleString()}</Typography>
+                </Box>
+              ))
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenHistory(false)}>Fermer</Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Price Tiers Dialog */}
+        <Dialog open={openTiers} onClose={() => setOpenTiers(false)} fullWidth maxWidth="sm">
+          <DialogTitle>Tarifs Dégressifs</DialogTitle>
+          <DialogContent>
+            {priceTiers.map((t, idx) => (
+              <Box key={idx} sx={{ display: 'flex', gap: 1, alignItems: 'center', py: 1 }}>
+                <TextField label="Min Qty" type="number" value={t.minQty} onChange={(e) => { const v = Number(e.target.value); setPriceTiers((old) => { const copy = [...old]; copy[idx].minQty = v; return copy; }); }} sx={{ width: 100 }} />
+                <TextField label="Max Qty" type="number" value={t.maxQty ?? ''} onChange={(e) => { const v = e.target.value === '' ? null : Number(e.target.value); setPriceTiers((old) => { const copy = [...old]; copy[idx].maxQty = v; return copy; }); }} sx={{ width: 100 }} />
+                <TextField label="Price" type="number" value={t.price} onChange={(e) => { const v = Number(e.target.value); setPriceTiers((old) => { const copy = [...old]; copy[idx].price = v; return copy; }); }} sx={{ width: 140 }} />
+                <IconButton onClick={() => setPriceTiers((old) => old.filter((_, i) => i !== idx))}><DeleteIcon /></IconButton>
+              </Box>
+            ))}
+
+            <Button onClick={() => setPriceTiers((old) => [...old, { minQty: 1, maxQty: null, price: 0 }])} startIcon={<AddIcon />}>Ajouter palier</Button>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenTiers(false)}>Annuler</Button>
+            <Button onClick={saveTiers} variant="contained">Enregistrer</Button>
           </DialogActions>
         </Dialog>
       </Box>

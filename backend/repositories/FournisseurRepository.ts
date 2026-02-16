@@ -30,4 +30,28 @@ export class FournisseurRepository {
       where: { id },
     });
   }
+
+  async getPricesByProduct(productId: number) {
+    return prisma.fournisseur.findMany({
+      where: {
+        references: {
+          some: {
+            parfumId: productId,
+          },
+        },
+      },
+      select: {
+        id: true,
+        nom: true,
+        references: {
+          where: {
+            parfumId: productId,
+          },
+          select: {
+            prixUnitaire: true,
+          },
+        },
+      },
+    });
+  }
 }

@@ -109,17 +109,22 @@ export class StockRepository {
 
   async reserveStock(referenceId: number, quantity: number, user?: string) {
     const stock = await prisma.stock.findUnique({
-      where: { parfumReferenceId: referenceId }
+      where: { parfumReferenceId: referenceId },
+      select: {
+        id: true,
+        quantite: true,
+        reserved: true // Ensure 'reserved' is included in the query
+      }
     });
 
-    if (!stock || stock.quantite - stock.reserved < quantity) {
+    if (!stock || (stock.reserved !== undefined && stock.quantite - stock.reserved < quantity)) {
       throw new Error('Insufficient stock for reservation');
     }
 
     const updatedStock = await prisma.stock.update({
       where: { parfumReferenceId: referenceId },
       data: {
-        reserved: stock.reserved + quantity
+        reserved: (stock.reserved || 0) + quantity // Default to 0 if 'reserved' is undefined
       }
     });
 

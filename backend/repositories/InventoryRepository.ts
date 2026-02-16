@@ -41,8 +41,7 @@ export class InventoryRepository {
                 }
               }
             }
-          },
-          orderBy: { createdAt: 'asc' }
+          }
         }
       }
     });
@@ -53,58 +52,22 @@ export class InventoryRepository {
     description?: string;
     warehouseId?: number;
     user?: string;
+    lines: {
+      stockId: number;
+      expectedQty: number;
+    }[];
   }) {
-    // Create inventory with all current stock items
-    const whereClause: any = {};
-    if (data.warehouseId) {
-      whereClause.warehouseId = data.warehouseId;
-    }
-
-    const stocks = await prisma.stock.findMany({
-      where: whereClause,
-      include: {
-        reference: {
-          include: {
-            parfum: true,
-            fournisseur: true
-          }
-        }
-      }
-    });
-
-    const inventory = await prisma.inventory.create({
+    return prisma.inventory.create({
       data: {
         nom: data.nom,
         description: data.description,
         warehouseId: data.warehouseId,
         user: data.user,
         lines: {
-          create: stocks.map(stock => ({
-            stockId: stock.id,
-            expectedQty: stock.quantite
-          }))
-        }
-      },
-      include: {
-        warehouse: true,
-        lines: {
-          include: {
-            stock: {
-              include: {
-                reference: {
-                  include: {
-                    parfum: true,
-                    fournisseur: true
-                  }
-                }
-              }
-            }
-          }
+          create: data.lines
         }
       }
     });
-
-    return inventory;
   }
 
   async startInventory(id: number, user?: string) {

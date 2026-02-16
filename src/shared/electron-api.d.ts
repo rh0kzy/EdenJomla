@@ -43,6 +43,12 @@ export interface IElectronAPI {
     create: (data: Omit<ParfumReference, 'id'>) => Promise<ApiResponse<ParfumReference>>;
     update: (id: number, data: Partial<ParfumReference>) => Promise<ApiResponse<ParfumReference>>;
     delete: (id: number) => Promise<ApiResponse<void>>;
+    // Pricing helpers
+    updatePrice: (id: number, newPrice: number, reason?: string, changedBy?: string) => Promise<ApiResponse<ParfumReference>>;
+    setPricePer100g: (id: number, prixPar100g: number) => Promise<ApiResponse<ParfumReference>>;
+    getPriceHistory: (referenceId: number, limit?: number) => Promise<ApiResponse<PriceHistory[]>>;
+    getPriceTiers: (referenceId: number) => Promise<ApiResponse<PriceTier[]>>;
+    setPriceTiers: (referenceId: number, tiers: Omit<PriceTier, 'id' | 'createdAt' | 'parfumReferenceId'>[]) => Promise<ApiResponse<PriceTier[]>>;
   };
   stock: {
     getAll: () => Promise<ApiResponse<Stock[]>>;

@@ -41,15 +41,6 @@ export class WarehouseRepository {
   }
 
   async delete(id: number) {
-    // Check if warehouse has stocks
-    const stockCount = await prisma.stock.count({
-      where: { warehouseId: id }
-    });
-
-    if (stockCount > 0) {
-      throw new Error('Cannot delete warehouse with existing stock');
-    }
-
     return prisma.warehouse.delete({
       where: { id }
     });

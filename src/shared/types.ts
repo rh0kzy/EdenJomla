@@ -78,9 +78,29 @@ export interface ParfumReference {
   referenceCode: string;
   unite: string;
   prixUnitaire: number;
+  prixPar100g?: number | null;
   parfum?: Parfum;
   fournisseur?: Fournisseur;
   stock?: Stock;
+}
+
+export interface PriceHistory {
+  id: number;
+  parfumReferenceId: number;
+  oldPrice: number;
+  newPrice: number;
+  reason?: string | null;
+  changedBy: string;
+  createdAt: Date;
+}
+
+export interface PriceTier {
+  id: number;
+  parfumReferenceId: number;
+  minQty: number;
+  maxQty?: number | null;
+  price: number;
+  createdAt?: Date;
 }
 
 export interface Stock {

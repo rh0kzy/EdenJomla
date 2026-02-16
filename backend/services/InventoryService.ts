@@ -28,9 +28,13 @@ export class InventoryService {
     description?: string;
     warehouseId?: number;
     user?: string;
+    lines?: { stockId: number; expectedQty: number }[];
   }): Promise<ApiResponse<Inventory>> {
     try {
-      const result = await this.repo.create(data);
+      const result = await this.repo.create({
+        ...data,
+        lines: data.lines || []
+      });
       return { success: true, data: result as any };
     } catch (error: any) {
       return { success: false, error: error.message };

@@ -39,4 +39,22 @@ export class FournisseurService {
       return { success: false, error: error.message };
     }
   }
+
+  async compareSupplierPrices(productId: number): Promise<ApiResponse<any[]>> {
+    try {
+      const prices = await this.repo.getPricesByProduct(productId);
+      if (!prices || prices.length === 0) {
+        return { success: false, error: 'No prices found for the product' };
+      }
+
+      const sortedPrices = prices.sort((a: any, b: any) => {
+        const pA = a.references?.[0]?.prixUnitaire ?? Infinity;
+        const pB = b.references?.[0]?.prixUnitaire ?? Infinity;
+        return pA - pB;
+      });
+      return { success: true, data: sortedPrices };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  }
 }

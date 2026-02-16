@@ -122,7 +122,7 @@ export default function DashboardPage() {
       return {
         id: item.id,
         productName: parfum?.nom || 'Unknown',
-        reference: reference?.nom || 'Unknown',
+        reference: reference?.referenceCode || 'Unknown',
         currentStock: item.quantite,
         reorderPoint: 10,
         estimatedDays: daysToReorder,
@@ -131,7 +131,7 @@ export default function DashboardPage() {
     })
     .sort((a, b) => {
       // Sort by priority: urgent > high > medium, then by days
-      const priorityOrder = { urgent: 0, high: 1, medium: 2 };
+      const priorityOrder: Record<string, number> = { urgent: 0, high: 1, medium: 2 };
       if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
         return priorityOrder[a.priority] - priorityOrder[b.priority];
       }
@@ -470,7 +470,7 @@ export default function DashboardPage() {
                           </Typography>
                         </Box>
                         <Typography variant="caption" sx={{ opacity: 0.7, display: 'block' }}>
-                          {ref.nom} • {ref.salesCount} ventes
+                          {ref.referenceCode} • {ref.salesCount} ventes
                         </Typography>
                       </Box>
                       <Typography variant="body2" sx={{ fontWeight: 600, color: '#10b981' }}>

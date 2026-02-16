@@ -119,17 +119,17 @@ export class StockService {
       }
 
       const movements = stock.movements || [];
-      if (movements.length < 2) {
+      if (!Array.isArray(movements) || movements.length < 2) {
         return { success: true, data: { daysUntilRupture: -1, confidence: 0 } }; // Not enough data
       }
 
       // Simple calculation: average daily consumption
-      const outMovements = movements.filter(m => m.type === 'OUT' && m.quantity < 0);
+      const outMovements = movements.filter((m: any) => m.type === 'OUT' && m.quantity < 0);
       if (outMovements.length === 0) {
         return { success: true, data: { daysUntilRupture: -1, confidence: 0 } };
       }
 
-      const totalOut = outMovements.reduce((sum, m) => sum + Math.abs(m.quantity), 0);
+      const totalOut = outMovements.reduce((sum: number, m: any) => sum + Math.abs(m.quantity), 0);
       const daysSpan = Math.max(1, (new Date().getTime() - new Date(movements[0].createdAt).getTime()) / (1000 * 60 * 60 * 24));
       const dailyConsumption = totalOut / daysSpan;
 
@@ -137,11 +137,29 @@ export class StockService {
         return { success: true, data: { daysUntilRupture: -1, confidence: 0 } };
       }
 
-      const available = stock.quantite - stock.reserved;
+      const available = stock.quantite - (stock.reserved || 0); // Default reserved to 0 if undefined
       const daysUntilRupture = available / dailyConsumption;
       const confidence = Math.min(0.8, outMovements.length / 10); // Basic confidence based on data points
 
       return { success: true, data: { daysUntilRupture: Math.round(daysUntilRupture), confidence } };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  async calculateTieredPricing(basePrice: number, quantity: number): Promise<ApiResponse<number>> {
+    try {
+      let discount = 0;
+      if (quantity >= 100) {
+        discount = 0.2; // 20% discount for 100 or more
+      } else if (quantity >= 50) {
+        discount = 0.1; // 10% discount for 50 or more
+      } else if (quantity >= 10) {
+        discount = 0.05; // 5% discount for 10 or more
+      }
+
+      const finalPrice = basePrice * (1 - discount);
+      return { success: true, data: finalPrice };
     } catch (error: any) {
       return { success: false, error: error.message };
     }

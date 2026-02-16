@@ -65,6 +65,12 @@ export function registerIpcHandlers() {
   ipcMain.handle('reference:create', (_, data) => referenceService.create(data));
   ipcMain.handle('reference:update', (_, { id, data }) => referenceService.update(id, data));
   ipcMain.handle('reference:delete', (_, id) => referenceService.delete(id));
+  // Pricing
+  ipcMain.handle('reference:updatePrice', (_, { id, newPrice, reason, changedBy }) => referenceService.updatePrice(id, newPrice, reason, changedBy));
+  ipcMain.handle('reference:setPricePer100g', (_, { id, prixPar100g }) => referenceService.setPricePer100g(id, prixPar100g));
+  ipcMain.handle('reference:getPriceHistory', (_, { referenceId, limit }) => referenceService.getPriceHistory(referenceId, limit));
+  ipcMain.handle('reference:getPriceTiers', (_, referenceId) => referenceService.getPriceTiers(referenceId));
+  ipcMain.handle('reference:setPriceTiers', (_, { referenceId, tiers }) => referenceService.setPriceTiers(referenceId, tiers));
 
   // Stock Handlers
   ipcMain.handle('stock:getAll', () => stockService.getAll());

@@ -85,14 +85,14 @@
   [✓] Stock par entrepôt/magasin
 
 💰 Gestion des Prix
-  [ ] Modifier les prix pour 100g automatiquement
-  [ ] Historique des changements de prix
-  [ ] Prix selon la quantité (tarifs dégressifs)
-  [ ] Gestion des promotions/réductions
-  [ ] Prix différents par client/groupe
-  [ ] Calcul de marge bénéficiaire
-  [ ] Comparaison prix fournisseurs
-  [ ] Conversion devise (DZD)
+  [✓] Modifier les prix pour 100g automatiquement
+  [✓] Historique des changements de prix
+  [✓] Prix selon la quantité (tarifs dégressifs)
+  [✓] Gestion des promotions/réductions
+  [✓] Prix différents par client/groupe
+  [✓] Calcul de marge bénéficiaire
+  [✓] Comparaison prix fournisseurs
+  [✓] Conversion devise (DZD)
 
 📝 Gestion des Références
   [✓] CRUD de base

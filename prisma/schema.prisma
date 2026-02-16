@@ -88,11 +88,16 @@ model ParfumReference {
   referenceCode String      @unique
   unite         String
   prixUnitaire  Float
+  prixPar100g   Float?
   parfum        Parfum      @relation(fields: [parfumId], references: [id])
   fournisseur   Fournisseur @relation(fields: [fournisseurId], references: [id])
   stock         Stock?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+
+  // Pricing relations
+  priceHistory  PriceHistory[]
+  priceTiers    PriceTier[]
 }
 
 model Stock {
@@ -164,4 +169,30 @@ model InventoryLine {
   updatedAt     DateTime    @updatedAt
 
   @@unique([inventoryId, stockId])
+}
+
+// Price change history for auditing price updates
+model PriceHistory {
+  id                 Int      @id @default(autoincrement())
+  parfumReferenceId  Int
+  oldPrice           Float
+  newPrice           Float
+  reason             String?  // Optional note about why price changed
+  changedBy          String   @default("system")
+  createdAt          DateTime @default(now())
+
+  parfumReference    ParfumReference @relation(fields: [parfumReferenceId], references: [id], onDelete: Cascade)
+}
+
+// Price tiers for quantity-based pricing (discounts)
+model PriceTier {
+  id                 Int      @id @default(autoincrement())
+  parfumReferenceId  Int
+  minQty             Int      // inclusive
+  maxQty             Int?     // optional upper bound (inclusive)
+  price              Float
+  createdAt          DateTime @default(now())
+
+  parfumReference    ParfumReference @relation(fields: [parfumReferenceId], references: [id], onDelete: Cascade)
+  @@index([parfumReferenceId, minQty, maxQty])
 }

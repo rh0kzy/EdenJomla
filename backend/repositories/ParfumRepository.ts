@@ -61,10 +61,12 @@ export class ParfumRepository {
       where: { id },
     });
 
+    const { id: _, ...updateData } = data; // Prevent updating id
+
     const updatedParfum = await prisma.parfum.update({
       where: { id },
       data: {
-        ...data,
+        ...(updateData as any),
         updatedBy: data.updatedBy || 'system',
       },
     });
@@ -85,6 +87,7 @@ export class ParfumRepository {
     return updatedParfum;
   }
 
+  // Price history is now handled via ParfumReference
   async delete(id: number) {
     // Get current data for history before deletion
     const currentParfum = await prisma.parfum.findUnique({

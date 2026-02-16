@@ -71,7 +71,7 @@ export default function ClientsPage() {
   const columns: GridColDef[] = [
     { 
       field: 'id', 
-      headerName: (
+      renderHeader: () => (
         <Tooltip title={getTooltip('form.client')} placement="top">
           <span>ID</span>
         </Tooltip>
@@ -92,7 +92,7 @@ export default function ClientsPage() {
     },
     { 
       field: 'nom', 
-      headerName: (
+      renderHeader: () => (
         <Tooltip title={getTooltip('form.name')} placement="top">
           <span>Nom</span>
         </Tooltip>
@@ -107,7 +107,7 @@ export default function ClientsPage() {
     },
     { 
       field: 'telephone', 
-      headerName: (
+      renderHeader: () => (
         <Tooltip title={getTooltip('form.client')} placement="top">
           <span>Téléphone</span>
         </Tooltip>
@@ -116,7 +116,7 @@ export default function ClientsPage() {
     },
     {
       field: 'actions',
-      headerName: (
+      renderHeader: () => (
         <Tooltip title={getTooltip('actions.edit')} placement="top">
           <span>Actions</span>
         </Tooltip>

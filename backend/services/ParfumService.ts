@@ -82,9 +82,22 @@ export class ParfumService {
   async getParfumsByTag(tagId: number): Promise<ApiResponse<Parfum[]>> {
     try {
       const parfums = await this.repo.getByTag(tagId);
-      return { success: true, data: parfums };
+      return { success: true, data: parfums as any };
     } catch (error: any) {
       return { success: false, error: error.message };
     }
+  }
+
+  // Note: Marketing/Promotion features should be moved to ParfumReference logic
+  async applyPromotion(id: number, _discountPercentage: number): Promise<ApiResponse<number>> {
+    return { success: false, error: 'Promotion feature needs to be updated for reference-based pricing' };
+  }
+
+  async calculateProfitMargin(_id: number, _costPrice: number): Promise<ApiResponse<number>> {
+    return { success: false, error: 'Calculated margin feature needs update' };
+  }
+
+  async convertPriceToDZD(_id: number, _exchangeRate: number): Promise<ApiResponse<number>> {
+    return { success: false, error: 'DZD conversion feature needs update' };
   }
 }
