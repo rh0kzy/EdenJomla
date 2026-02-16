@@ -15,20 +15,55 @@ import {
 } from '@mui/material';
 import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon, Opacity as ParfumIcon } from '@mui/icons-material';
 import { GridColDef } from '@mui/x-data-grid';
+import { useLocation } from 'react-router-dom';
 import { useDataStore } from '../store/useDataStore';
 import { useAppStore } from '../store/useAppStore';
 import DataTable from '../components/DataTable';
+import SearchBar from '../components/SearchBar';
 
 export default function ParfumsPage() {
   const { parfums, loading, fetchParfums } = useDataStore();
   const { darkMode } = useAppStore();
+  const location = useLocation();
   const [open, setOpen] = useState(false);
   const [selectedParfum, setSelectedParfum] = useState<any>(null);
   const [formData, setFormData] = useState({ nom: '', marque: '', description: '' });
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchFilters, setSearchFilters] = useState<Record<string, any>>({});
+  const [filteredParfums, setFilteredParfums] = useState(parfums);
 
   useEffect(() => {
     fetchParfums();
   }, []);
+
+  useEffect(() => {
+    // Handle global search from navigation
+    const searchState = location.state as { search?: string };
+    if (searchState?.search) {
+      setSearchQuery(searchState.search);
+    }
+  }, [location.state]);
+
+  useEffect(() => {
+    let filtered = parfums;
+
+    // Apply text search
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(parfum =>
+        parfum.nom.toLowerCase().includes(query) ||
+        parfum.marque.toLowerCase().includes(query) ||
+        (parfum.description && parfum.description.toLowerCase().includes(query))
+      );
+    }
+
+    // Apply filters
+    if (searchFilters.marque) {
+      filtered = filtered.filter(parfum => parfum.marque === searchFilters.marque);
+    }
+
+    setFilteredParfums(filtered);
+  }, [parfums, searchQuery, searchFilters]);
 
   const handleOpen = (parfum: any = null) => {
     if (parfum) {
@@ -59,6 +94,24 @@ export default function ParfumsPage() {
       fetchParfums();
     }
   };
+
+  const handleSearch = (query: string, filters: Record<string, any>) => {
+    setSearchQuery(query);
+    setSearchFilters(filters);
+  };
+
+  const contextMenuItems = [
+    {
+      label: 'Modifier',
+      icon: <EditIcon fontSize="small" />,
+      onClick: (row: any) => handleOpen(row),
+    },
+    {
+      label: 'Supprimer',
+      icon: <DeleteIcon fontSize="small" />,
+      onClick: (row: any) => handleDelete(row.id),
+    },
+  ];
 
   const columns: GridColDef[] = [
     { 
@@ -161,12 +214,36 @@ export default function ParfumsPage() {
             startIcon={<AddIcon />} 
             onClick={() => handleOpen()}
             size="large"
+            data-tour="add-button"
           >
             Nouveau Parfum
           </Button>
         </Box>
 
-        <DataTable rows={parfums} columns={columns} loading={loading} />
+        <div data-tour="search-bar">
+          <SearchBar
+            onSearch={handleSearch}
+            placeholder="Rechercher des parfums..."
+            filterOptions={[
+              {
+                key: 'marque',
+                label: 'Marque',
+                type: 'select',
+                options: [...new Set(parfums.map(p => p.marque))].sort(),
+              },
+            ]}
+            initialQuery={searchQuery}
+          />
+        </div>
+
+        <div data-tour="data-table">
+          <DataTable
+            rows={filteredParfums}
+            columns={columns}
+            loading={loading}
+            contextMenuItems={contextMenuItems}
+          />
+        </div>
 
         <Dialog 
           open={open} 

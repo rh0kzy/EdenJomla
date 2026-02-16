@@ -15,7 +15,9 @@ import {
   ListItemText,
   Fade,
   Chip,
-  Avatar
+  Avatar,
+  TextField,
+  InputAdornment
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -25,9 +27,21 @@ import {
   Opacity as ParfumIcon,
   Storage as StockIcon,
   Brightness4 as DarkModeIcon,
-  Brightness7 as LightModeIcon
+  Brightness7 as LightModeIcon,
+  Dashboard as DashboardIcon,
+  Search as SearchIcon,
+  PlayArrow as PlayArrowIcon
 } from '@mui/icons-material';
 
+
+import Tooltip from './components/Tooltip';
+import useTooltip from './hooks/useTooltip';
+import BreadcrumbsNav from './components/BreadcrumbsNav';
+import useShortcuts from './hooks/useShortcuts';
+import HelpButton from './components/HelpButton';
+import GuidedTour from './components/GuidedTour';
+import FavoritesBar from './components/FavoritesBar';
+import DashboardPage from './pages/DashboardPage';
 import ParfumsPage from './pages/ParfumsPage';
 import StockPage from './pages/StockPage';
 import FournisseursPage from './pages/FournisseursPage';
@@ -45,12 +59,25 @@ export default function App() {
   const location = useLocation();
   const { darkMode, toggleDarkMode } = useAppStore();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [globalSearch, setGlobalSearch] = useState('');
+  const [showTour, setShowTour] = useState(false);
+  const { getTooltip } = useTooltip();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleGlobalSearch = (query: string) => {
+    setGlobalSearch(query);
+    // Navigate to parfums page with search query
+    navigate('/parfums', { state: { search: query } });
+  };
+
+  // register global keyboard shortcuts
+  useShortcuts({ navigate, toggleSidebar: handleDrawerToggle, globalSearch: handleGlobalSearch });
+
   const menuItems = [
+    { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard', color: '#6366f1' },
     { text: 'Parfums', icon: <ParfumIcon />, path: '/parfums', color: '#ec4899' },
     { text: 'Références', icon: <InventoryIcon />, path: '/references', color: '#8b5cf6' },
     { text: 'Fournisseurs', icon: <SupplierIcon />, path: '/fournisseurs', color: '#f59e0b' },
@@ -84,38 +111,51 @@ export default function App() {
       <List sx={{ px: 1, py: 2 }}>
         {menuItems.map((item) => {
           const isActive = location.pathname === item.path || (location.pathname === '/' && item.path === '/parfums');
+          // Map menu text to tooltip key
+          let tooltipKey = '';
+          switch (item.text) {
+            case 'Dashboard': tooltipKey = 'navigation.dashboard'; break;
+            case 'Parfums': tooltipKey = 'navigation.parfums'; break;
+            case 'Références': tooltipKey = 'navigation.references'; break;
+            case 'Fournisseurs': tooltipKey = 'navigation.fournisseurs'; break;
+            case 'Clients': tooltipKey = 'navigation.clients'; break;
+            case 'Stock': tooltipKey = 'navigation.stock'; break;
+            default: tooltipKey = '';
+          }
           return (
             <ListItem key={item.text} disablePadding>
-              <ListItemButton 
-                onClick={() => navigate(item.path)}
-                selected={isActive}
-                sx={{
-                  position: 'relative',
-                  overflow: 'hidden',
-                  '&::before': isActive ? {
-                    content: '""',
-                    position: 'absolute',
-                    left: 0,
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    width: 4,
-                    height: '60%',
-                    background: `linear-gradient(180deg, ${item.color} 0%, ${item.color}99 100%)`,
-                    borderRadius: '0 4px 4px 0',
-                  } : {},
-                }}
-              >
-                <ListItemIcon sx={{ color: isActive ? item.color : 'inherit', minWidth: 40 }}>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText 
-                  primary={item.text} 
-                  primaryTypographyProps={{
-                    fontWeight: isActive ? 600 : 500,
-                    fontSize: '0.95rem'
+              <Tooltip title={getTooltip(tooltipKey)} placement="right">
+                <ListItemButton 
+                  onClick={() => navigate(item.path)}
+                  selected={isActive}
+                  sx={{
+                    position: 'relative',
+                    overflow: 'hidden',
+                    '&::before': isActive ? {
+                      content: '""',
+                      position: 'absolute',
+                      left: 0,
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      width: 4,
+                      height: '60%',
+                      background: `linear-gradient(180deg, ${item.color} 0%, ${item.color}99 100%)`,
+                      borderRadius: '0 4px 4px 0',
+                    } : {},
                   }}
-                />
-              </ListItemButton>
+                >
+                  <ListItemIcon sx={{ color: isActive ? item.color : 'inherit', minWidth: 40 }}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText 
+                    primary={item.text} 
+                    primaryTypographyProps={{
+                      fontWeight: isActive ? 600 : 500,
+                      fontSize: '0.95rem'
+                    }}
+                  />
+                </ListItemButton>
+              </Tooltip>
             </ListItem>
           );
         })}
@@ -124,7 +164,8 @@ export default function App() {
   );
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <>
+      <Box sx={{ display: 'flex' }}>
       <AppBar
         position="fixed"
         elevation={0}
@@ -163,12 +204,66 @@ export default function App() {
                 WebkitTextFillColor: 'transparent',
               }}
             >
-              {menuItems.find(item => location.pathname === item.path || (location.pathname === '/' && item.path === '/parfums'))?.text || 'Dashboard'}
+              {menuItems.find(item => location.pathname === item.path || (location.pathname === '/' && item.path === '/dashboard'))?.text || 'Dashboard'}
             </Typography>
             <Typography variant="caption" sx={{ opacity: 0.6, display: { xs: 'none', sm: 'block' } }}>
               Gérez votre inventaire facilement
             </Typography>
           </Box>
+          <TextField
+            size="small"
+            placeholder="Rechercher globalement..."
+            value={globalSearch}
+            onChange={(e) => setGlobalSearch(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleGlobalSearch(globalSearch);
+              }
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: 'action.active' }} />
+                </InputAdornment>
+              ),
+            }}
+            inputProps={{
+              'data-tour': 'global-search'
+            }}
+            sx={{
+              mr: 2,
+              width: { xs: '100%', sm: 250 },
+              '& .MuiOutlinedInput-root': {
+                background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+                backdropFilter: 'blur(10px)',
+                '& fieldset': {
+                  borderColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+                },
+                '&:hover fieldset': {
+                  borderColor: darkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#6366f1',
+                },
+              },
+            }}
+          />
+          <HelpButton page={location.pathname.replace('/', '') || 'dashboard'} />
+          <Tooltip title="Tour guidé">
+            <IconButton
+              onClick={() => setShowTour(true)}
+              data-tour="help-button"
+              sx={{
+                background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+                backdropFilter: 'blur(10px)',
+                '&:hover': {
+                  background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)',
+                },
+              }}
+            >
+              <PlayArrowIcon />
+            </IconButton>
+          </Tooltip>
           <IconButton 
             onClick={toggleDarkMode}
             sx={{
@@ -186,6 +281,7 @@ export default function App() {
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        data-tour="sidebar"
       >
         <Drawer
           variant="temporary"
@@ -223,19 +319,29 @@ export default function App() {
         }}
       >
         <Toolbar sx={{ minHeight: 70 }} />
+        <FavoritesBar />
+        <BreadcrumbsNav />
         <Fade in={true} timeout={500}>
           <Box>
             <Routes>
+              <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/parfums" element={<ParfumsPage />} />
               <Route path="/references" element={<ReferencesPage />} />
               <Route path="/fournisseurs" element={<FournisseursPage />} />
               <Route path="/clients" element={<ClientsPage />} />
               <Route path="/stock" element={<StockPage />} />
-              <Route path="/" element={<ParfumsPage />} />
+              <Route path="/" element={<DashboardPage />} />
             </Routes>
           </Box>
         </Fade>
       </Box>
-    </Box>
+      </Box>
+
+      <GuidedTour
+        page={location.pathname.replace('/', '') || 'dashboard'}
+        open={showTour}
+        onClose={() => setShowTour(false)}
+      />
+    </>
   );
 }

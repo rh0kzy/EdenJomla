@@ -18,6 +18,11 @@ import { GridColDef } from '@mui/x-data-grid';
 import { useDataStore } from '../store/useDataStore';
 import { useAppStore } from '../store/useAppStore';
 import DataTable from '../components/DataTable';
+import TableSkeleton from '../components/TableSkeleton';
+import Tooltip from '../components/Tooltip';
+import useTooltip from '../hooks/useTooltip';
+import { useToast } from '../hooks/useToast';
+import ErrorFeedback from '../components/ErrorFeedback';
 
 export default function ClientsPage() {
   const { clients, loading, fetchClients } = useDataStore();
@@ -25,6 +30,9 @@ export default function ClientsPage() {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<any>(null);
   const [formData, setFormData] = useState({ nom: '', telephone: '' });
+  const { getTooltip } = useTooltip();
+  const { toast } = useToast();
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchClients();
@@ -44,19 +52,30 @@ export default function ClientsPage() {
   const handleClose = () => setOpen(false);
 
   const handleSubmit = async () => {
-    if (selected) {
-      await window.api.clients.update(selected.id, formData);
-    } else {
-      await window.api.clients.create(formData);
+    setError(null);
+    try {
+      if (selected) {
+        await window.api.clients.update(selected.id, formData);
+        toast('Client modifié avec succès', 'success');
+      } else {
+        await window.api.clients.create(formData);
+        toast('Client ajouté avec succès', 'success');
+      }
+      fetchClients();
+      handleClose();
+    } catch (e: any) {
+      setError(e?.message || 'Erreur lors de la sauvegarde du client.');
     }
-    fetchClients();
-    handleClose();
   };
 
   const columns: GridColDef[] = [
     { 
       field: 'id', 
-      headerName: 'ID', 
+      headerName: (
+        <Tooltip title={getTooltip('form.client')} placement="top">
+          <span>ID</span>
+        </Tooltip>
+      ),
       width: 80,
       renderCell: (params) => (
         <Chip 
@@ -73,7 +92,11 @@ export default function ClientsPage() {
     },
     { 
       field: 'nom', 
-      headerName: 'Nom', 
+      headerName: (
+        <Tooltip title={getTooltip('form.name')} placement="top">
+          <span>Nom</span>
+        </Tooltip>
+      ),
       flex: 1,
       renderCell: (params) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -82,10 +105,22 @@ export default function ClientsPage() {
         </Box>
       )
     },
-    { field: 'telephone', headerName: 'Téléphone', flex: 1 },
+    { 
+      field: 'telephone', 
+      headerName: (
+        <Tooltip title={getTooltip('form.client')} placement="top">
+          <span>Téléphone</span>
+        </Tooltip>
+      ),
+      flex: 1 
+    },
     {
       field: 'actions',
-      headerName: 'Actions',
+      headerName: (
+        <Tooltip title={getTooltip('actions.edit')} placement="top">
+          <span>Actions</span>
+        </Tooltip>
+      ),
       width: 120,
       renderCell: (params) => (
         <Stack direction="row" spacing={1}>
@@ -146,7 +181,8 @@ export default function ClientsPage() {
           </Button>
         </Box>
         
-        <DataTable rows={clients} columns={columns} loading={loading} />
+        <ErrorFeedback error={error} onClose={() => setError(null)} />
+        {loading ? <TableSkeleton rows={8} columns={3} /> : <DataTable rows={clients} columns={columns} loading={false} />}
         
         <Dialog 
           open={open} 

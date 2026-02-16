@@ -1,6 +1,7 @@
 import React, { useMemo } from "react"
 import ReactDOM from "react-dom/client"
 import App from "./App"
+import ToastProvider from "./components/ToastProvider"
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
 import { HashRouter } from "react-router-dom"
@@ -180,9 +181,11 @@ const Root = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <HashRouter>
-        <App />
-      </HashRouter>
+      <ToastProvider>
+        <HashRouter>
+          <App />
+        </HashRouter>
+      </ToastProvider>
     </ThemeProvider>
   );
 }

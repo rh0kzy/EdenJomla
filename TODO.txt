@@ -20,23 +20,23 @@
   [✓] Ajouter les animations et transitions
   [✓] Implémenter le glassmorphism
   [✓] Ajouter un splash screen au démarrage
-  [ ] Créer une page d'accueil/dashboard avec statistiques
-  [ ] Ajouter des charts/graphiques pour visualiser les données
-  [ ] Implémenter des tooltips informatifs
-  [ ] Ajouter des notifications toast pour les actions
-  [ ] Créer un système de feedback visuel pour les erreurs
-  [ ] Ajouter un loader skeleton pour les chargements
+  [✓] Créer une page d'accueil/dashboard avec statistiques
+  [✓] Ajouter des charts/graphiques pour visualiser les données
+  [✓] Implémenter des tooltips informatifs
+  [✓] Ajouter des notifications toast pour les actions
+  [✓] Créer un système de feedback visuel pour les erreurs
+  [✓] Ajouter un loader skeleton pour les chargements
 
 🎯 Navigation & UX
-  [ ] Ajouter le fil d'Ariane (breadcrumb)
-  [ ] Implémenter les raccourcis clavier
-  [ ] Ajouter un champ de recherche global
-  [ ] Créer une barre de recherche avancée avec filtres
-  [ ] Implémenter la navigation au clavier dans les tableaux
-  [ ] Ajouter un menu de contexte (clic droit)
-  [ ] Créer un système d'aide contextuelle (?)
-  [ ] Implémenter un tour guidé pour les nouveaux utilisateurs
-  [ ] Ajouter des favoris/raccourcis personnalisables
+  [✓] Ajouter le fil d'Ariane (breadcrumb)
+  [✓] Implémenter les raccourcis clavier
+  [✓] Ajouter un champ de recherche global
+  [✓] Créer une barre de recherche avancée avec filtres
+  [✓] Implémenter la navigation au clavier dans les tableaux
+  [✓] Ajouter un menu de contexte (clic droit)
+  [✓] Créer un système d'aide contextuelle (?)
+  [✓] Implémenter un tour guidé pour les nouveaux utilisateurs
+  [✓] Ajouter des favoris/raccourcis personnalisables
 
 📊 Dashboard Principal
   [ ] Créer une page d'accueil avec widgets
