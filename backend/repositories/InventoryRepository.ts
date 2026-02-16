@@ -176,11 +176,11 @@ export class InventoryRepository {
     if (!inventory) return null;
 
     const totalItems = inventory.lines.length;
-    const countedItems = inventory.lines.filter(line => line.countedQty !== null).length;
-    const discrepancies = inventory.lines.filter(line => line.difference !== 0 && line.difference !== null);
+    const countedItems = inventory.lines.filter((line: any) => line.countedQty !== null).length;
+    const discrepancies = inventory.lines.filter((line: any) => line.difference !== 0 && line.difference !== null);
 
-    const totalExpectedValue = inventory.lines.reduce((sum, line) => sum + (line.expectedQty * line.stock!.reference.prixUnitaire), 0);
-    const totalCountedValue = inventory.lines.reduce((sum, line) => sum + ((line.countedQty || 0) * line.stock!.reference.prixUnitaire), 0);
+    const totalExpectedValue = inventory.lines.reduce((sum: number, line: any) => sum + (line.expectedQty * line.stock!.reference.prixUnitaire), 0);
+    const totalCountedValue = inventory.lines.reduce((sum: number, line: any) => sum + ((line.countedQty || 0) * line.stock!.reference.prixUnitaire), 0);
 
     return {
       ...inventory,

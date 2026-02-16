@@ -314,7 +314,7 @@ export default function StockPage() {
             </Typography>
             <Grid container spacing={2}>
               {lowStockAlerts.length > 0 && (
-                <Grid item xs={12} md={4}>
+                <Grid size={{ xs: 12, md: 4 }}>
                   <Alert severity="error" sx={{ borderRadius: 2 }}>
                     <AlertTitle>Stock Faible</AlertTitle>
                     {lowStockAlerts.length} produit(s) en dessous du seuil minimum
@@ -322,7 +322,7 @@ export default function StockPage() {
                 </Grid>
               )}
               {highStockAlerts.length > 0 && (
-                <Grid item xs={12} md={4}>
+                <Grid size={{ xs: 12, md: 4 }}>
                   <Alert severity="warning" sx={{ borderRadius: 2 }}>
                     <AlertTitle>Stock Élevé</AlertTitle>
                     {highStockAlerts.length} produit(s) au-dessus du seuil maximum
@@ -330,7 +330,7 @@ export default function StockPage() {
                 </Grid>
               )}
               {expiringStock.length > 0 && (
-                <Grid item xs={12} md={4}>
+                <Grid size={{ xs: 12, md: 4 }}>
                   <Alert severity="warning" sx={{ borderRadius: 2 }}>
                     <AlertTitle>Péremption Prochaine</AlertTitle>
                     {expiringStock.length} produit(s) expirent dans moins de 30 jours
@@ -538,7 +538,7 @@ export default function StockPage() {
             </Box>
             
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   fullWidth
                   type="number"
@@ -548,7 +548,7 @@ export default function StockPage() {
                   helperText="Alerte quand le stock passe en dessous"
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   fullWidth
                   type="number"
@@ -558,7 +558,7 @@ export default function StockPage() {
                   helperText="Alerte quand le stock dépasse ce niveau"
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   fullWidth
                   label="Emplacement"
@@ -567,7 +567,7 @@ export default function StockPage() {
                   helperText="Emplacement physique du stock"
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   fullWidth
                   label="Numéro de Lot"
@@ -576,7 +576,7 @@ export default function StockPage() {
                   helperText="Numéro de lot/série"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 <TextField
                   fullWidth
                   type="date"

@@ -205,7 +205,7 @@ export default function DashboardPage() {
 
         <Grid container spacing={3}>
           {dashboardCards.map((card, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>
               {loading ? (
                 <Card elevation={0} sx={{ p: 3, height: '100%' }}>
                   <Skeleton variant="rectangular" width="100%" height={120} />
@@ -222,7 +222,7 @@ export default function DashboardPage() {
             Vue Rapide
           </Typography>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Tooltip title="Parfums nécessitant une attention particulière">
                 <Card 
                   elevation={0}
@@ -261,7 +261,7 @@ export default function DashboardPage() {
                 </Card>
               </Tooltip>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Tooltip title="Performance et tendances récentes">
                 <Card 
                   elevation={0}

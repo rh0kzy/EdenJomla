@@ -879,7 +879,6 @@ export default function ParfumsPage() {
               renderTags={(value, getTagProps) =>
                 value.map((option, index) => (
                   <Chip
-                    key={option.id}
                     label={option.nom}
                     {...getTagProps({ index })}
                     sx={{

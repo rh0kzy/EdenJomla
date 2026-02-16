@@ -17,8 +17,8 @@ export interface Parfum {
   categoryId?: number | null;
   category?: Category | null;
   tags?: ParfumTag[];
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
   createdBy?: string | null;
   updatedBy?: string | null;
 }
@@ -43,7 +43,7 @@ export interface ParfumHistory {
   oldData?: string | null;
   newData?: string | null;
   changedBy: string;
-  createdAt: string;
+  createdAt: Date;
 }
 
 export interface Category {
@@ -51,16 +51,16 @@ export interface Category {
   nom: string;
   description?: string | null;
   couleur?: string | null;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface Tag {
   id: number;
   nom: string;
   couleur?: string | null;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface ParfumTag {
@@ -91,13 +91,13 @@ export interface Stock {
   seuilMax?: number | null;
   emplacement?: string | null;
   lot?: string | null;
-  datePeremption?: string | null;
+  datePeremption?: Date | null;
   reserved: number;
   warehouseId?: number | null;
   warehouse?: Warehouse | null;
   movements?: StockMovement[];
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface StockMovement {
@@ -107,7 +107,7 @@ export interface StockMovement {
   quantity: number;
   reason?: string | null;
   user?: string | null;
-  createdAt: string;
+  createdAt: Date;
   stock?: Stock;
 }
 
@@ -126,13 +126,13 @@ export interface Inventory {
   warehouseId?: number | null;
   warehouse?: Warehouse | null;
   status: string;
-  startedAt?: string | null;
-  completedAt?: string | null;
+  startedAt?: Date | null;
+  completedAt?: Date | null;
   user?: string | null;
   notes?: string | null;
   lines?: InventoryLine[];
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface InventoryLine {
@@ -145,7 +145,7 @@ export interface InventoryLine {
   countedQty?: number | null;
   difference?: number | null;
   notes?: string | null;
-  scannedAt?: string | null;
-  createdAt?: string;
-  updatedAt?: string;
+  scannedAt?: Date | null;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

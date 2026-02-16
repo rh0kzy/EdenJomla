@@ -51,6 +51,7 @@ import {
 } from '@mui/icons-material';
 import { GridColDef } from '@mui/x-data-grid';
 import { useAppStore } from '../store/useAppStore';
+import DataTable from '../components/DataTable';
 
 interface Inventory {
   id: number;
@@ -355,7 +356,7 @@ export default function InventoryPage() {
                 Scan Rapide
               </Typography>
               <Grid container spacing={2} alignItems="center">
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <TextField
                     fullWidth
                     label="Code-barres ou référence"
@@ -373,7 +374,7 @@ export default function InventoryPage() {
                     }}
                   />
                 </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid size={{ xs: 12, sm: 3 }}>
                   <Button
                     fullWidth
                     variant="outlined"
@@ -495,7 +496,7 @@ export default function InventoryPage() {
             )}
 
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   fullWidth
                   label="Quantité comptée"
@@ -505,7 +506,7 @@ export default function InventoryPage() {
                   autoFocus
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   fullWidth
                   label="Différence"
@@ -513,7 +514,7 @@ export default function InventoryPage() {
                   InputProps={{ readOnly: true }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 <TextField
                   fullWidth
                   label="Notes (optionnel)"
@@ -549,7 +550,7 @@ export default function InventoryPage() {
                 </Typography>
 
                 <Grid container spacing={2} sx={{ mb: 3 }}>
-                  <Grid item xs={12} sm={3}>
+                  <Grid size={{ xs: 12, sm: 3 }}>
                     <Card>
                       <CardContent sx={{ textAlign: 'center' }}>
                         <Typography variant="h4" color="primary">
@@ -559,7 +560,7 @@ export default function InventoryPage() {
                       </CardContent>
                     </Card>
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid size={{ xs: 12, sm: 3 }}>
                     <Card>
                       <CardContent sx={{ textAlign: 'center' }}>
                         <Typography variant="h4" color="success.main">
@@ -569,7 +570,7 @@ export default function InventoryPage() {
                       </CardContent>
                     </Card>
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid size={{ xs: 12, sm: 3 }}>
                     <Card>
                       <CardContent sx={{ textAlign: 'center' }}>
                         <Typography variant="h4" color="warning.main">
@@ -579,7 +580,7 @@ export default function InventoryPage() {
                       </CardContent>
                     </Card>
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid size={{ xs: 12, sm: 3 }}>
                     <Card>
                       <CardContent sx={{ textAlign: 'center' }}>
                         <Typography variant="h4" color={
@@ -619,7 +620,7 @@ export default function InventoryPage() {
                             {line.countedQty !== null ? line.countedQty : '-'}
                           </TableCell>
                           <TableCell align="right">
-                            {line.difference !== null ? (
+                            {line.difference !== undefined && line.difference !== null ? (
                               <Typography color={line.difference !== 0 ? 'error' : 'success'}>
                                 {line.difference > 0 ? '+' : ''}{line.difference}
                               </Typography>

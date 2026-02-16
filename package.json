@@ -25,6 +25,7 @@
   "homepage": "https://github.com/rh0kzy/EdenJomla#readme",
   "devDependencies": {
     "@types/node": "^25.2.2",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
     "@types/xlsx": "^0.0.35",
