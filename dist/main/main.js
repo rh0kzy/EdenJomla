@@ -856,36 +856,189 @@ class StockRepository {
             parfum: true,
             fournisseur: true
           }
+        },
+        warehouse: true,
+        movements: {
+          orderBy: { createdAt: "desc" },
+          take: 10
+          // Last 10 movements
         }
       }
     });
   }
-  async updateQuantity(referenceId, delta) {
+  async getById(id) {
+    return prisma.stock.findUnique({
+      where: { id },
+      include: {
+        reference: {
+          include: {
+            parfum: true,
+            fournisseur: true
+          }
+        },
+        warehouse: true,
+        movements: {
+          orderBy: { createdAt: "desc" }
+        }
+      }
+    });
+  }
+  async updateQuantity(referenceId, delta, user, reason) {
     const stock = await prisma.stock.findUnique({
       where: { parfumReferenceId: referenceId }
     });
     if (!stock) {
-      return prisma.stock.create({
+      const newStock = await prisma.stock.create({
         data: {
           parfumReferenceId: referenceId,
           quantite: delta
         }
       });
+      await this.createMovement(newStock.id, delta > 0 ? "IN" : "OUT", delta, user, reason);
+      return newStock;
     }
-    return prisma.stock.update({
+    const newQuantity = stock.quantite + delta;
+    const updatedStock = await prisma.stock.update({
       where: { parfumReferenceId: referenceId },
       data: {
-        quantite: stock.quantite + delta
+        quantite: newQuantity
       }
     });
+    await this.createMovement(stock.id, delta > 0 ? "IN" : "OUT", delta, user, reason);
+    return updatedStock;
   }
-  async setQuantity(referenceId, quantity) {
-    return prisma.stock.upsert({
+  async setQuantity(referenceId, quantity, user, reason) {
+    const stock = await prisma.stock.findUnique({
+      where: { parfumReferenceId: referenceId }
+    });
+    let delta = quantity;
+    if (stock) {
+      delta = quantity - stock.quantite;
+    }
+    const updatedStock = await prisma.stock.upsert({
       where: { parfumReferenceId: referenceId },
       update: { quantite: quantity },
       create: {
         parfumReferenceId: referenceId,
         quantite: quantity
+      }
+    });
+    if (stock) {
+      await this.createMovement(stock.id, "ADJUSTMENT", delta, user, reason);
+    } else {
+      await this.createMovement(updatedStock.id, "IN", quantity, user, reason);
+    }
+    return updatedStock;
+  }
+  async updateStockDetails(referenceId, data) {
+    return prisma.stock.update({
+      where: { parfumReferenceId: referenceId },
+      data
+    });
+  }
+  async reserveStock(referenceId, quantity, user) {
+    const stock = await prisma.stock.findUnique({
+      where: { parfumReferenceId: referenceId }
+    });
+    if (!stock || stock.quantite - stock.reserved < quantity) {
+      throw new Error("Insufficient stock for reservation");
+    }
+    const updatedStock = await prisma.stock.update({
+      where: { parfumReferenceId: referenceId },
+      data: {
+        reserved: stock.reserved + quantity
+      }
+    });
+    await this.createMovement(stock.id, "RESERVATION", quantity, user, "Stock reservation");
+    return updatedStock;
+  }
+  async cancelReservation(referenceId, quantity, user) {
+    const stock = await prisma.stock.findUnique({
+      where: { parfumReferenceId: referenceId }
+    });
+    if (!stock || stock.reserved < quantity) {
+      throw new Error("Invalid reservation quantity");
+    }
+    const updatedStock = await prisma.stock.update({
+      where: { parfumReferenceId: referenceId },
+      data: {
+        reserved: stock.reserved - quantity
+      }
+    });
+    await this.createMovement(stock.id, "CANCEL_RESERVATION", -quantity, user, "Cancel reservation");
+    return updatedStock;
+  }
+  async getMovements(stockId, limit) {
+    return prisma.stockMovement.findMany({
+      where: { stockId },
+      orderBy: { createdAt: "desc" },
+      take: limit || 50
+    });
+  }
+  async getLowStockAlerts() {
+    return prisma.stock.findMany({
+      where: {
+        AND: [
+          { seuilMin: { not: null } },
+          { quantite: { lte: prisma.stock.fields.seuilMin } }
+        ]
+      },
+      include: {
+        reference: {
+          include: {
+            parfum: true,
+            fournisseur: true
+          }
+        }
+      }
+    });
+  }
+  async getHighStockAlerts() {
+    return prisma.stock.findMany({
+      where: {
+        AND: [
+          { seuilMax: { not: null } },
+          { quantite: { gte: prisma.stock.fields.seuilMax } }
+        ]
+      },
+      include: {
+        reference: {
+          include: {
+            parfum: true,
+            fournisseur: true
+          }
+        }
+      }
+    });
+  }
+  async getExpiringStock(days = 30) {
+    const futureDate = /* @__PURE__ */ new Date();
+    futureDate.setDate(futureDate.getDate() + days);
+    return prisma.stock.findMany({
+      where: {
+        AND: [
+          { datePeremption: { not: null } },
+          { datePeremption: { lte: futureDate } }
+        ]
+      },
+      include: {
+        reference: {
+          include: {
+            parfum: true,
+            fournisseur: true
+          }
+        }
+      }
+    });
+  }
+  async createMovement(stockId, type, quantity, user, reason) {
+    return prisma.stockMovement.create({
+      data: {
+        stockId,
+        type,
+        quantity,
+        user,
+        reason
       }
     });
   }
@@ -900,18 +1053,202 @@ class StockService {
       return { success: false, error: error.message };
     }
   }
-  async updateQuantity(referenceId, delta) {
+  async getById(id) {
     try {
-      const result = await this.repo.updateQuantity(referenceId, delta);
+      const result = await this.repo.getById(id);
       return { success: true, data: result };
     } catch (error) {
       return { success: false, error: error.message };
     }
   }
-  async setQuantity(referenceId, quantity) {
+  async updateQuantity(referenceId, delta, user, reason) {
     try {
-      const result = await this.repo.setQuantity(referenceId, quantity);
+      const result = await this.repo.updateQuantity(referenceId, delta, user, reason);
       return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async setQuantity(referenceId, quantity, user, reason) {
+    try {
+      const result = await this.repo.setQuantity(referenceId, quantity, user, reason);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async updateStockDetails(referenceId, data) {
+    try {
+      const result = await this.repo.updateStockDetails(referenceId, data);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async reserveStock(referenceId, quantity, user) {
+    try {
+      const result = await this.repo.reserveStock(referenceId, quantity, user);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async cancelReservation(referenceId, quantity, user) {
+    try {
+      const result = await this.repo.cancelReservation(referenceId, quantity, user);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async getMovements(stockId, limit) {
+    try {
+      const result = await this.repo.getMovements(stockId, limit);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async getLowStockAlerts() {
+    try {
+      const result = await this.repo.getLowStockAlerts();
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async getHighStockAlerts() {
+    try {
+      const result = await this.repo.getHighStockAlerts();
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async getExpiringStock(days) {
+    try {
+      const result = await this.repo.getExpiringStock(days);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  // Basic IA prediction for stock rupture (simple linear regression based on last movements)
+  async predictStockRupture(referenceId) {
+    try {
+      const stock = await this.repo.getById(referenceId);
+      if (!stock) {
+        return { success: false, error: "Stock not found" };
+      }
+      const movements = stock.movements || [];
+      if (movements.length < 2) {
+        return { success: true, data: { daysUntilRupture: -1, confidence: 0 } };
+      }
+      const outMovements = movements.filter((m) => m.type === "OUT" && m.quantity < 0);
+      if (outMovements.length === 0) {
+        return { success: true, data: { daysUntilRupture: -1, confidence: 0 } };
+      }
+      const totalOut = outMovements.reduce((sum, m) => sum + Math.abs(m.quantity), 0);
+      const daysSpan = Math.max(1, ((/* @__PURE__ */ new Date()).getTime() - new Date(movements[0].createdAt).getTime()) / (1e3 * 60 * 60 * 24));
+      const dailyConsumption = totalOut / daysSpan;
+      if (dailyConsumption <= 0) {
+        return { success: true, data: { daysUntilRupture: -1, confidence: 0 } };
+      }
+      const available = stock.quantite - stock.reserved;
+      const daysUntilRupture = available / dailyConsumption;
+      const confidence = Math.min(0.8, outMovements.length / 10);
+      return { success: true, data: { daysUntilRupture: Math.round(daysUntilRupture), confidence } };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+}
+class WarehouseRepository {
+  async getAll() {
+    return prisma.warehouse.findMany({
+      include: {
+        _count: {
+          select: { stocks: true }
+        }
+      }
+    });
+  }
+  async getById(id) {
+    return prisma.warehouse.findUnique({
+      where: { id },
+      include: {
+        stocks: {
+          include: {
+            reference: {
+              include: {
+                parfum: true,
+                fournisseur: true
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+  async create(data) {
+    return prisma.warehouse.create({ data });
+  }
+  async update(id, data) {
+    return prisma.warehouse.update({
+      where: { id },
+      data
+    });
+  }
+  async delete(id) {
+    const stockCount = await prisma.stock.count({
+      where: { warehouseId: id }
+    });
+    if (stockCount > 0) {
+      throw new Error("Cannot delete warehouse with existing stock");
+    }
+    return prisma.warehouse.delete({
+      where: { id }
+    });
+  }
+}
+class WarehouseService {
+  repo = new WarehouseRepository();
+  async getAll() {
+    try {
+      const result = await this.repo.getAll();
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async getById(id) {
+    try {
+      const result = await this.repo.getById(id);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async create(data) {
+    try {
+      const result = await this.repo.create(data);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async update(id, data) {
+    try {
+      const result = await this.repo.update(id, data);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async delete(id) {
+    try {
+      await this.repo.delete(id);
+      return { success: true, data: null };
     } catch (error) {
       return { success: false, error: error.message };
     }
@@ -1114,6 +1451,7 @@ function registerIpcHandlers() {
   const clientService = new ClientService();
   const referenceService = new ParfumReferenceService();
   const stockService = new StockService();
+  const warehouseService = new WarehouseService();
   const categoryService = new CategoryService();
   const tagService = new TagService();
   electron.ipcMain.handle("parfum:getAll", () => parfumService.getAllParfums());
@@ -1148,8 +1486,22 @@ function registerIpcHandlers() {
   electron.ipcMain.handle("reference:update", (_, { id, data }) => referenceService.update(id, data));
   electron.ipcMain.handle("reference:delete", (_, id) => referenceService.delete(id));
   electron.ipcMain.handle("stock:getAll", () => stockService.getAll());
-  electron.ipcMain.handle("stock:updateQuantity", (_, { referenceId, delta }) => stockService.updateQuantity(referenceId, delta));
-  electron.ipcMain.handle("stock:setQuantity", (_, { referenceId, quantity }) => stockService.setQuantity(referenceId, quantity));
+  electron.ipcMain.handle("stock:getById", (_, id) => stockService.getById(id));
+  electron.ipcMain.handle("stock:updateQuantity", (_, { referenceId, delta, user, reason }) => stockService.updateQuantity(referenceId, delta, user, reason));
+  electron.ipcMain.handle("stock:setQuantity", (_, { referenceId, quantity, user, reason }) => stockService.setQuantity(referenceId, quantity, user, reason));
+  electron.ipcMain.handle("stock:updateDetails", (_, { referenceId, data }) => stockService.updateStockDetails(referenceId, data));
+  electron.ipcMain.handle("stock:reserve", (_, { referenceId, quantity, user }) => stockService.reserveStock(referenceId, quantity, user));
+  electron.ipcMain.handle("stock:cancelReservation", (_, { referenceId, quantity, user }) => stockService.cancelReservation(referenceId, quantity, user));
+  electron.ipcMain.handle("stock:getMovements", (_, { stockId, limit }) => stockService.getMovements(stockId, limit));
+  electron.ipcMain.handle("stock:getLowAlerts", () => stockService.getLowStockAlerts());
+  electron.ipcMain.handle("stock:getHighAlerts", () => stockService.getHighStockAlerts());
+  electron.ipcMain.handle("stock:getExpiring", (_, days) => stockService.getExpiringStock(days));
+  electron.ipcMain.handle("stock:predictRupture", (_, referenceId) => stockService.predictStockRupture(referenceId));
+  electron.ipcMain.handle("warehouse:getAll", () => warehouseService.getAll());
+  electron.ipcMain.handle("warehouse:getById", (_, id) => warehouseService.getById(id));
+  electron.ipcMain.handle("warehouse:create", (_, data) => warehouseService.create(data));
+  electron.ipcMain.handle("warehouse:update", (_, { id, data }) => warehouseService.update(id, data));
+  electron.ipcMain.handle("warehouse:delete", (_, id) => warehouseService.delete(id));
   electron.ipcMain.handle("upload:image", async (_, formData) => {
     try {
       const { image, type } = formData;

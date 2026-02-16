@@ -41714,6 +41714,9 @@ const DarkModeIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path
 const LightModeIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zM12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6m0-10c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4"
 }));
+const CalendarIcon$1 = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
+  d: "M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 18H4V8h16z"
+}));
 const CheckIcon$1 = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8z"
 }));
@@ -41753,6 +41756,9 @@ const FilterIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path",
 const HelpIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
 }));
+const HistoryIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
+  d: "M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9m-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8z"
+}));
 const InventoryIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2m-5 12H9v-2h6zm5-7H4V4l16-.02z"
 }));
@@ -41762,14 +41768,23 @@ const KeyboardIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path
 const SupplierIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5m13.5-9 1.96 2.5H17V9.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"
 }));
+const LocationIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
+  d: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7m0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5"
+}));
 const MenuIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M3 18h18v-2H3zm0-5h18v-2H3zm0-7v2h18V6z"
+}));
+const MoreVertIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
+  d: "M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
 }));
 const PrevIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
 }));
 const NextIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+}));
+const NotificationsIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
+  d: "M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2m6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1z"
 }));
 const ParfumIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M17.66 8 12 2.35 6.34 8C4.78 9.56 4 11.64 4 13.64s.78 4.11 2.34 5.67 3.61 2.35 5.66 2.35 4.1-.79 5.66-2.35S20 15.64 20 13.64 19.22 9.56 17.66 8M6 14c.01-2 .62-3.27 1.76-4.4L12 5.27l4.24 4.38C17.38 10.77 17.99 12 18 14z"
@@ -41839,6 +41854,9 @@ const UploadIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path",
 }));
 const VisibilityIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5M12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5m0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"
+}));
+const WarningIcon$1 = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
+  d: "M1 21h22L12 2zm12-3h-2v-2h2zm0-4h-2v-4h2z"
 }));
 const createStoreImpl = (createState) => {
   let state;
@@ -54205,7 +54223,7 @@ function le() {
   var h2 = l2.getContext("2d");
   h2.fillStyle = "#fff", h2.fillRect(0, 0, l2.width, l2.height);
   var f2 = { ignoreMouse: true, ignoreAnimation: true, ignoreDimensions: true }, d2 = this;
-  return (i$1.canvg ? Promise.resolve(i$1.canvg) : __vitePreload(() => import("./index.es-CMT1B-is.js"), true ? [] : void 0, import.meta.url)).catch(function(t4) {
+  return (i$1.canvg ? Promise.resolve(i$1.canvg) : __vitePreload(() => import("./index.es-DZwAEQHJ.js"), true ? [] : void 0, import.meta.url)).catch(function(t4) {
     return Promise.reject(new Error("Could not load canvg: " + t4));
   }).then(function(t4) {
     return t4.default ? t4.default : t4;
@@ -84838,19 +84856,83 @@ function StockPage() {
   const [open2, setOpen] = reactExports.useState(false);
   const [selectedStock, setSelectedStock] = reactExports.useState(null);
   const [adjustment, setAdjustment] = reactExports.useState(0);
+  const [editDialogOpen, setEditDialogOpen] = reactExports.useState(false);
+  const [editData, setEditData] = reactExports.useState({
+    seuilMin: "",
+    seuilMax: "",
+    emplacement: "",
+    lot: "",
+    datePeremption: ""
+  });
+  const [lowStockAlerts, setLowStockAlerts] = reactExports.useState([]);
+  const [highStockAlerts, setHighStockAlerts] = reactExports.useState([]);
+  const [expiringStock, setExpiringStock] = reactExports.useState([]);
+  const [anchorEl, setAnchorEl] = reactExports.useState(null);
+  const [menuStock, setMenuStock] = reactExports.useState(null);
   reactExports.useEffect(() => {
     fetchStock();
+    fetchAlerts();
   }, []);
+  const fetchAlerts = async () => {
+    try {
+      const [lowRes, highRes, expiringRes] = await Promise.all([
+        window.api.stock.getLowAlerts(),
+        window.api.stock.getHighAlerts(),
+        window.api.stock.getExpiring(30)
+      ]);
+      if (lowRes.success) setLowStockAlerts(lowRes.data);
+      if (highRes.success) setHighStockAlerts(highRes.data);
+      if (expiringRes.success) setExpiringStock(expiringRes.data);
+    } catch (error) {
+      console.error("Error fetching alerts:", error);
+    }
+  };
   const handleOpenAdjustment = (stockItem) => {
     setSelectedStock(stockItem);
     setAdjustment(0);
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
+  const handleEditOpen = (stockItem) => {
+    setSelectedStock(stockItem);
+    setEditData({
+      seuilMin: stockItem.seuilMin?.toString() || "",
+      seuilMax: stockItem.seuilMax?.toString() || "",
+      emplacement: stockItem.emplacement || "",
+      lot: stockItem.lot || "",
+      datePeremption: stockItem.datePeremption ? new Date(stockItem.datePeremption).toISOString().split("T")[0] : ""
+    });
+    setEditDialogOpen(true);
+  };
+  const handleEditClose = () => setEditDialogOpen(false);
+  const handleEditSave = async () => {
+    if (selectedStock) {
+      const data = {
+        seuilMin: editData.seuilMin ? parseFloat(editData.seuilMin) : void 0,
+        seuilMax: editData.seuilMax ? parseFloat(editData.seuilMax) : void 0,
+        emplacement: editData.emplacement || void 0,
+        lot: editData.lot || void 0,
+        datePeremption: editData.datePeremption ? new Date(editData.datePeremption) : void 0
+      };
+      await window.api.stock.updateDetails(selectedStock.parfumReferenceId, data);
+      fetchStock();
+      fetchAlerts();
+    }
+    handleEditClose();
+  };
+  const handleMenuOpen = (event, stockItem) => {
+    setAnchorEl(event.currentTarget);
+    setMenuStock(stockItem);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setMenuStock(null);
+  };
   const handleApplyAdjustment = async () => {
     if (selectedStock) {
-      await window.api.stock.updateQuantity(selectedStock.parfumReferenceId, adjustment);
+      await window.api.stock.updateQuantity(selectedStock.parfumReferenceId, adjustment, "user", "Manual adjustment");
       fetchStock();
+      fetchAlerts();
     }
     handleClose();
   };
@@ -84905,54 +84987,132 @@ function StockPage() {
     {
       field: "quantite",
       headerName: "Quantité",
-      width: 180,
-      renderCell: (params) => /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { sx: { display: "flex", alignItems: "center", gap: 1 }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          Typography,
-          {
-            sx: {
-              fontWeight: 700,
-              fontSize: "1.1rem",
-              color: params.value > 100 ? "#10b981" : params.value > 50 ? "#f59e0b" : "#ef4444"
-            },
-            children: params.value
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
+      width: 120,
+      renderCell: (params) => {
+        const isLow = params.row.seuilMin && params.value <= params.row.seuilMin;
+        const isHigh = params.row.seuilMax && params.value >= params.row.seuilMax;
+        return /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { sx: { display: "flex", alignItems: "center", gap: 1 }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            Typography,
+            {
+              sx: {
+                fontWeight: 700,
+                fontSize: "1.1rem",
+                color: isLow ? "#ef4444" : isHigh ? "#f59e0b" : "#10b981"
+              },
+              children: params.value
+            }
+          ),
+          isLow && /* @__PURE__ */ jsxRuntimeExports.jsx(WarningIcon$1, { sx: { color: "#ef4444", fontSize: 16 } }),
+          isHigh && /* @__PURE__ */ jsxRuntimeExports.jsx(WarningIcon$1, { sx: { color: "#f59e0b", fontSize: 16 } })
+        ] });
+      }
+    },
+    {
+      field: "seuils",
+      headerName: "Seuils",
+      width: 120,
+      renderCell: (params) => /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { sx: { display: "flex", flexDirection: "column", gap: 0.5 }, children: [
+        params.row.seuilMin && /* @__PURE__ */ jsxRuntimeExports.jsx(
           Chip,
           {
+            label: `Min: ${params.row.seuilMin}`,
             size: "small",
-            label: params.row.reference?.unite,
-            sx: {
-              background: params.row.reference?.unite === "KILOGRAMME" ? "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)" : "linear-gradient(135deg, #ec4899 0%, #db2777 100%)",
-              color: "#fff",
-              fontWeight: 600
-            }
+            color: "error",
+            variant: "outlined"
+          }
+        ),
+        params.row.seuilMax && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Chip,
+          {
+            label: `Max: ${params.row.seuilMax}`,
+            size: "small",
+            color: "warning",
+            variant: "outlined"
           }
         )
       ] })
     },
     {
-      field: "actions",
-      headerName: "Ajuster",
+      field: "emplacement",
+      headerName: "Emplacement",
       width: 120,
+      renderCell: (params) => /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { sx: { display: "flex", alignItems: "center", gap: 0.5 }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(LocationIcon, { sx: { fontSize: 16, opacity: 0.7 } }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "body2", children: params.value || "-" })
+      ] })
+    },
+    {
+      field: "lot",
+      headerName: "Lot",
+      width: 100,
+      renderCell: (params) => /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "body2", children: params.value || "-" })
+    },
+    {
+      field: "datePeremption",
+      headerName: "Péremption",
+      width: 120,
+      renderCell: (params) => {
+        if (!params.value) return /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "body2", children: "-" });
+        const date = new Date(params.value);
+        const isExpiring = date.getTime() - Date.now() < 30 * 24 * 60 * 60 * 1e3;
+        return /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { sx: { display: "flex", alignItems: "center", gap: 0.5 }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CalendarIcon$1, { sx: { fontSize: 16, opacity: 0.7 } }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            Typography,
+            {
+              variant: "body2",
+              sx: { color: isExpiring ? "#ef4444" : "inherit" },
+              children: date.toLocaleDateString()
+            }
+          )
+        ] });
+      }
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      width: 80,
       renderCell: (params) => /* @__PURE__ */ jsxRuntimeExports.jsx(
         IconButton,
         {
           size: "small",
-          onClick: () => handleOpenAdjustment(params.row),
+          onClick: (e2) => handleMenuOpen(e2, params.row),
           sx: {
             background: darkMode ? "rgba(59, 130, 246, 0.15)" : "rgba(59, 130, 246, 0.08)",
             "&:hover": {
               background: darkMode ? "rgba(59, 130, 246, 0.25)" : "rgba(59, 130, 246, 0.15)"
             }
           },
-          children: /* @__PURE__ */ jsxRuntimeExports.jsx(EditIcon, { fontSize: "small", sx: { color: "#3b82f6" } })
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx(MoreVertIcon, { fontSize: "small", sx: { color: "#3b82f6" } })
         }
       )
     }
   ];
   return /* @__PURE__ */ jsxRuntimeExports.jsx(Fade, { in: true, timeout: 500, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { children: [
+    (lowStockAlerts.length > 0 || highStockAlerts.length > 0 || expiringStock.length > 0) && /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { sx: { mb: 3 }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(Typography, { variant: "h6", sx: { mb: 2, display: "flex", alignItems: "center", gap: 1 }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(NotificationsIcon, {}),
+        "Alertes Stock"
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(Grid, { container: true, spacing: 2, children: [
+        lowStockAlerts.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, md: 4, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Alert, { severity: "error", sx: { borderRadius: 2 }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(AlertTitle, { children: "Stock Faible" }),
+          lowStockAlerts.length,
+          " produit(s) en dessous du seuil minimum"
+        ] }) }),
+        highStockAlerts.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, md: 4, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Alert, { severity: "warning", sx: { borderRadius: 2 }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(AlertTitle, { children: "Stock Élevé" }),
+          highStockAlerts.length,
+          " produit(s) au-dessus du seuil maximum"
+        ] }) }),
+        expiringStock.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, md: 4, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Alert, { severity: "warning", sx: { borderRadius: 2 }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(AlertTitle, { children: "Péremption Prochaine" }),
+          expiringStock.length,
+          " produit(s) expirent dans moins de 30 jours"
+        ] }) })
+      ] })
+    ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Box, { sx: {
       display: "flex",
       justifyContent: "space-between",
@@ -84978,6 +85138,34 @@ function StockPage() {
       /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "body2", sx: { opacity: 0.7 }, children: "Suivez et ajustez vos niveaux de stock en temps réel" })
     ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(DataTable, { rows: stock, columns, loading }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      Menu,
+      {
+        anchorEl,
+        open: Boolean(anchorEl),
+        onClose: handleMenuClose,
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(MenuItem, { onClick: () => {
+            handleOpenAdjustment(menuStock);
+            handleMenuClose();
+          }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemIcon, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(EditIcon, { fontSize: "small" }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemText$1, { children: "Ajuster Quantité" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(MenuItem, { onClick: () => {
+            handleEditOpen(menuStock);
+            handleMenuClose();
+          }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemIcon, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(SettingsIcon, { fontSize: "small" }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemText$1, { children: "Modifier Détails" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(MenuItem, { onClick: handleMenuClose, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemIcon, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(HistoryIcon, { fontSize: "small" }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemText$1, { children: "Voir Historique" })
+          ] })
+        ]
+      }
+    ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       Dialog,
       {
@@ -85072,6 +85260,137 @@ function StockPage() {
                   px: 3
                 },
                 children: "Appliquer"
+              }
+            )
+          ] })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      Dialog,
+      {
+        open: editDialogOpen,
+        onClose: handleEditClose,
+        maxWidth: "md",
+        fullWidth: true,
+        TransitionComponent: Fade,
+        PaperProps: {
+          sx: {
+            background: darkMode ? "linear-gradient(135deg, rgba(30, 41, 59, 0.98) 0%, rgba(15, 23, 42, 0.98) 100%)" : "linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%)",
+            backdropFilter: "blur(20px)"
+          }
+        },
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(DialogTitle, { sx: {
+            pb: 1,
+            fontSize: "1.5rem",
+            fontWeight: 700
+          }, children: "Modifier les Détails du Stock" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogContent, { sx: { pt: 3 }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { sx: {
+              p: 2,
+              mb: 3,
+              borderRadius: 2,
+              background: darkMode ? alpha("#3b82f6", 0.1) : alpha("#3b82f6", 0.05),
+              border: `1px solid ${darkMode ? alpha("#3b82f6", 0.2) : alpha("#3b82f6", 0.1)}`
+            }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "subtitle1", sx: { fontWeight: 600, mb: 1 }, children: selectedStock?.reference?.parfum?.nom }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Chip,
+                {
+                  label: selectedStock?.reference?.referenceCode,
+                  size: "small",
+                  sx: { mr: 1 }
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Chip,
+                {
+                  label: selectedStock?.reference?.fournisseur?.nom,
+                  size: "small",
+                  color: "primary"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(Grid, { container: true, spacing: 2, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, sm: 6, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                TextField,
+                {
+                  fullWidth: true,
+                  type: "number",
+                  label: "Seuil Minimum",
+                  value: editData.seuilMin,
+                  onChange: (e2) => setEditData({ ...editData, seuilMin: e2.target.value }),
+                  helperText: "Alerte quand le stock passe en dessous"
+                }
+              ) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, sm: 6, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                TextField,
+                {
+                  fullWidth: true,
+                  type: "number",
+                  label: "Seuil Maximum",
+                  value: editData.seuilMax,
+                  onChange: (e2) => setEditData({ ...editData, seuilMax: e2.target.value }),
+                  helperText: "Alerte quand le stock dépasse ce niveau"
+                }
+              ) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, sm: 6, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                TextField,
+                {
+                  fullWidth: true,
+                  label: "Emplacement",
+                  value: editData.emplacement,
+                  onChange: (e2) => setEditData({ ...editData, emplacement: e2.target.value }),
+                  helperText: "Emplacement physique du stock"
+                }
+              ) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, sm: 6, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                TextField,
+                {
+                  fullWidth: true,
+                  label: "Numéro de Lot",
+                  value: editData.lot,
+                  onChange: (e2) => setEditData({ ...editData, lot: e2.target.value }),
+                  helperText: "Numéro de lot/série"
+                }
+              ) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                TextField,
+                {
+                  fullWidth: true,
+                  type: "date",
+                  label: "Date de Péremption",
+                  value: editData.datePeremption,
+                  onChange: (e2) => setEditData({ ...editData, datePeremption: e2.target.value }),
+                  InputLabelProps: { shrink: true },
+                  helperText: "Date de péremption du lot"
+                }
+              ) })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogActions, { sx: { p: 3, pt: 2 }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              Button,
+              {
+                onClick: handleEditClose,
+                sx: {
+                  borderRadius: 2,
+                  px: 3
+                },
+                children: "Annuler"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              Button,
+              {
+                onClick: handleEditSave,
+                variant: "contained",
+                sx: {
+                  borderRadius: 2,
+                  px: 3
+                },
+                children: "Sauvegarder"
               }
             )
           ] })

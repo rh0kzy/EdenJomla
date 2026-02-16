@@ -1,4 +1,4 @@
-import { ApiResponse, Parfum, Fournisseur, Client, ParfumReference, Stock } from './shared/types';
+import { ApiResponse, Parfum, Fournisseur, Client, ParfumReference, Stock, StockMovement, Warehouse, Category, Tag } from './shared/types';
 
 export interface IElectronAPI {
   parfums: {
@@ -46,8 +46,24 @@ export interface IElectronAPI {
   };
   stock: {
     getAll: () => Promise<ApiResponse<Stock[]>>;
-    updateQuantity: (referenceId: number, delta: number) => Promise<ApiResponse<Stock>>;
-    setQuantity: (referenceId: number, quantity: number) => Promise<ApiResponse<Stock>>;
+    getById: (id: number) => Promise<ApiResponse<Stock>>;
+    updateQuantity: (referenceId: number, delta: number, user?: string, reason?: string) => Promise<ApiResponse<Stock>>;
+    setQuantity: (referenceId: number, quantity: number, user?: string, reason?: string) => Promise<ApiResponse<Stock>>;
+    updateDetails: (referenceId: number, data: { seuilMin?: number; seuilMax?: number; emplacement?: string; lot?: string; datePeremption?: Date; warehouseId?: number }) => Promise<ApiResponse<Stock>>;
+    reserve: (referenceId: number, quantity: number, user?: string) => Promise<ApiResponse<Stock>>;
+    cancelReservation: (referenceId: number, quantity: number, user?: string) => Promise<ApiResponse<Stock>>;
+    getMovements: (stockId: number, limit?: number) => Promise<ApiResponse<StockMovement[]>>;
+    getLowAlerts: () => Promise<ApiResponse<Stock[]>>;
+    getHighAlerts: () => Promise<ApiResponse<Stock[]>>;
+    getExpiring: (days?: number) => Promise<ApiResponse<Stock[]>>;
+    predictRupture: (referenceId: number) => Promise<ApiResponse<{ daysUntilRupture: number; confidence: number }>>;
+  };
+  warehouses: {
+    getAll: () => Promise<ApiResponse<Warehouse[]>>;
+    getById: (id: number) => Promise<ApiResponse<Warehouse>>;
+    create: (data: { nom: string; adresse?: string }) => Promise<ApiResponse<Warehouse>>;
+    update: (id: number, data: { nom?: string; adresse?: string }) => Promise<ApiResponse<Warehouse>>;
+    delete: (id: number) => Promise<ApiResponse<void>>;
   };
   uploadImage: (formData: FormData) => Promise<ApiResponse<{ filename: string; path: string }>>;
 }

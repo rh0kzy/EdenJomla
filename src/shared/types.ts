@@ -78,9 +78,6 @@ export interface ParfumReference {
   referenceCode: string;
   unite: string;
   prixUnitaire: number;
-  quantite: number;
-  seuil: number;
-  emplacement: string;
   parfum?: Parfum;
   fournisseur?: Fournisseur;
   stock?: Stock;
@@ -90,6 +87,33 @@ export interface Stock {
   id: number;
   parfumReferenceId: number;
   quantite: number;
-  seuil: number;
-  emplacement: string;
+  seuilMin?: number | null;
+  seuilMax?: number | null;
+  emplacement?: string | null;
+  lot?: string | null;
+  datePeremption?: string | null;
+  reserved: number;
+  warehouseId?: number | null;
+  warehouse?: Warehouse | null;
+  movements?: StockMovement[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface StockMovement {
+  id: number;
+  stockId: number;
+  type: string;
+  quantity: number;
+  reason?: string | null;
+  user?: string | null;
+  createdAt: string;
+  stock?: Stock;
+}
+
+export interface Warehouse {
+  id: number;
+  nom: string;
+  adresse?: string | null;
+  stocks?: Stock[];
 }

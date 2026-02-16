@@ -98,8 +98,35 @@ model ParfumReference {
 model Stock {
   id                Int             @id @default(autoincrement())
   parfumReferenceId Int             @unique
-  quantite          Float
+  quantite          Float           @default(0)
+  seuilMin          Float?          // Seuil minimum pour alertes
+  seuilMax          Float?          // Seuil maximum pour alertes
+  emplacement       String?         // Emplacement physique
+  lot               String?         // Numéro de lot
+  datePeremption    DateTime?       // Date de péremption
+  reserved          Float           @default(0) // Quantité réservée
+  warehouseId       Int?            // Entrepôt
+  warehouse         Warehouse?      @relation(fields: [warehouseId], references: [id])
   reference         ParfumReference @relation(fields: [parfumReferenceId], references: [id])
+  movements         StockMovement[]
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
+}
+
+model StockMovement {
+  id        Int      @id @default(autoincrement())
+  stockId   Int
+  type      String   // 'IN', 'OUT', 'ADJUSTMENT', 'RESERVATION', 'CANCEL_RESERVATION'
+  quantity  Float
+  reason    String?
+  user      String?  @default("system")
+  createdAt DateTime @default(now())
+  stock     Stock    @relation(fields: [stockId], references: [id], onDelete: Cascade)
+}
+
+model Warehouse {
+  id      Int     @id @default(autoincrement())
+  nom     String  @unique
+  adresse String?
+  stocks  Stock[]
 }

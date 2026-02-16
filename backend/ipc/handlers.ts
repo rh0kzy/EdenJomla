@@ -4,6 +4,7 @@ import { FournisseurService } from '../services/FournisseurService';
 import { ClientService } from '../services/ClientService';
 import { ParfumReferenceService } from '../services/ParfumReferenceService';
 import { StockService } from '../services/StockService';
+import { WarehouseService } from '../services/WarehouseService';
 import { CategoryService } from '../services/CategoryService';
 import { TagService } from '../services/TagService';
 import * as fs from 'fs';
@@ -16,6 +17,7 @@ export function registerIpcHandlers() {
   const clientService = new ClientService();
   const referenceService = new ParfumReferenceService();
   const stockService = new StockService();
+  const warehouseService = new WarehouseService();
   const categoryService = new CategoryService();
   const tagService = new TagService();
 
@@ -64,8 +66,24 @@ export function registerIpcHandlers() {
 
   // Stock Handlers
   ipcMain.handle('stock:getAll', () => stockService.getAll());
-  ipcMain.handle('stock:updateQuantity', (_, { referenceId, delta }) => stockService.updateQuantity(referenceId, delta));
-  ipcMain.handle('stock:setQuantity', (_, { referenceId, quantity }) => stockService.setQuantity(referenceId, quantity));
+  ipcMain.handle('stock:getById', (_, id) => stockService.getById(id));
+  ipcMain.handle('stock:updateQuantity', (_, { referenceId, delta, user, reason }) => stockService.updateQuantity(referenceId, delta, user, reason));
+  ipcMain.handle('stock:setQuantity', (_, { referenceId, quantity, user, reason }) => stockService.setQuantity(referenceId, quantity, user, reason));
+  ipcMain.handle('stock:updateDetails', (_, { referenceId, data }) => stockService.updateStockDetails(referenceId, data));
+  ipcMain.handle('stock:reserve', (_, { referenceId, quantity, user }) => stockService.reserveStock(referenceId, quantity, user));
+  ipcMain.handle('stock:cancelReservation', (_, { referenceId, quantity, user }) => stockService.cancelReservation(referenceId, quantity, user));
+  ipcMain.handle('stock:getMovements', (_, { stockId, limit }) => stockService.getMovements(stockId, limit));
+  ipcMain.handle('stock:getLowAlerts', () => stockService.getLowStockAlerts());
+  ipcMain.handle('stock:getHighAlerts', () => stockService.getHighStockAlerts());
+  ipcMain.handle('stock:getExpiring', (_, days) => stockService.getExpiringStock(days));
+  ipcMain.handle('stock:predictRupture', (_, referenceId) => stockService.predictStockRupture(referenceId));
+
+  // Warehouse Handlers
+  ipcMain.handle('warehouse:getAll', () => warehouseService.getAll());
+  ipcMain.handle('warehouse:getById', (_, id) => warehouseService.getById(id));
+  ipcMain.handle('warehouse:create', (_, data) => warehouseService.create(data));
+  ipcMain.handle('warehouse:update', (_, { id, data }) => warehouseService.update(id, data));
+  ipcMain.handle('warehouse:delete', (_, id) => warehouseService.delete(id));
 
   // Image Upload Handler
   ipcMain.handle('upload:image', async (_, formData) => {

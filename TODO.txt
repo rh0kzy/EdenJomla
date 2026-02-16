@@ -72,17 +72,17 @@
 
 📦 Gestion du Stock
   [✓] Ajustement manuel de stock
-  [ ] Historique complet des mouvements de stock
-  [ ] Alertes de stock minimum
-  [ ] Alertes de stock maximum
-  [ ] Prédiction de rupture de stock (IA basique)
-  [ ] Traçabilité complète (qui, quand, combien)
-  [ ] Gestion des lots/numéros de série
-  [ ] Date de péremption pour chaque lot
+  [✓] Historique complet des mouvements de stock
+  [✓] Alertes de stock minimum
+  [✓] Alertes de stock maximum
+  [✓] Prédiction de rupture de stock (IA basique)
+  [✓] Traçabilité complète (qui, quand, combien)
+  [✓] Gestion des lots/numéros de série
+  [✓] Date de péremption pour chaque lot
   [ ] Inventaire périodique avec scan
-  [ ] Réservation de stock
-  [ ] Gestion des emplacements physiques
-  [ ] Stock par entrepôt/magasin
+  [✓] Réservation de stock
+  [✓] Gestion des emplacements physiques
+  [✓] Stock par entrepôt/magasin
 
 💰 Gestion des Prix
   [ ] Modifier les prix pour 100g automatiquement
