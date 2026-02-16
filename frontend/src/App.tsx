@@ -43,6 +43,7 @@ import GuidedTour from './components/GuidedTour';
 import FavoritesBar from './components/FavoritesBar';
 import DashboardPage from './pages/DashboardPage';
 import ParfumsPage from './pages/ParfumsPage';
+import ParfumDetailPage from './pages/ParfumDetailPage';
 import StockPage from './pages/StockPage';
 import FournisseursPage from './pages/FournisseursPage';
 import ClientsPage from './pages/ClientsPage';
@@ -326,6 +327,7 @@ export default function App() {
             <Routes>
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/parfums" element={<ParfumsPage />} />
+              <Route path="/parfums/:id" element={<ParfumDetailPage />} />
               <Route path="/references" element={<ReferencesPage />} />
               <Route path="/fournisseurs" element={<FournisseursPage />} />
               <Route path="/clients" element={<ClientsPage />} />

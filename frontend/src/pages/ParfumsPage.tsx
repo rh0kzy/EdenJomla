@@ -18,13 +18,20 @@ import {
   Menu,
   MenuItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  FormControl,
+  InputLabel,
+  Select,
+  Checkbox,
+  FormControlLabel,
+  Autocomplete
 } from '@mui/material';
-import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon, Opacity as ParfumIcon, PhotoCamera as PhotoIcon, Delete as RemoveIcon, Upload as UploadIcon, Download as DownloadIcon, PictureAsPdf as PdfIcon, TableChart as CsvIcon } from '@mui/icons-material';
+import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon, Opacity as ParfumIcon, PhotoCamera as PhotoIcon, Delete as RemoveIcon, Upload as UploadIcon, Download as DownloadIcon, PictureAsPdf as PdfIcon, TableChart as CsvIcon, ContentCopy as ContentCopyIcon, Visibility as VisibilityIcon, QrCode as QrCodeIcon } from '@mui/icons-material';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import QRCode from 'qrcode';
 import { GridColDef } from '@mui/x-data-grid';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDataStore } from '../store/useDataStore';
 import { useAppStore } from '../store/useAppStore';
 import DataTable from '../components/DataTable';
@@ -34,9 +41,13 @@ export default function ParfumsPage() {
   const { parfums, loading, fetchParfums } = useDataStore();
   const { darkMode } = useAppStore();
   const location = useLocation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [selectedParfum, setSelectedParfum] = useState<any>(null);
-  const [formData, setFormData] = useState({ nom: '', marque: '', description: '', image: '' });
+  const [formData, setFormData] = useState({ nom: '', marque: '', description: '', image: '', notes: '', barcode: '', categoryId: '' });
+  const [selectedTags, setSelectedTags] = useState<number[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [tags, setTags] = useState<any[]>([]);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [exportMenuAnchor, setExportMenuAnchor] = useState<null | HTMLElement>(null);
@@ -46,7 +57,31 @@ export default function ParfumsPage() {
 
   useEffect(() => {
     fetchParfums();
+    fetchCategories();
+    fetchTags();
   }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await window.api.categories.getAll();
+      if (response.success) {
+        setCategories(response.data || []);
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
+
+  const fetchTags = async () => {
+    try {
+      const response = await window.api.tags.getAll();
+      if (response.success) {
+        setTags(response.data || []);
+      }
+    } catch (error) {
+      console.error('Error fetching tags:', error);
+    }
+  };
 
   useEffect(() => {
     // Handle global search from navigation
@@ -84,12 +119,17 @@ export default function ParfumsPage() {
         nom: parfum.nom, 
         marque: parfum.marque, 
         description: parfum.description || '',
-        image: parfum.image || ''
+        image: parfum.image || '',
+        notes: parfum.notes || '',
+        barcode: parfum.barcode || '',
+        categoryId: parfum.categoryId || ''
       });
+      setSelectedTags(parfum.tags?.map((pt: any) => pt.tagId) || []);
       setImagePreview(parfum.image ? `/images/parfums/${parfum.image}` : null);
     } else {
       setSelectedParfum(null);
-      setFormData({ nom: '', marque: '', description: '', image: '' });
+      setFormData({ nom: '', marque: '', description: '', image: '', notes: '', barcode: '', categoryId: '' });
+      setSelectedTags([]);
       setImagePreview(null);
     }
     setSelectedImage(null);
@@ -250,6 +290,67 @@ export default function ParfumsPage() {
     }
   };
 
+  const handleGenerateQR = async (parfum: any) => {
+    try {
+      // Create QR code data
+      const qrData = JSON.stringify({
+        id: parfum.id,
+        nom: parfum.nom,
+        marque: parfum.marque,
+        barcode: parfum.barcode,
+        type: 'parfum'
+      });
+
+      // Generate QR code as data URL
+      const qrCodeDataURL = await QRCode.toDataURL(qrData, {
+        width: 256,
+        margin: 2,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF'
+        }
+      });
+
+      // Create a new window to display the QR code
+      const printWindow = window.open('', '_blank');
+      if (printWindow) {
+        printWindow.document.write(`
+          <html>
+            <head>
+              <title>QR Code - ${parfum.nom}</title>
+              <style>
+                body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+                .qr-container { margin: 20px auto; }
+                .info { margin-top: 20px; }
+                @media print { .no-print { display: none; } }
+              </style>
+            </head>
+            <body>
+              <h1>QR Code - ${parfum.nom}</h1>
+              <div class="qr-container">
+                <img src="${qrCodeDataURL}" alt="QR Code" style="max-width: 256px;" />
+              </div>
+              <div class="info">
+                <p><strong>Nom:</strong> ${parfum.nom}</p>
+                <p><strong>Marque:</strong> ${parfum.marque}</p>
+                <p><strong>Code-barres:</strong> ${parfum.barcode || 'N/A'}</p>
+                <p><strong>ID:</strong> ${parfum.id}</p>
+              </div>
+              <div class="no-print" style="margin-top: 20px;">
+                <button onclick="window.print()">Imprimer</button>
+                <button onclick="window.close()">Fermer</button>
+              </div>
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
+      }
+    } catch (error) {
+      console.error('QR code generation error:', error);
+      alert('Erreur lors de la génération du QR code');
+    }
+  };
+
   const handleSubmit = async () => {
     try {
       let imagePath = formData.image;
@@ -268,19 +369,45 @@ export default function ParfumsPage() {
 
       const parfumData = {
         ...formData,
-        image: imagePath
+        image: imagePath,
+        categoryId: formData.categoryId ? parseInt(formData.categoryId) : null
       };
 
+      let savedParfum;
       if (selectedParfum) {
-        await window.api.parfums.update(selectedParfum.id, parfumData);
+        const response = await window.api.parfums.update(selectedParfum.id, parfumData);
+        if (response.success) {
+          savedParfum = response.data;
+        }
       } else {
-        await window.api.parfums.create(parfumData);
+        const response = await window.api.parfums.create(parfumData);
+        if (response.success) {
+          savedParfum = response.data;
+        }
       }
+
+      // Save tags if parfum was saved successfully
+      if (savedParfum) {
+        await window.api.tags.setForParfum(savedParfum.id, selectedTags);
+      }
+
       fetchParfums();
       handleClose();
     } catch (error) {
       console.error('Error saving parfum:', error);
       // You could add toast notification here
+    }
+  };
+
+  const handleDuplicate = async (parfum: any) => {
+    if (confirm('Êtes-vous sûr de vouloir dupliquer ce parfum ?')) {
+      try {
+        await window.api.parfums.duplicate(parfum.id);
+        fetchParfums();
+      } catch (error) {
+        console.error('Error duplicating parfum:', error);
+        alert('Erreur lors de la duplication du parfum');
+      }
     }
   };
 
@@ -298,9 +425,19 @@ export default function ParfumsPage() {
 
   const contextMenuItems = [
     {
+      label: 'Voir Détails',
+      icon: <VisibilityIcon fontSize="small" />,
+      onClick: (row: any) => navigate(`/parfums/${row.id}`),
+    },
+    {
       label: 'Modifier',
       icon: <EditIcon fontSize="small" />,
       onClick: (row: any) => handleOpen(row),
+    },
+    {
+      label: 'Dupliquer',
+      icon: <ContentCopyIcon fontSize="small" />,
+      onClick: (row: any) => handleDuplicate(row),
     },
     {
       label: 'Supprimer',
@@ -361,11 +498,80 @@ export default function ParfumsPage() {
     { field: 'marque', headerName: 'Marque', flex: 1 },
     { field: 'description', headerName: 'Description', flex: 1.5 },
     {
+      field: 'category',
+      headerName: 'Catégorie',
+      flex: 1,
+      renderCell: (params) => (
+        params.row.category ? (
+          <Chip
+            label={params.row.category.nom}
+            size="small"
+            sx={{
+              backgroundColor: params.row.category.couleur || '#e0e0e0',
+              color: params.row.category.couleur ? '#fff' : '#000',
+            }}
+          />
+        ) : (
+          <Typography variant="body2" color="text.secondary">-</Typography>
+        )
+      )
+    },
+    {
+      field: 'tags',
+      headerName: 'Tags',
+      flex: 1,
+      renderCell: (params) => (
+        params.row.tags && params.row.tags.length > 0 ? (
+          <Stack direction="row" spacing={0.5} sx={{ flexWrap: 'wrap', gap: 0.5 }}>
+            {params.row.tags.slice(0, 2).map((tagRelation: any) => (
+              <Chip
+                key={tagRelation.tag.id}
+                label={tagRelation.tag.nom}
+                size="small"
+                sx={{
+                  fontSize: '0.7rem',
+                  height: 20,
+                  backgroundColor: tagRelation.tag.couleur || '#e0e0e0',
+                  color: tagRelation.tag.couleur ? '#fff' : '#000',
+                }}
+              />
+            ))}
+            {params.row.tags.length > 2 && (
+              <Chip
+                label={`+${params.row.tags.length - 2}`}
+                size="small"
+                sx={{
+                  fontSize: '0.7rem',
+                  height: 20,
+                  backgroundColor: '#666',
+                  color: '#fff',
+                }}
+              />
+            )}
+          </Stack>
+        ) : (
+          <Typography variant="body2" color="text.secondary">-</Typography>
+        )
+      )
+    },
+    {
       field: 'actions',
       headerName: 'Actions',
       width: 150,
       renderCell: (params) => (
         <Stack direction="row" spacing={1}>
+          <IconButton 
+            size="small" 
+            onClick={() => navigate(`/parfums/${params.row.id}`)}
+            sx={{
+              background: darkMode ? 'rgba(16, 185, 129, 0.15)' : 'rgba(16, 185, 129, 0.08)',
+              '&:hover': {
+                background: darkMode ? 'rgba(16, 185, 129, 0.25)' : 'rgba(16, 185, 129, 0.15)',
+              }
+            }}
+          >
+            <VisibilityIcon fontSize="small" sx={{ color: '#10b981' }} />
+          </IconButton>
           <IconButton 
             size="small" 
             onClick={() => handleOpen(params.row)}
@@ -380,6 +586,18 @@ export default function ParfumsPage() {
           </IconButton>
           <IconButton 
             size="small" 
+            onClick={() => handleDuplicate(params.row)}
+            sx={{
+              background: darkMode ? 'rgba(59, 130, 246, 0.15)' : 'rgba(59, 130, 246, 0.08)',
+              '&:hover': {
+                background: darkMode ? 'rgba(59, 130, 246, 0.25)' : 'rgba(59, 130, 246, 0.15)',
+              }
+            }}
+          >
+            <ContentCopyIcon fontSize="small" sx={{ color: '#3b82f6' }} />
+          </IconButton>
+          <IconButton 
+            size="small" 
             onClick={() => handleDelete(params.row.id)}
             sx={{
               background: darkMode ? 'rgba(239, 68, 68, 0.15)' : 'rgba(239, 68, 68, 0.08)',
@@ -389,6 +607,18 @@ export default function ParfumsPage() {
             }}
           >
             <DeleteIcon fontSize="small" sx={{ color: '#ef4444' }} />
+          </IconButton>
+          <IconButton 
+            size="small" 
+            onClick={() => handleGenerateQR(params.row)}
+            sx={{
+              background: darkMode ? 'rgba(147, 51, 234, 0.15)' : 'rgba(147, 51, 234, 0.08)',
+              '&:hover': {
+                background: darkMode ? 'rgba(147, 51, 234, 0.25)' : 'rgba(147, 51, 234, 0.15)',
+              }
+            }}
+          >
+            <QrCodeIcon fontSize="small" sx={{ color: '#9333ea' }} />
           </IconButton>
         </Stack>
       ),
@@ -590,6 +820,83 @@ export default function ParfumsPage() {
               rows={3}
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            />
+            <TextField
+              fullWidth
+              label="Notes/Commentaires"
+              margin="normal"
+              multiline
+              rows={2}
+              value={formData.notes}
+              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              placeholder="Ajouter des notes internes ou commentaires..."
+            />
+            <TextField
+              fullWidth
+              label="Code-barres"
+              margin="normal"
+              value={formData.barcode}
+              onChange={(e) => setFormData({ ...formData, barcode: e.target.value })}
+              placeholder="Scanner ou saisir le code-barres..."
+            />
+            <FormControl fullWidth margin="normal">
+              <InputLabel>Catégorie</InputLabel>
+              <Select
+                value={formData.categoryId}
+                label="Catégorie"
+                onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
+              >
+                <MenuItem value="">
+                  <em>Aucune catégorie</em>
+                </MenuItem>
+                {categories.map((category) => (
+                  <MenuItem key={category.id} value={category.id}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      {category.couleur && (
+                        <Box
+                          sx={{
+                            width: 12,
+                            height: 12,
+                            borderRadius: '50%',
+                            backgroundColor: category.couleur,
+                          }}
+                        />
+                      )}
+                      {category.nom}
+                    </Box>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Autocomplete
+              multiple
+              options={tags}
+              getOptionLabel={(option) => option.nom}
+              value={tags.filter(tag => selectedTags.includes(tag.id))}
+              onChange={(event, newValue) => {
+                setSelectedTags(newValue.map(tag => tag.id));
+              }}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    key={option.id}
+                    label={option.nom}
+                    {...getTagProps({ index })}
+                    sx={{
+                      backgroundColor: option.couleur || '#e0e0e0',
+                      color: option.couleur ? '#fff' : '#000',
+                    }}
+                  />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Tags/Étiquettes"
+                  placeholder="Sélectionner des tags..."
+                  margin="normal"
+                />
+              )}
             />
           </DialogContent>
           <DialogActions sx={{ p: 3, pt: 2 }}>

@@ -6,6 +6,25 @@ export interface IElectronAPI {
     create: (data: Omit<Parfum, 'id'>) => Promise<ApiResponse<Parfum>>;
     update: (id: number, data: Partial<Parfum>) => Promise<ApiResponse<Parfum>>;
     delete: (id: number) => Promise<ApiResponse<void>>;
+    getHistory: (parfumId: number) => Promise<ApiResponse<any[]>>;
+    duplicate: (id: number, data?: Partial<Parfum>) => Promise<ApiResponse<Parfum>>;
+    getByBarcode: (barcode: string) => Promise<ApiResponse<Parfum | null>>;
+    getByCategory: (categoryId: number) => Promise<ApiResponse<Parfum[]>>;
+    getByTag: (tagId: number) => Promise<ApiResponse<Parfum[]>>;
+  };
+  categories: {
+    getAll: () => Promise<ApiResponse<Category[]>>;
+    create: (data: Omit<Category, 'id' | 'createdAt' | 'updatedAt'>) => Promise<ApiResponse<Category>>;
+    update: (id: number, data: Partial<Omit<Category, 'id' | 'createdAt' | 'updatedAt'>>) => Promise<ApiResponse<Category>>;
+    delete: (id: number) => Promise<ApiResponse<void>>;
+  };
+  tags: {
+    getAll: () => Promise<ApiResponse<Tag[]>>;
+    create: (data: Omit<Tag, 'id' | 'createdAt' | 'updatedAt'>) => Promise<ApiResponse<Tag>>;
+    update: (id: number, data: Partial<Omit<Tag, 'id' | 'createdAt' | 'updatedAt'>>) => Promise<ApiResponse<Tag>>;
+    delete: (id: number) => Promise<ApiResponse<void>>;
+    getForParfum: (parfumId: number) => Promise<ApiResponse<Tag[]>>;
+    setForParfum: (parfumId: number, tagIds: number[]) => Promise<ApiResponse<void>>;
   };
   fournisseurs: {
     getAll: () => Promise<ApiResponse<Fournisseur[]>>;

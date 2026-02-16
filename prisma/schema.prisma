@@ -13,9 +13,54 @@ model Parfum {
   marque      String
   description String?
   image       String?
+  notes       String?
+  barcode     String?           @unique
+  categoryId  Int?
+  category    Category?    @relation(fields: [categoryId], references: [id])
+  tags        ParfumTag[]
   references  ParfumReference[]
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
+  createdBy   String?           @default("system")
+  updatedBy   String?           @default("system")
+}
+
+model ParfumHistory {
+  id          Int      @id @default(autoincrement())
+  parfumId    Int
+  action      String   // 'CREATE', 'UPDATE', 'DELETE'
+  oldData     String?  // JSON string of old data
+  newData     String?  // JSON string of new data
+  changedBy   String   @default("system")
+  createdAt   DateTime @default(now())
+}
+
+model Category {
+  id          Int      @id @default(autoincrement())
+  nom         String   @unique
+  description String?
+  couleur     String?  // Hex color code
+  parfums     Parfum[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Tag {
+  id          Int         @id @default(autoincrement())
+  nom         String      @unique
+  couleur     String?     // Hex color code
+  parfums     ParfumTag[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model ParfumTag {
+  id       Int     @id @default(autoincrement())
+  parfumId Int
+  tagId    Int
+  parfum   Parfum  @relation(fields: [parfumId], references: [id], onDelete: Cascade)
+  tag      Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  @@unique([parfumId, tagId])
 }
 
 model Fournisseur {

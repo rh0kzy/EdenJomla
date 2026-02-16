@@ -61,14 +61,14 @@
   [✓] Ajouter la gestion des images de parfums
   [✓] Implémenter l'import en masse depuis CSV
   [✓] Ajouter l'export des données en Excel/CSV/PDF
-  [ ] Créer une vue détaillée pour chaque parfum
-  [ ] Ajouter l'historique des modifications
-  [ ] Implémenter la duplication de parfum
-  [ ] Ajouter des notes/commentaires sur les parfums
-  [ ] Créer des catégories de parfums personnalisables
-  [ ] Ajouter des tags/étiquettes
-  [ ] Implémenter la recherche par code-barres
-  [ ] Générer automatiquement des codes QR
+  [✓] Créer une vue détaillée pour chaque parfum
+  [✓] Ajouter l'historique des modifications
+  [✓] Implémenter la duplication de parfum
+  [✓] Ajouter des notes/commentaires sur les parfums
+  [✓] Créer des catégories de parfums personnalisables
+  [✓] Ajouter des tags/étiquettes
+  [✓] Implémenter la recherche par code-barres
+  [✓] Générer automatiquement des codes QR
 
 📦 Gestion du Stock
   [✓] Ajustement manuel de stock

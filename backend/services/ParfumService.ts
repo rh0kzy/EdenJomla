@@ -42,4 +42,49 @@ export class ParfumService {
       return { success: false, error: error.message };
     }
   }
+
+  async getParfumHistory(parfumId: number): Promise<ApiResponse<any[]>> {
+    try {
+      const history = await this.repo.getHistory(parfumId);
+      return { success: true, data: history };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  async duplicateParfum(id: number, newData?: Partial<Parfum>): Promise<ApiResponse<Parfum>> {
+    try {
+      const parfum = await this.repo.duplicate(id, newData);
+      return { success: true, data: parfum };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  async getParfumByBarcode(barcode: string): Promise<ApiResponse<Parfum | null>> {
+    try {
+      const parfum = await this.repo.getByBarcode(barcode);
+      return { success: true, data: parfum };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  async getParfumsByCategory(categoryId: number): Promise<ApiResponse<Parfum[]>> {
+    try {
+      const parfums = await this.repo.getByCategory(categoryId);
+      return { success: true, data: parfums };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  async getParfumsByTag(tagId: number): Promise<ApiResponse<Parfum[]>> {
+    try {
+      const parfums = await this.repo.getByTag(tagId);
+      return { success: true, data: parfums };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  }
 }

@@ -389,34 +389,159 @@ const prisma = new client.PrismaClient();
 class ParfumRepository {
   async getAll() {
     return prisma.parfum.findMany({
-      include: { references: true }
+      include: {
+        references: true,
+        category: true,
+        tags: {
+          include: { tag: true }
+        }
+      }
     });
   }
   async getById(id) {
     return prisma.parfum.findUnique({
       where: { id },
-      include: { references: true }
+      include: {
+        references: true,
+        category: true,
+        tags: {
+          include: { tag: true }
+        }
+      }
     });
   }
   async create(data) {
-    return prisma.parfum.create({
+    const parfum = await prisma.parfum.create({
       data: {
         nom: data.nom,
         marque: data.marque,
         description: data.description,
-        image: data.image
+        image: data.image,
+        notes: data.notes,
+        barcode: data.barcode,
+        categoryId: data.categoryId,
+        createdBy: data.createdBy || "system",
+        updatedBy: data.updatedBy || "system"
+      }
+    });
+    await prisma.parfumHistory.create({
+      data: {
+        parfumId: parfum.id,
+        action: "CREATE",
+        newData: JSON.stringify(parfum),
+        changedBy: data.createdBy || "system"
+      }
+    });
+    return parfum;
+  }
+  async update(id, data) {
+    const currentParfum = await prisma.parfum.findUnique({
+      where: { id }
+    });
+    const updatedParfum = await prisma.parfum.update({
+      where: { id },
+      data: {
+        ...data,
+        updatedBy: data.updatedBy || "system"
+      }
+    });
+    if (currentParfum && JSON.stringify(currentParfum) !== JSON.stringify(updatedParfum)) {
+      await prisma.parfumHistory.create({
+        data: {
+          parfumId: id,
+          action: "UPDATE",
+          oldData: JSON.stringify(currentParfum),
+          newData: JSON.stringify(updatedParfum),
+          changedBy: data.updatedBy || "system"
+        }
+      });
+    }
+    return updatedParfum;
+  }
+  async delete(id) {
+    const currentParfum = await prisma.parfum.findUnique({
+      where: { id }
+    });
+    const deletedParfum = await prisma.parfum.delete({
+      where: { id }
+    });
+    if (currentParfum) {
+      await prisma.parfumHistory.create({
+        data: {
+          parfumId: id,
+          action: "DELETE",
+          oldData: JSON.stringify(currentParfum),
+          changedBy: "system"
+          // Could be passed as parameter in future
+        }
+      });
+    }
+    return deletedParfum;
+  }
+  async getHistory(parfumId) {
+    return prisma.parfumHistory.findMany({
+      where: { parfumId },
+      orderBy: { createdAt: "desc" }
+    });
+  }
+  async duplicate(id, newData) {
+    const originalParfum = await prisma.parfum.findUnique({
+      where: { id },
+      include: { references: true }
+    });
+    if (!originalParfum) {
+      throw new Error("Parfum not found");
+    }
+    const duplicateData = {
+      nom: `${originalParfum.nom} (Copie)`,
+      marque: originalParfum.marque,
+      description: originalParfum.description,
+      image: originalParfum.image,
+      notes: originalParfum.notes,
+      barcode: originalParfum.barcode,
+      categoryId: originalParfum.categoryId,
+      ...newData
+    };
+    return this.create(duplicateData);
+  }
+  async getByBarcode(barcode) {
+    return prisma.parfum.findUnique({
+      where: { barcode },
+      include: {
+        references: true,
+        category: true,
+        tags: {
+          include: { tag: true }
+        }
       }
     });
   }
-  async update(id, data) {
-    return prisma.parfum.update({
-      where: { id },
-      data
+  async getByCategory(categoryId) {
+    return prisma.parfum.findMany({
+      where: { categoryId },
+      include: {
+        references: true,
+        category: true,
+        tags: {
+          include: { tag: true }
+        }
+      }
     });
   }
-  async delete(id) {
-    return prisma.parfum.delete({
-      where: { id }
+  async getByTag(tagId) {
+    return prisma.parfum.findMany({
+      where: {
+        tags: {
+          some: { tagId }
+        }
+      },
+      include: {
+        references: true,
+        category: true,
+        tags: {
+          include: { tag: true }
+        }
+      }
     });
   }
 }
@@ -453,6 +578,46 @@ class ParfumService {
     try {
       await this.repo.delete(id);
       return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async getParfumHistory(parfumId) {
+    try {
+      const history = await this.repo.getHistory(parfumId);
+      return { success: true, data: history };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async duplicateParfum(id, newData) {
+    try {
+      const parfum = await this.repo.duplicate(id, newData);
+      return { success: true, data: parfum };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async getParfumByBarcode(barcode) {
+    try {
+      const parfum = await this.repo.getByBarcode(barcode);
+      return { success: true, data: parfum };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async getParfumsByCategory(categoryId) {
+    try {
+      const parfums = await this.repo.getByCategory(categoryId);
+      return { success: true, data: parfums };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async getParfumsByTag(tagId) {
+    try {
+      const parfums = await this.repo.getByTag(tagId);
+      return { success: true, data: parfums };
     } catch (error) {
       return { success: false, error: error.message };
     }
@@ -752,16 +917,224 @@ class StockService {
     }
   }
 }
+class CategoryRepository {
+  prisma = new client.PrismaClient();
+  async getAll() {
+    return await this.prisma.category.findMany({
+      orderBy: { nom: "asc" }
+    });
+  }
+  async getById(id) {
+    return await this.prisma.category.findUnique({
+      where: { id }
+    });
+  }
+  async create(data) {
+    return await this.prisma.category.create({
+      data
+    });
+  }
+  async update(id, data) {
+    return await this.prisma.category.update({
+      where: { id },
+      data
+    });
+  }
+  async delete(id) {
+    await this.prisma.category.delete({
+      where: { id }
+    });
+  }
+  async getByName(nom) {
+    return await this.prisma.category.findUnique({
+      where: { nom }
+    });
+  }
+}
+class CategoryService {
+  repo = new CategoryRepository();
+  async getAllCategories() {
+    try {
+      const categories = await this.repo.getAll();
+      return { success: true, data: categories };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async createCategory(data) {
+    try {
+      if (!data.nom) {
+        return { success: false, error: "Le nom de la catégorie est obligatoire" };
+      }
+      const existingCategory = await this.repo.getByName(data.nom);
+      if (existingCategory) {
+        return { success: false, error: "Une catégorie avec ce nom existe déjà" };
+      }
+      const category = await this.repo.create(data);
+      return { success: true, data: category };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async updateCategory(id, data) {
+    try {
+      const category = await this.repo.update(id, data);
+      return { success: true, data: category };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async deleteCategory(id) {
+    try {
+      const parfumsInCategory = await this.repo.getById(id);
+      if (parfumsInCategory) {
+      }
+      await this.repo.delete(id);
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+}
+class TagRepository {
+  prisma = new client.PrismaClient();
+  async getAll() {
+    return await this.prisma.tag.findMany({
+      orderBy: { nom: "asc" }
+    });
+  }
+  async getById(id) {
+    return await this.prisma.tag.findUnique({
+      where: { id }
+    });
+  }
+  async create(data) {
+    return await this.prisma.tag.create({
+      data
+    });
+  }
+  async update(id, data) {
+    return await this.prisma.tag.update({
+      where: { id },
+      data
+    });
+  }
+  async delete(id) {
+    await this.prisma.tag.delete({
+      where: { id }
+    });
+  }
+  async getByName(nom) {
+    return await this.prisma.tag.findUnique({
+      where: { nom }
+    });
+  }
+  async getTagsForParfum(parfumId) {
+    const parfumTags = await this.prisma.parfumTag.findMany({
+      where: { parfumId },
+      include: { tag: true }
+    });
+    return parfumTags.map((pt) => pt.tag);
+  }
+  async setTagsForParfum(parfumId, tagIds) {
+    await this.prisma.parfumTag.deleteMany({
+      where: { parfumId }
+    });
+    if (tagIds.length > 0) {
+      await this.prisma.parfumTag.createMany({
+        data: tagIds.map((tagId) => ({
+          parfumId,
+          tagId
+        }))
+      });
+    }
+  }
+}
+class TagService {
+  repo = new TagRepository();
+  async getAllTags() {
+    try {
+      const tags = await this.repo.getAll();
+      return { success: true, data: tags };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async createTag(data) {
+    try {
+      if (!data.nom) {
+        return { success: false, error: "Le nom du tag est obligatoire" };
+      }
+      const existingTag = await this.repo.getByName(data.nom);
+      if (existingTag) {
+        return { success: false, error: "Un tag avec ce nom existe déjà" };
+      }
+      const tag = await this.repo.create(data);
+      return { success: true, data: tag };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async updateTag(id, data) {
+    try {
+      const tag = await this.repo.update(id, data);
+      return { success: true, data: tag };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async deleteTag(id) {
+    try {
+      await this.repo.delete(id);
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async getTagsForParfum(parfumId) {
+    try {
+      const tags = await this.repo.getTagsForParfum(parfumId);
+      return { success: true, data: tags };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async setTagsForParfum(parfumId, tagIds) {
+    try {
+      await this.repo.setTagsForParfum(parfumId, tagIds);
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+}
 function registerIpcHandlers() {
   const parfumService = new ParfumService();
   const fournisseurService = new FournisseurService();
   const clientService = new ClientService();
   const referenceService = new ParfumReferenceService();
   const stockService = new StockService();
+  const categoryService = new CategoryService();
+  const tagService = new TagService();
   electron.ipcMain.handle("parfum:getAll", () => parfumService.getAllParfums());
   electron.ipcMain.handle("parfum:create", (_, data) => parfumService.createParfum(data));
   electron.ipcMain.handle("parfum:update", (_, { id, data }) => parfumService.updateParfum(id, data));
   electron.ipcMain.handle("parfum:delete", (_, id) => parfumService.deleteParfum(id));
+  electron.ipcMain.handle("parfum:getHistory", (_, parfumId) => parfumService.getParfumHistory(parfumId));
+  electron.ipcMain.handle("parfum:duplicate", (_, { id, data }) => parfumService.duplicateParfum(id, data));
+  electron.ipcMain.handle("parfum:getByBarcode", (_, barcode) => parfumService.getParfumByBarcode(barcode));
+  electron.ipcMain.handle("parfum:getByCategory", (_, categoryId) => parfumService.getParfumsByCategory(categoryId));
+  electron.ipcMain.handle("parfum:getByTag", (_, tagId) => parfumService.getParfumsByTag(tagId));
+  electron.ipcMain.handle("category:getAll", () => categoryService.getAllCategories());
+  electron.ipcMain.handle("category:create", (_, data) => categoryService.createCategory(data));
+  electron.ipcMain.handle("category:update", (_, { id, data }) => categoryService.updateCategory(id, data));
+  electron.ipcMain.handle("category:delete", (_, id) => categoryService.deleteCategory(id));
+  electron.ipcMain.handle("tag:getAll", () => tagService.getAllTags());
+  electron.ipcMain.handle("tag:create", (_, data) => tagService.createTag(data));
+  electron.ipcMain.handle("tag:update", (_, { id, data }) => tagService.updateTag(id, data));
+  electron.ipcMain.handle("tag:delete", (_, id) => tagService.deleteTag(id));
+  electron.ipcMain.handle("tag:getForParfum", (_, parfumId) => tagService.getTagsForParfum(parfumId));
+  electron.ipcMain.handle("tag:setForParfum", (_, { parfumId, tagIds }) => tagService.setTagsForParfum(parfumId, tagIds));
   electron.ipcMain.handle("fournisseur:getAll", () => fournisseurService.getAll());
   electron.ipcMain.handle("fournisseur:create", (_, data) => fournisseurService.create(data));
   electron.ipcMain.handle("fournisseur:update", (_, { id, data }) => fournisseurService.update(id, data));
