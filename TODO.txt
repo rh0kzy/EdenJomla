@@ -39,17 +39,17 @@
   [✓] Ajouter des favoris/raccourcis personnalisables
 
 📊 Dashboard Principal
-  [ ] Créer une page d'accueil avec widgets
-  [ ] Afficher le nombre total de parfums
-  [ ] Afficher le nombre total de références
-  [ ] Afficher la valeur totale du stock
-  [ ] Montrer les produits en rupture de stock
-  [ ] Afficher les produits avec stock faible (<10)
+  [✓] Créer une page d'accueil avec widgets
+  [✓] Afficher le nombre total de parfums
+  [✓] Afficher le nombre total de références
+  [✓] Afficher la valeur totale du stock
+  [✓] Montrer les produits en rupture de stock
+  [✓] Afficher les produits avec stock faible (<10)
   [ ] Créer un graphique d'évolution du stock
-  [ ] Afficher les statistiques par marque
-  [ ] Montrer les références les plus vendues
-  [ ] Afficher les dernières transactions
-  [ ] Créer un calendrier des réapprovisionnements
+  [✓] Afficher les statistiques par marque
+  [✓] Montrer les références les plus vendues
+  [✓] Afficher les dernières transactions
+  [✓] Créer un calendrier des réapprovisionnements
 
 
 ═══════════════════════════════════════════════════════════════════════════════

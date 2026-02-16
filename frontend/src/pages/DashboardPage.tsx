@@ -21,7 +21,10 @@ import {
   Storage as StockIcon,
   Warning as WarningIcon,
   TrendingUp as TrendingUpIcon,
-  Assessment as AssessmentIcon
+  Assessment as AssessmentIcon,
+  ShoppingCart as SalesIcon,
+  Schedule as CalendarIcon,
+  Timeline as TimelineIcon
 } from '@mui/icons-material';
 import { useDataStore } from '../store/useDataStore';
 import { useAppStore } from '../store/useAppStore';
@@ -80,6 +83,61 @@ export default function DashboardPage() {
   const topBrands = Object.entries(brandStats)
     .sort(([,a], [,b]) => b - a)
     .slice(0, 5);
+
+  // Mock data for best-selling references (will be replaced with real sales data later)
+  const bestSellingReferences = references
+    .map(ref => {
+      const parfum = parfums.find(p => p.id === ref.parfumId);
+      const stockItem = stock.find(s => s.parfumReferenceId === ref.id);
+      // Mock sales calculation based on stock movement and price
+      const mockSales = Math.floor(Math.random() * 50) + 10;
+      return {
+        ...ref,
+        parfumName: parfum?.nom || 'Unknown',
+        marque: parfum?.marque || 'Unknown',
+        stockQuantity: stockItem?.quantite || 0,
+        salesCount: mockSales,
+        revenue: mockSales * ref.prixUnitaire
+      };
+    })
+    .sort((a, b) => b.salesCount - a.salesCount)
+    .slice(0, 5);
+
+  // Mock data for latest transactions
+  const latestTransactions = [
+    { id: 1, date: '2026-02-16', client: 'Ahmed Bennani', reference: 'Chanel No.5 - 100ml', quantity: 2, total: 45000, status: 'completed' },
+    { id: 2, date: '2026-02-16', client: 'Fatima Alaoui', reference: 'Dior Sauvage - 50ml', quantity: 1, total: 22000, status: 'completed' },
+    { id: 3, date: '2026-02-15', client: 'Karim Tazi', reference: 'Gucci Bloom - 75ml', quantity: 3, total: 67500, status: 'completed' },
+    { id: 4, date: '2026-02-15', client: 'Leila Mansouri', reference: 'Yves Saint Laurent Black Opium - 30ml', quantity: 1, total: 18000, status: 'pending' },
+    { id: 5, date: '2026-02-14', client: 'Omar Rachid', reference: 'Tom Ford Oud Wood - 50ml', quantity: 2, total: 52000, status: 'completed' }
+  ];
+
+  // Mock data for replenishment calendar
+  const replenishmentCalendar = stock
+    .filter(item => item.quantite < 10)
+    .map(item => {
+      const reference = references.find(r => r.id === item.parfumReferenceId);
+      const parfum = parfums.find(p => p.id === reference?.parfumId);
+      const daysToReorder = Math.max(0, Math.floor(Math.random() * 14) + 1); // 1-14 days
+      return {
+        id: item.id,
+        productName: parfum?.nom || 'Unknown',
+        reference: reference?.nom || 'Unknown',
+        currentStock: item.quantite,
+        reorderPoint: 10,
+        estimatedDays: daysToReorder,
+        priority: item.quantite === 0 ? 'urgent' : item.quantite < 5 ? 'high' : 'medium'
+      };
+    })
+    .sort((a, b) => {
+      // Sort by priority: urgent > high > medium, then by days
+      const priorityOrder = { urgent: 0, high: 1, medium: 2 };
+      if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
+        return priorityOrder[a.priority] - priorityOrder[b.priority];
+      }
+      return a.estimatedDays - b.estimatedDays;
+    })
+    .slice(0, 6);
 
   const statsCards = [
     {
@@ -344,6 +402,242 @@ export default function DashboardPage() {
                       <Typography variant="body2" sx={{ opacity: 0.7 }}>
                         {count} parfum{count > 1 ? 's' : ''}
                       </Typography>
+                    </Box>
+                  ))}
+                </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+
+        {/* Advanced Dashboard Widgets */}
+        <Grid container spacing={3} sx={{ mt: 2 }}>
+          {/* Best Selling References */}
+          <Grid size={{ xs: 12, md: 6, lg: 4 }}>
+            <Card
+              elevation={0}
+              sx={{
+                background: darkMode
+                  ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%)'
+                  : 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
+                backdropFilter: 'blur(20px)',
+                border: darkMode ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.05)',
+                boxShadow: darkMode
+                  ? '0 20px 60px rgba(0,0,0,0.3)'
+                  : '0 20px 60px rgba(0,0,0,0.08)',
+                height: '100%'
+              }}
+            >
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <SalesIcon sx={{ mr: 1, color: '#10b981' }} />
+                  <Typography variant="h6" sx={{ fontWeight: 600, color: darkMode ? '#fff' : '#1f2937' }}>
+                    Références les Plus Vendues
+                  </Typography>
+                </Box>
+                <Stack spacing={1.5}>
+                  {bestSellingReferences.map((ref, index) => (
+                    <Box
+                      key={ref.id}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        p: 1.5,
+                        borderRadius: 2,
+                        bgcolor: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)',
+                        transition: 'all 0.2s ease-in-out',
+                        '&:hover': {
+                          bgcolor: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)',
+                        }
+                      }}
+                    >
+                      <Box sx={{ flex: 1 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.5 }}>
+                          <Chip
+                            label={`#${index + 1}`}
+                            size="small"
+                            sx={{
+                              mr: 1,
+                              bgcolor: index === 0 ? '#ffd700' : index === 1 ? '#c0c0c0' : index === 2 ? '#cd7f32' : 'rgba(16, 185, 129, 0.1)',
+                              color: index === 0 ? '#000' : index === 1 ? '#000' : index === 2 ? '#000' : '#10b981',
+                              fontWeight: 600,
+                              fontSize: '0.7rem'
+                            }}
+                          />
+                          <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.8rem' }}>
+                            {ref.parfumName}
+                          </Typography>
+                        </Box>
+                        <Typography variant="caption" sx={{ opacity: 0.7, display: 'block' }}>
+                          {ref.nom} • {ref.salesCount} ventes
+                        </Typography>
+                      </Box>
+                      <Typography variant="body2" sx={{ fontWeight: 600, color: '#10b981' }}>
+                        {ref.revenue.toLocaleString()} DZD
+                      </Typography>
+                    </Box>
+                  ))}
+                </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* Latest Transactions */}
+          <Grid size={{ xs: 12, md: 6, lg: 4 }}>
+            <Card
+              elevation={0}
+              sx={{
+                background: darkMode
+                  ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%)'
+                  : 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
+                backdropFilter: 'blur(20px)',
+                border: darkMode ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.05)',
+                boxShadow: darkMode
+                  ? '0 20px 60px rgba(0,0,0,0.3)'
+                  : '0 20px 60px rgba(0,0,0,0.08)',
+                height: '100%'
+              }}
+            >
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <TimelineIcon sx={{ mr: 1, color: '#f59e0b' }} />
+                  <Typography variant="h6" sx={{ fontWeight: 600, color: darkMode ? '#fff' : '#1f2937' }}>
+                    Dernières Transactions
+                  </Typography>
+                </Box>
+                <Stack spacing={1.5}>
+                  {latestTransactions.map((transaction) => (
+                    <Box
+                      key={transaction.id}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        p: 1.5,
+                        borderRadius: 2,
+                        bgcolor: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)',
+                        transition: 'all 0.2s ease-in-out',
+                        '&:hover': {
+                          bgcolor: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)',
+                        }
+                      }}
+                    >
+                      <Box sx={{ flex: 1 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.5 }}>
+                          <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.8rem' }}>
+                            {transaction.client}
+                          </Typography>
+                          <Chip
+                            label={transaction.status === 'completed' ? 'Terminée' : 'En attente'}
+                            size="small"
+                            sx={{
+                              fontSize: '0.6rem',
+                              height: 18,
+                              bgcolor: transaction.status === 'completed' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(245, 158, 11, 0.1)',
+                              color: transaction.status === 'completed' ? '#10b981' : '#f59e0b'
+                            }}
+                          />
+                        </Box>
+                        <Typography variant="caption" sx={{ opacity: 0.7, display: 'block' }}>
+                          {transaction.reference} • {transaction.quantity} unité{transaction.quantity > 1 ? 's' : ''}
+                        </Typography>
+                        <Typography variant="caption" sx={{ opacity: 0.6 }}>
+                          {new Date(transaction.date).toLocaleDateString('fr-FR')}
+                        </Typography>
+                      </Box>
+                      <Typography variant="body2" sx={{ fontWeight: 600, color: '#f59e0b', ml: 1 }}>
+                        {transaction.total.toLocaleString()} DZD
+                      </Typography>
+                    </Box>
+                  ))}
+                </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* Replenishment Calendar */}
+          <Grid size={{ xs: 12, md: 12, lg: 4 }}>
+            <Card
+              elevation={0}
+              sx={{
+                background: darkMode
+                  ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%)'
+                  : 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
+                backdropFilter: 'blur(20px)',
+                border: darkMode ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.05)',
+                boxShadow: darkMode
+                  ? '0 20px 60px rgba(0,0,0,0.3)'
+                  : '0 20px 60px rgba(0,0,0,0.08)',
+                height: '100%'
+              }}
+            >
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <CalendarIcon sx={{ mr: 1, color: '#ef4444' }} />
+                  <Typography variant="h6" sx={{ fontWeight: 600, color: darkMode ? '#fff' : '#1f2937' }}>
+                    Calendrier Réapprovisionnement
+                  </Typography>
+                </Box>
+                <Stack spacing={1.5}>
+                  {replenishmentCalendar.map((item) => (
+                    <Box
+                      key={item.id}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        p: 1.5,
+                        borderRadius: 2,
+                        bgcolor: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)',
+                        borderLeft: `4px solid ${
+                          item.priority === 'urgent' ? '#ef4444' :
+                          item.priority === 'high' ? '#f59e0b' : '#10b981'
+                        }`,
+                        transition: 'all 0.2s ease-in-out',
+                        '&:hover': {
+                          bgcolor: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)',
+                        }
+                      }}
+                    >
+                      <Box sx={{ flex: 1 }}>
+                        <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.8rem', mb: 0.5 }}>
+                          {item.productName}
+                        </Typography>
+                        <Typography variant="caption" sx={{ opacity: 0.7, display: 'block' }}>
+                          {item.reference}
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5 }}>
+                          <Typography variant="caption" sx={{ opacity: 0.6 }}>
+                            Stock: {item.currentStock}kg
+                          </Typography>
+                          <Typography variant="caption" sx={{ opacity: 0.6 }}>
+                            •
+                          </Typography>
+                          <Typography variant="caption" sx={{
+                            color: item.priority === 'urgent' ? '#ef4444' :
+                                   item.priority === 'high' ? '#f59e0b' : '#10b981',
+                            fontWeight: 600
+                          }}>
+                            {item.estimatedDays} jour{item.estimatedDays > 1 ? 's' : ''}
+                          </Typography>
+                        </Box>
+                      </Box>
+                      <Chip
+                        label={
+                          item.priority === 'urgent' ? 'Urgent' :
+                          item.priority === 'high' ? 'Élevé' : 'Moyen'
+                        }
+                        size="small"
+                        sx={{
+                          fontSize: '0.6rem',
+                          height: 18,
+                          bgcolor: item.priority === 'urgent' ? 'rgba(239, 68, 68, 0.1)' :
+                                  item.priority === 'high' ? 'rgba(245, 158, 11, 0.1)' : 'rgba(16, 185, 129, 0.1)',
+                          color: item.priority === 'urgent' ? '#ef4444' :
+                                 item.priority === 'high' ? '#f59e0b' : '#10b981'
+                        }}
+                      />
                     </Box>
                   ))}
                 </Stack>
