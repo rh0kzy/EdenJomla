@@ -1,11 +1,30 @@
 "use strict";
 const electron = require("electron");
-const require$$1 = require("path");
+const path = require("path");
 const utils = require("@electron-toolkit/utils");
 const client = require("@prisma/client");
-const require$$0 = require("fs");
+const fs = require("fs");
 const require$$2 = require("os");
 const require$$3 = require("crypto");
+const uuid = require("uuid");
+function _interopNamespaceDefault(e) {
+  const n = Object.create(null, { [Symbol.toStringTag]: { value: "Module" } });
+  if (e) {
+    for (const k in e) {
+      if (k !== "default") {
+        const d = Object.getOwnPropertyDescriptor(e, k);
+        Object.defineProperty(n, k, d.get ? d : {
+          enumerable: true,
+          get: () => e[k]
+        });
+      }
+    }
+  }
+  n.default = e;
+  return Object.freeze(n);
+}
+const path__namespace = /* @__PURE__ */ _interopNamespaceDefault(path);
+const fs__namespace = /* @__PURE__ */ _interopNamespaceDefault(fs);
 var config = {};
 var main = { exports: {} };
 const version = "16.6.1";
@@ -16,8 +35,8 @@ var hasRequiredMain;
 function requireMain() {
   if (hasRequiredMain) return main.exports;
   hasRequiredMain = 1;
-  const fs = require$$0;
-  const path = require$$1;
+  const fs$1 = fs;
+  const path$1 = path;
   const os = require$$2;
   const crypto = require$$3;
   const packageJson = require$$4;
@@ -125,7 +144,7 @@ function requireMain() {
     if (options && options.path && options.path.length > 0) {
       if (Array.isArray(options.path)) {
         for (const filepath of options.path) {
-          if (fs.existsSync(filepath)) {
+          if (fs$1.existsSync(filepath)) {
             possibleVaultPath = filepath.endsWith(".vault") ? filepath : `${filepath}.vault`;
           }
         }
@@ -133,15 +152,15 @@ function requireMain() {
         possibleVaultPath = options.path.endsWith(".vault") ? options.path : `${options.path}.vault`;
       }
     } else {
-      possibleVaultPath = path.resolve(process.cwd(), ".env.vault");
+      possibleVaultPath = path$1.resolve(process.cwd(), ".env.vault");
     }
-    if (fs.existsSync(possibleVaultPath)) {
+    if (fs$1.existsSync(possibleVaultPath)) {
       return possibleVaultPath;
     }
     return null;
   }
   function _resolveHome(envPath) {
-    return envPath[0] === "~" ? path.join(os.homedir(), envPath.slice(1)) : envPath;
+    return envPath[0] === "~" ? path$1.join(os.homedir(), envPath.slice(1)) : envPath;
   }
   function _configVault(options) {
     const debug = Boolean(options && options.debug);
@@ -158,7 +177,7 @@ function requireMain() {
     return { parsed };
   }
   function configDotenv(options) {
-    const dotenvPath = path.resolve(process.cwd(), ".env");
+    const dotenvPath = path$1.resolve(process.cwd(), ".env");
     let encoding = "utf8";
     const debug = Boolean(options && options.debug);
     const quiet = options && "quiet" in options ? options.quiet : true;
@@ -184,7 +203,7 @@ function requireMain() {
     const parsedAll = {};
     for (const path2 of optionPaths) {
       try {
-        const parsed = DotenvModule.parse(fs.readFileSync(path2, { encoding }));
+        const parsed = DotenvModule.parse(fs$1.readFileSync(path2, { encoding }));
         DotenvModule.populate(parsedAll, parsed, options);
       } catch (e) {
         if (debug) {
@@ -203,7 +222,7 @@ function requireMain() {
       const shortPaths = [];
       for (const filePath of optionPaths) {
         try {
-          const relative = path.relative(process.cwd(), filePath);
+          const relative = path$1.relative(process.cwd(), filePath);
           shortPaths.push(relative);
         } catch (e) {
           if (debug) {
@@ -384,7 +403,8 @@ class ParfumRepository {
       data: {
         nom: data.nom,
         marque: data.marque,
-        description: data.description
+        description: data.description,
+        image: data.image
       }
     });
   }
@@ -757,6 +777,36 @@ function registerIpcHandlers() {
   electron.ipcMain.handle("stock:getAll", () => stockService.getAll());
   electron.ipcMain.handle("stock:updateQuantity", (_, { referenceId, delta }) => stockService.updateQuantity(referenceId, delta));
   electron.ipcMain.handle("stock:setQuantity", (_, { referenceId, quantity }) => stockService.setQuantity(referenceId, quantity));
+  electron.ipcMain.handle("upload:image", async (_, formData) => {
+    try {
+      const { image, type } = formData;
+      if (!image || !type) {
+        throw new Error("Image and type are required");
+      }
+      const fileExtension = path__namespace.extname(image.originalFilename || "image.jpg");
+      const filename = `${uuid.v4()}${fileExtension}`;
+      const uploadDir = path__namespace.join(process.cwd(), "public", "images", type);
+      if (!fs__namespace.existsSync(uploadDir)) {
+        fs__namespace.mkdirSync(uploadDir, { recursive: true });
+      }
+      const filePath = path__namespace.join(uploadDir, filename);
+      const buffer = Buffer.from(await image.arrayBuffer());
+      fs__namespace.writeFileSync(filePath, buffer);
+      return {
+        success: true,
+        data: {
+          filename,
+          path: filePath
+        }
+      };
+    } catch (error) {
+      console.error("Image upload error:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Upload failed"
+      };
+    }
+  });
 }
 let splashWindow = null;
 let mainWindow = null;
@@ -892,7 +942,7 @@ function createWindow() {
     show: false,
     autoHideMenuBar: true,
     webPreferences: {
-      preload: require$$1.join(__dirname, "../preload/preload.js"),
+      preload: path.join(__dirname, "../preload/preload.js"),
       sandbox: false,
       contextIsolation: true,
       nodeIntegration: false
@@ -914,7 +964,7 @@ function createWindow() {
   if (utils.is.dev && process.env["ELECTRON_RENDERER_URL"]) {
     mainWindow.loadURL(process.env["ELECTRON_RENDERER_URL"]);
   } else {
-    mainWindow.loadFile(require$$1.join(__dirname, "../renderer/index.html"));
+    mainWindow.loadFile(path.join(__dirname, "../renderer/index.html"));
   }
 }
 electron.app.whenReady().then(() => {

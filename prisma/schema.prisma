@@ -12,6 +12,7 @@ model Parfum {
   nom         String
   marque      String
   description String?
+  image       String?
   references  ParfumReference[]
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt

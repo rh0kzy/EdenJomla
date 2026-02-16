@@ -11,6 +11,7 @@ export interface Parfum {
   nom: string;
   marque: string;
   description?: string | null;
+  image?: string | null;
 }
 
 export interface Fournisseur {

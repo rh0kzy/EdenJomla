@@ -21,6 +21,7 @@ export class ParfumRepository {
         nom: data.nom,
         marque: data.marque,
         description: data.description,
+        image: data.image,
       },
     });
   }

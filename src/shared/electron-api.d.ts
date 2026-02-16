@@ -30,6 +30,7 @@ export interface IElectronAPI {
     updateQuantity: (referenceId: number, delta: number) => Promise<ApiResponse<Stock>>;
     setQuantity: (referenceId: number, quantity: number) => Promise<ApiResponse<Stock>>;
   };
+  uploadImage: (formData: FormData) => Promise<ApiResponse<{ filename: string; path: string }>>;
 }
 
 declare global {

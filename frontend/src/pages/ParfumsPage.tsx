@@ -11,9 +11,18 @@ import {
   IconButton,
   Fade,
   Chip,
-  Stack
+  Stack,
+  Avatar,
+  Card,
+  CardMedia,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material';
-import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon, Opacity as ParfumIcon } from '@mui/icons-material';
+import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon, Opacity as ParfumIcon, PhotoCamera as PhotoIcon, Delete as RemoveIcon, Upload as UploadIcon, Download as DownloadIcon, PictureAsPdf as PdfIcon, TableChart as CsvIcon } from '@mui/icons-material';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import { GridColDef } from '@mui/x-data-grid';
 import { useLocation } from 'react-router-dom';
 import { useDataStore } from '../store/useDataStore';
@@ -27,7 +36,10 @@ export default function ParfumsPage() {
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const [selectedParfum, setSelectedParfum] = useState<any>(null);
-  const [formData, setFormData] = useState({ nom: '', marque: '', description: '' });
+  const [formData, setFormData] = useState({ nom: '', marque: '', description: '', image: '' });
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [exportMenuAnchor, setExportMenuAnchor] = useState<null | HTMLElement>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchFilters, setSearchFilters] = useState<Record<string, any>>({});
   const [filteredParfums, setFilteredParfums] = useState(parfums);
@@ -68,24 +80,208 @@ export default function ParfumsPage() {
   const handleOpen = (parfum: any = null) => {
     if (parfum) {
       setSelectedParfum(parfum);
-      setFormData({ nom: parfum.nom, marque: parfum.marque, description: parfum.description || '' });
+      setFormData({ 
+        nom: parfum.nom, 
+        marque: parfum.marque, 
+        description: parfum.description || '',
+        image: parfum.image || ''
+      });
+      setImagePreview(parfum.image ? `/images/parfums/${parfum.image}` : null);
     } else {
       setSelectedParfum(null);
-      setFormData({ nom: '', marque: '', description: '' });
+      setFormData({ nom: '', marque: '', description: '', image: '' });
+      setImagePreview(null);
     }
+    setSelectedImage(null);
     setOpen(true);
   };
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedImage(null);
+    setImagePreview(null);
+  };
+
+  const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setSelectedImage(null);
+    setImagePreview(null);
+    setFormData({ ...formData, image: '' });
+  };
+
+  const handleImport = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.csv';
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        try {
+          const text = await file.text();
+          const lines = text.split('\n');
+          const headers = lines[0].split(',').map(h => h.trim());
+          
+          // Expected format: nom,marque,description
+          if (!headers.includes('nom') || !headers.includes('marque')) {
+            alert('Format CSV invalide. Colonnes requises: nom, marque, description (optionnelle)');
+            return;
+          }
+
+          const importedCount = { success: 0, errors: 0 };
+          
+          for (let i = 1; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) continue;
+            
+            const values = line.split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+            const parfumData: any = {};
+            
+            headers.forEach((header, index) => {
+              if (values[index]) {
+                parfumData[header] = values[index];
+              }
+            });
+
+            try {
+              await window.api.parfums.create(parfumData);
+              importedCount.success++;
+            } catch (error) {
+              console.error('Error importing parfum:', error);
+              importedCount.errors++;
+            }
+          }
+          
+          fetchParfums();
+          alert(`${importedCount.success} parfums importés avec succès${importedCount.errors > 0 ? `, ${importedCount.errors} erreurs` : ''}`);
+        } catch (error) {
+          console.error('Import error:', error);
+          alert('Erreur lors de l\'importation');
+        }
+      }
+    };
+    input.click();
+  };
+
+  const handleExportCSV = () => {
+    try {
+      // Create CSV content
+      const headers = ['nom', 'marque', 'description', 'image'];
+      const csvContent = [
+        headers.join(','),
+        ...parfums.map(parfum => [
+          `"${parfum.nom}"`,
+          `"${parfum.marque}"`,
+          `"${parfum.description || ''}"`,
+          `"${parfum.image || ''}"`
+        ].join(','))
+      ].join('\n');
+
+      // Create and download file
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', `parfums_${new Date().toISOString().split('T')[0]}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Export error:', error);
+      alert('Erreur lors de l\'exportation');
+    }
+  };
+
+  const handleExportPDF = () => {
+    try {
+      const doc = new jsPDF();
+      
+      // Add title
+      doc.setFontSize(20);
+      doc.text('Catalogue des Parfums', 20, 20);
+      
+      // Add date
+      doc.setFontSize(12);
+      doc.text(`Généré le: ${new Date().toLocaleDateString('fr-FR')}`, 20, 35);
+      
+      // Prepare table data
+      const tableData = parfums.map(parfum => [
+        parfum.nom,
+        parfum.marque,
+        parfum.description || '',
+        parfum.image ? 'Oui' : 'Non'
+      ]);
+      
+      // Add table
+      (doc as any).autoTable({
+        head: [['Nom', 'Marque', 'Description', 'Image']],
+        body: tableData,
+        startY: 45,
+        styles: {
+          fontSize: 8,
+          cellPadding: 3,
+        },
+        headStyles: {
+          fillColor: [236, 72, 153], // Pink color matching theme
+          textColor: 255,
+          fontStyle: 'bold',
+        },
+        alternateRowStyles: {
+          fillColor: [248, 250, 252], // Light gray
+        },
+      });
+      
+      // Save the PDF
+      doc.save(`parfums_${new Date().toISOString().split('T')[0]}.pdf`);
+    } catch (error) {
+      console.error('PDF export error:', error);
+      alert('Erreur lors de l\'exportation PDF');
+    }
+  };
 
   const handleSubmit = async () => {
-    if (selectedParfum) {
-      await window.api.parfums.update(selectedParfum.id, formData);
-    } else {
-      await window.api.parfums.create(formData);
+    try {
+      let imagePath = formData.image;
+
+      // Handle image upload if a new image is selected
+      if (selectedImage) {
+        const formDataUpload = new FormData();
+        formDataUpload.append('image', selectedImage);
+        formDataUpload.append('type', 'parfum');
+
+        const uploadResponse = await window.api.uploadImage(formDataUpload);
+        if (uploadResponse.success) {
+          imagePath = uploadResponse.data.filename;
+        }
+      }
+
+      const parfumData = {
+        ...formData,
+        image: imagePath
+      };
+
+      if (selectedParfum) {
+        await window.api.parfums.update(selectedParfum.id, parfumData);
+      } else {
+        await window.api.parfums.create(parfumData);
+      }
+      fetchParfums();
+      handleClose();
+    } catch (error) {
+      console.error('Error saving parfum:', error);
+      // You could add toast notification here
     }
-    fetchParfums();
-    handleClose();
   };
 
   const handleDelete = async (id: number) => {
@@ -129,6 +325,26 @@ export default function ParfumsPage() {
               : 'linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(219, 39, 119, 0.1) 100%)',
           }}
         />
+      )
+    },
+    {
+      field: 'image',
+      headerName: 'Image',
+      width: 100,
+      renderCell: (params) => (
+        params.value ? (
+          <Avatar
+            src={`/images/parfums/${params.value}`}
+            alt="Parfum"
+            sx={{ width: 40, height: 40, border: '2px solid rgba(0,0,0,0.1)' }}
+          >
+            <ParfumIcon />
+          </Avatar>
+        ) : (
+          <Avatar sx={{ width: 40, height: 40, bgcolor: 'rgba(0,0,0,0.1)' }}>
+            <ParfumIcon />
+          </Avatar>
+        )
       )
     },
     { 
@@ -209,17 +425,52 @@ export default function ParfumsPage() {
               Gérez votre catalogue de parfums
             </Typography>
           </Box>
-          <Button 
-            variant="contained" 
-            startIcon={<AddIcon />} 
-            onClick={() => handleOpen()}
-            size="large"
-            data-tour="add-button"
-          >
-            Nouveau Parfum
-          </Button>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Button 
+              variant="outlined" 
+              startIcon={<UploadIcon />} 
+              onClick={handleImport}
+              size="large"
+            >
+              Importer CSV
+            </Button>
+            <Button 
+              variant="outlined" 
+              startIcon={<DownloadIcon />} 
+              onClick={(e) => setExportMenuAnchor(e.currentTarget)}
+              size="large"
+            >
+              Exporter
+            </Button>
+            <Button 
+              variant="contained" 
+              startIcon={<AddIcon />} 
+              onClick={() => handleOpen()}
+              size="large"
+              data-tour="add-button"
+            >
+              Nouveau Parfum
+            </Button>
+          </Box>
         </Box>
-
+          <Menu
+            anchorEl={exportMenuAnchor}
+            open={Boolean(exportMenuAnchor)}
+            onClose={() => setExportMenuAnchor(null)}
+          >
+            <MenuItem onClick={() => { handleExportCSV(); setExportMenuAnchor(null); }}>
+              <ListItemIcon>
+                <CsvIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Exporter en CSV</ListItemText>
+            </MenuItem>
+            <MenuItem onClick={() => { handleExportPDF(); setExportMenuAnchor(null); }}>
+              <ListItemIcon>
+                <PdfIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Exporter en PDF</ListItemText>
+            </MenuItem>
+          </Menu>
         <div data-tour="search-bar">
           <SearchBar
             onSearch={handleSearch}
@@ -268,6 +519,54 @@ export default function ParfumsPage() {
             {selectedParfum ? 'Modifier Parfum' : 'Nouveau Parfum'}
           </DialogTitle>
           <DialogContent sx={{ pt: 3 }}>
+            {/* Image Upload Section */}
+            <Box sx={{ mb: 3 }}>
+              <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 600 }}>
+                Image du Parfum
+              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <input
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  id="image-upload"
+                  type="file"
+                  onChange={handleImageSelect}
+                />
+                <label htmlFor="image-upload">
+                  <Button
+                    variant="outlined"
+                    component="span"
+                    startIcon={<PhotoIcon />}
+                    sx={{ borderRadius: 2 }}
+                  >
+                    Choisir une image
+                  </Button>
+                </label>
+                {imagePreview && (
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    startIcon={<RemoveIcon />}
+                    onClick={handleRemoveImage}
+                    sx={{ borderRadius: 2 }}
+                  >
+                    Supprimer
+                  </Button>
+                )}
+              </Box>
+              {imagePreview && (
+                <Card sx={{ mt: 2, maxWidth: 200 }}>
+                  <CardMedia
+                    component="img"
+                    height="150"
+                    image={imagePreview}
+                    alt="Aperçu de l'image"
+                    sx={{ objectFit: 'cover' }}
+                  />
+                </Card>
+              )}
+            </Box>
+
             <TextField
               fullWidth
               label="Nom"

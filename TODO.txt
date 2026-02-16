@@ -58,9 +58,9 @@
 
 💾 Gestion des Parfums
   [✓] CRUD de base (Create, Read, Update, Delete)
-  [ ] Ajouter la gestion des images de parfums
-  [ ] Implémenter l'import en masse depuis CSV
-  [ ] Ajouter l'export des données en Excel/CSV/PDF
+  [✓] Ajouter la gestion des images de parfums
+  [✓] Implémenter l'import en masse depuis CSV
+  [✓] Ajouter l'export des données en Excel/CSV/PDF
   [ ] Créer une vue détaillée pour chaque parfum
   [ ] Ajouter l'historique des modifications
   [ ] Implémenter la duplication de parfum
