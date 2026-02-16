@@ -79,7 +79,7 @@
   [✓] Traçabilité complète (qui, quand, combien)
   [✓] Gestion des lots/numéros de série
   [✓] Date de péremption pour chaque lot
-  [ ] Inventaire périodique avec scan
+  [✓] Inventaire périodique avec scan
   [✓] Réservation de stock
   [✓] Gestion des emplacements physiques
   [✓] Stock par entrepôt/magasin
@@ -92,7 +92,7 @@
   [ ] Prix différents par client/groupe
   [ ] Calcul de marge bénéficiaire
   [ ] Comparaison prix fournisseurs
-  [ ] Conversion devise (DZD, EUR, USD)
+  [ ] Conversion devise (DZD)
 
 📝 Gestion des Références
   [✓] CRUD de base

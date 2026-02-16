@@ -45,6 +45,7 @@ import DashboardPage from './pages/DashboardPage';
 import ParfumsPage from './pages/ParfumsPage';
 import ParfumDetailPage from './pages/ParfumDetailPage';
 import StockPage from './pages/StockPage';
+import InventoryPage from './pages/InventoryPage';
 import FournisseursPage from './pages/FournisseursPage';
 import ClientsPage from './pages/ClientsPage';
 import ReferencesPage from './pages/ReferencesPage';
@@ -84,6 +85,7 @@ export default function App() {
     { text: 'Fournisseurs', icon: <SupplierIcon />, path: '/fournisseurs', color: '#f59e0b' },
     { text: 'Clients', icon: <PeopleIcon />, path: '/clients', color: '#10b981' },
     { text: 'Stock', icon: <StockIcon />, path: '/stock', color: '#3b82f6' },
+    { text: 'Inventaire', icon: <InventoryIcon />, path: '/inventory', color: '#06b6d4' },
   ];
 
   const drawer = (
@@ -332,6 +334,7 @@ export default function App() {
               <Route path="/fournisseurs" element={<FournisseursPage />} />
               <Route path="/clients" element={<ClientsPage />} />
               <Route path="/stock" element={<StockPage />} />
+              <Route path="/inventory" element={<InventoryPage />} />
               <Route path="/" element={<DashboardPage />} />
             </Routes>
           </Box>

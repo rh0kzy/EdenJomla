@@ -116,4 +116,36 @@ export interface Warehouse {
   nom: string;
   adresse?: string | null;
   stocks?: Stock[];
+  inventories?: Inventory[];
+}
+
+export interface Inventory {
+  id: number;
+  nom: string;
+  description?: string | null;
+  warehouseId?: number | null;
+  warehouse?: Warehouse | null;
+  status: string;
+  startedAt?: string | null;
+  completedAt?: string | null;
+  user?: string | null;
+  notes?: string | null;
+  lines?: InventoryLine[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface InventoryLine {
+  id: number;
+  inventoryId: number;
+  inventory?: Inventory;
+  stockId: number;
+  stock?: Stock;
+  expectedQty: number;
+  countedQty?: number | null;
+  difference?: number | null;
+  notes?: string | null;
+  scannedAt?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
 }

@@ -65,6 +65,18 @@ export interface IElectronAPI {
     update: (id: number, data: { nom?: string; adresse?: string }) => Promise<ApiResponse<Warehouse>>;
     delete: (id: number) => Promise<ApiResponse<void>>;
   };
+  inventory: {
+    getAll: () => Promise<ApiResponse<Inventory[]>>;
+    getById: (id: number) => Promise<ApiResponse<Inventory>>;
+    create: (data: { nom: string; description?: string; warehouseId?: number; user?: string }) => Promise<ApiResponse<Inventory>>;
+    start: (id: number, user?: string) => Promise<ApiResponse<Inventory>>;
+    complete: (id: number, user?: string) => Promise<ApiResponse<Inventory>>;
+    cancel: (id: number, user?: string) => Promise<ApiResponse<Inventory>>;
+    updateLine: (inventoryId: number, stockId: number, countedQty: number, notes?: string, user?: string) => Promise<ApiResponse<InventoryLine>>;
+    getReport: (id: number) => Promise<ApiResponse<any>>;
+    delete: (id: number) => Promise<ApiResponse<void>>;
+    findByBarcode: (barcode: string) => Promise<ApiResponse<any>>;
+  };
   uploadImage: (formData: FormData) => Promise<ApiResponse<{ filename: string; path: string }>>;
 }
 

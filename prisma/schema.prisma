@@ -109,6 +109,7 @@ model Stock {
   warehouse         Warehouse?      @relation(fields: [warehouseId], references: [id])
   reference         ParfumReference @relation(fields: [parfumReferenceId], references: [id])
   movements         StockMovement[]
+  inventoryLines    InventoryLine[]
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
 }
@@ -125,8 +126,42 @@ model StockMovement {
 }
 
 model Warehouse {
-  id      Int     @id @default(autoincrement())
-  nom     String  @unique
-  adresse String?
-  stocks  Stock[]
+  id        Int         @id @default(autoincrement())
+  nom       String      @unique
+  adresse   String?
+  stocks    Stock[]
+  inventories Inventory[]
+}
+
+model Inventory {
+  id          Int             @id @default(autoincrement())
+  nom         String          // Nom de la session d'inventaire
+  description String?
+  warehouseId Int?
+  warehouse   Warehouse?      @relation(fields: [warehouseId], references: [id])
+  status      String          @default("DRAFT") // 'DRAFT', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED'
+  startedAt   DateTime?
+  completedAt DateTime?
+  user        String?         @default("system")
+  notes       String?
+  lines       InventoryLine[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model InventoryLine {
+  id            Int         @id @default(autoincrement())
+  inventoryId   Int
+  inventory     Inventory   @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  stockId       Int
+  stock         Stock       @relation(fields: [stockId], references: [id])
+  expectedQty   Float       // Quantité attendue selon le système
+  countedQty    Float?      // Quantité comptée
+  difference    Float?      // Différence (countedQty - expectedQty)
+  notes         String?
+  scannedAt     DateTime?   // Date de scan
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([inventoryId, stockId])
 }

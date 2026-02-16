@@ -5,6 +5,7 @@ import { ClientService } from '../services/ClientService';
 import { ParfumReferenceService } from '../services/ParfumReferenceService';
 import { StockService } from '../services/StockService';
 import { WarehouseService } from '../services/WarehouseService';
+import { InventoryService } from '../services/InventoryService';
 import { CategoryService } from '../services/CategoryService';
 import { TagService } from '../services/TagService';
 import * as fs from 'fs';
@@ -18,6 +19,7 @@ export function registerIpcHandlers() {
   const referenceService = new ParfumReferenceService();
   const stockService = new StockService();
   const warehouseService = new WarehouseService();
+  const inventoryService = new InventoryService();
   const categoryService = new CategoryService();
   const tagService = new TagService();
 
@@ -84,6 +86,19 @@ export function registerIpcHandlers() {
   ipcMain.handle('warehouse:create', (_, data) => warehouseService.create(data));
   ipcMain.handle('warehouse:update', (_, { id, data }) => warehouseService.update(id, data));
   ipcMain.handle('warehouse:delete', (_, id) => warehouseService.delete(id));
+
+  // Inventory Handlers
+  ipcMain.handle('inventory:getAll', () => inventoryService.getAll());
+  ipcMain.handle('inventory:getById', (_, id) => inventoryService.getById(id));
+  ipcMain.handle('inventory:create', (_, data) => inventoryService.create(data));
+  ipcMain.handle('inventory:start', (_, { id, user }) => inventoryService.startInventory(id, user));
+  ipcMain.handle('inventory:complete', (_, { id, user }) => inventoryService.completeInventory(id, user));
+  ipcMain.handle('inventory:cancel', (_, { id, user }) => inventoryService.cancelInventory(id, user));
+  ipcMain.handle('inventory:updateLine', (_, { inventoryId, stockId, countedQty, notes, user }) =>
+    inventoryService.updateLine(inventoryId, stockId, countedQty, notes, user));
+  ipcMain.handle('inventory:getReport', (_, id) => inventoryService.getInventoryReport(id));
+  ipcMain.handle('inventory:delete', (_, id) => inventoryService.delete(id));
+  ipcMain.handle('inventory:findByBarcode', (_, barcode) => inventoryService.findStockByBarcode(barcode));
 
   // Image Upload Handler
   ipcMain.handle('upload:image', async (_, formData) => {

@@ -20589,7 +20589,7 @@ function getSvgIconUtilityClass(slot) {
   return generateUtilityClass("MuiSvgIcon", slot);
 }
 generateUtilityClasses("MuiSvgIcon", ["root", "colorPrimary", "colorSecondary", "colorAction", "colorError", "colorDisabled", "fontSizeInherit", "fontSizeSmall", "fontSizeMedium", "fontSizeLarge"]);
-const useUtilityClasses$1Q = (ownerState) => {
+const useUtilityClasses$1V = (ownerState) => {
   const {
     color: color2,
     fontSize,
@@ -20728,7 +20728,7 @@ const SvgIcon$1 = /* @__PURE__ */ reactExports.forwardRef(function SvgIcon2(inPr
   if (!inheritViewBox) {
     more.viewBox = viewBox;
   }
-  const classes2 = useUtilityClasses$1Q(ownerState);
+  const classes2 = useUtilityClasses$1V(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(SvgIconRoot, {
     as: component,
     className: clsx$1(classes2.root, className),
@@ -21589,7 +21589,7 @@ function getCollapseUtilityClass(slot) {
   return generateUtilityClass("MuiCollapse", slot);
 }
 generateUtilityClasses("MuiCollapse", ["root", "horizontal", "vertical", "entered", "hidden", "wrapper", "wrapperInner"]);
-const useUtilityClasses$1P = (ownerState) => {
+const useUtilityClasses$1U = (ownerState) => {
   const {
     orientation,
     classes: classes2
@@ -21717,7 +21717,7 @@ const Collapse$1 = /* @__PURE__ */ reactExports.forwardRef(function Collapse2(in
     orientation,
     collapsedSize: collapsedSizeProp
   };
-  const classes2 = useUtilityClasses$1P(ownerState);
+  const classes2 = useUtilityClasses$1U(ownerState);
   const theme = useTheme();
   const timer = useTimeout();
   const wrapperRef = reactExports.useRef(null);
@@ -21900,7 +21900,7 @@ function getPaperUtilityClass(slot) {
   return generateUtilityClass("MuiPaper", slot);
 }
 generateUtilityClasses("MuiPaper", ["root", "rounded", "outlined", "elevation", "elevation0", "elevation1", "elevation2", "elevation3", "elevation4", "elevation5", "elevation6", "elevation7", "elevation8", "elevation9", "elevation10", "elevation11", "elevation12", "elevation13", "elevation14", "elevation15", "elevation16", "elevation17", "elevation18", "elevation19", "elevation20", "elevation21", "elevation22", "elevation23", "elevation24"]);
-const useUtilityClasses$1O = (ownerState) => {
+const useUtilityClasses$1T = (ownerState) => {
   const {
     square,
     elevation,
@@ -21972,7 +21972,7 @@ const Paper = /* @__PURE__ */ reactExports.forwardRef(function Paper2(inProps, r
     square,
     variant
   };
-  const classes2 = useUtilityClasses$1O(ownerState);
+  const classes2 = useUtilityClasses$1T(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(PaperRoot, {
     as: component,
     ownerState,
@@ -22381,7 +22381,7 @@ function getButtonBaseUtilityClass(slot) {
   return generateUtilityClass("MuiButtonBase", slot);
 }
 const buttonBaseClasses = generateUtilityClasses("MuiButtonBase", ["root", "disabled", "focusVisible"]);
-const useUtilityClasses$1N = (ownerState) => {
+const useUtilityClasses$1S = (ownerState) => {
   const {
     disabled,
     focusVisible,
@@ -22598,7 +22598,7 @@ const ButtonBase = /* @__PURE__ */ reactExports.forwardRef(function ButtonBase2(
     tabIndex,
     focusVisible
   };
-  const classes2 = useUtilityClasses$1N(ownerState);
+  const classes2 = useUtilityClasses$1S(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(ButtonBaseRoot, {
     as: ComponentProp,
     className: clsx$1(classes2.root, className),
@@ -22696,7 +22696,7 @@ const rotateAnimation = typeof circularRotateKeyframe !== "string" ? css`
 const dashAnimation = typeof circularDashKeyframe !== "string" ? css`
         animation: ${circularDashKeyframe} 1.4s ease-in-out infinite;
       ` : null;
-const useUtilityClasses$1M = (ownerState) => {
+const useUtilityClasses$1R = (ownerState) => {
   const {
     classes: classes2,
     variant,
@@ -22830,7 +22830,7 @@ const CircularProgress = /* @__PURE__ */ reactExports.forwardRef(function Circul
     variant,
     enableTrackSlot
   };
-  const classes2 = useUtilityClasses$1M(ownerState);
+  const classes2 = useUtilityClasses$1R(ownerState);
   const circleStyle = {};
   const rootStyle = {};
   const rootProps = {};
@@ -22884,7 +22884,7 @@ function getIconButtonUtilityClass(slot) {
   return generateUtilityClass("MuiIconButton", slot);
 }
 const iconButtonClasses = generateUtilityClasses("MuiIconButton", ["root", "disabled", "colorInherit", "colorPrimary", "colorSecondary", "colorError", "colorInfo", "colorSuccess", "colorWarning", "edgeStart", "edgeEnd", "sizeSmall", "sizeMedium", "sizeLarge", "loading", "loadingIndicator", "loadingWrapper"]);
-const useUtilityClasses$1L = (ownerState) => {
+const useUtilityClasses$1Q = (ownerState) => {
   const {
     classes: classes2,
     disabled,
@@ -23069,7 +23069,7 @@ const IconButton = /* @__PURE__ */ reactExports.forwardRef(function IconButton2(
     loadingIndicator,
     size
   };
-  const classes2 = useUtilityClasses$1L(ownerState);
+  const classes2 = useUtilityClasses$1Q(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(IconButtonRoot, {
     id: loading ? loadingId : idProp,
     className: clsx$1(classes2.root, className),
@@ -23108,7 +23108,7 @@ const InfoOutlinedIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("
 const ClearIcon$1 = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
 }));
-const useUtilityClasses$1K = (ownerState) => {
+const useUtilityClasses$1P = (ownerState) => {
   const {
     variant,
     color: color2,
@@ -23260,7 +23260,7 @@ const Alert = /* @__PURE__ */ reactExports.forwardRef(function Alert2(inProps, r
     variant,
     colorSeverity: color2 || severity
   };
-  const classes2 = useUtilityClasses$1K(ownerState);
+  const classes2 = useUtilityClasses$1P(ownerState);
   const externalForwardedProps = {
     slots: {
       closeButton: components.CloseButton,
@@ -23359,7 +23359,7 @@ const v6Colors$1 = {
   textDisabled: true
 };
 const extendSxProp = internal_createExtendSxProp();
-const useUtilityClasses$1J = (ownerState) => {
+const useUtilityClasses$1O = (ownerState) => {
   const {
     align,
     gutterBottom,
@@ -23499,7 +23499,7 @@ const Typography = /* @__PURE__ */ reactExports.forwardRef(function Typography2(
     variantMapping
   };
   const Component = component || (paragraph ? "p" : variantMapping[variant] || defaultVariantMapping[variant]) || "span";
-  const classes2 = useUtilityClasses$1J(ownerState);
+  const classes2 = useUtilityClasses$1O(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(TypographyRoot, {
     as: Component,
     ref,
@@ -23518,7 +23518,7 @@ function getAlertTitleUtilityClass(slot) {
   return generateUtilityClass("MuiAlertTitle", slot);
 }
 generateUtilityClasses("MuiAlertTitle", ["root"]);
-const useUtilityClasses$1I = (ownerState) => {
+const useUtilityClasses$1N = (ownerState) => {
   const {
     classes: classes2
   } = ownerState;
@@ -23548,7 +23548,7 @@ const AlertTitle = /* @__PURE__ */ reactExports.forwardRef(function AlertTitle2(
     ...other
   } = props;
   const ownerState = props;
-  const classes2 = useUtilityClasses$1I(ownerState);
+  const classes2 = useUtilityClasses$1N(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(AlertTitleRoot, {
     gutterBottom: true,
     component: "div",
@@ -23562,7 +23562,7 @@ function getAppBarUtilityClass(slot) {
   return generateUtilityClass("MuiAppBar", slot);
 }
 generateUtilityClasses("MuiAppBar", ["root", "positionFixed", "positionAbsolute", "positionSticky", "positionStatic", "positionRelative", "colorDefault", "colorPrimary", "colorSecondary", "colorInherit", "colorTransparent", "colorError", "colorInfo", "colorSuccess", "colorWarning"]);
-const useUtilityClasses$1H = (ownerState) => {
+const useUtilityClasses$1M = (ownerState) => {
   const {
     color: color2,
     position: position2,
@@ -23720,7 +23720,7 @@ const AppBar = /* @__PURE__ */ reactExports.forwardRef(function AppBar2(inProps,
     position: position2,
     enableColorOnDark
   };
-  const classes2 = useUtilityClasses$1H(ownerState);
+  const classes2 = useUtilityClasses$1M(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(AppBarRoot, {
     square: true,
     component: "header",
@@ -26121,7 +26121,7 @@ function resolveAnchorEl$1(anchorEl) {
 function isHTMLElement(element) {
   return element.nodeType !== void 0;
 }
-const useUtilityClasses$1G = (ownerState) => {
+const useUtilityClasses$1L = (ownerState) => {
   const {
     classes: classes2
   } = ownerState;
@@ -26222,7 +26222,7 @@ const PopperTooltip = /* @__PURE__ */ reactExports.forwardRef(function PopperToo
   if (TransitionProps !== null) {
     childProps.TransitionProps = TransitionProps;
   }
-  const classes2 = useUtilityClasses$1G(props);
+  const classes2 = useUtilityClasses$1L(props);
   const Root2 = slots.root ?? "div";
   const rootProps = useSlotProps({
     elementType: Root2,
@@ -26369,7 +26369,7 @@ function getListSubheaderUtilityClass(slot) {
   return generateUtilityClass("MuiListSubheader", slot);
 }
 generateUtilityClasses("MuiListSubheader", ["root", "colorPrimary", "colorInherit", "gutters", "inset", "sticky"]);
-const useUtilityClasses$1F = (ownerState) => {
+const useUtilityClasses$1K = (ownerState) => {
   const {
     classes: classes2,
     color: color2,
@@ -26464,7 +26464,7 @@ const ListSubheader = /* @__PURE__ */ reactExports.forwardRef(function ListSubhe
     disableSticky,
     inset
   };
-  const classes2 = useUtilityClasses$1F(ownerState);
+  const classes2 = useUtilityClasses$1K(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(ListSubheaderRoot, {
     as: component,
     className: clsx$1(classes2.root, className),
@@ -26476,14 +26476,14 @@ const ListSubheader = /* @__PURE__ */ reactExports.forwardRef(function ListSubhe
 if (ListSubheader) {
   ListSubheader.muiSkipListHighlight = true;
 }
-const CancelIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
+const CancelIcon$1 = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"
 }));
 function getChipUtilityClass(slot) {
   return generateUtilityClass("MuiChip", slot);
 }
 const chipClasses = generateUtilityClasses("MuiChip", ["root", "sizeSmall", "sizeMedium", "colorDefault", "colorError", "colorInfo", "colorPrimary", "colorSecondary", "colorSuccess", "colorWarning", "disabled", "clickable", "clickableColorPrimary", "clickableColorSecondary", "deletable", "deletableColorPrimary", "deletableColorSecondary", "outlined", "filled", "outlinedPrimary", "outlinedSecondary", "filledPrimary", "filledSecondary", "avatar", "avatarSmall", "avatarMedium", "avatarColorPrimary", "avatarColorSecondary", "icon", "iconSmall", "iconMedium", "iconColorPrimary", "iconColorSecondary", "label", "labelSmall", "labelMedium", "deleteIcon", "deleteIconSmall", "deleteIconMedium", "deleteIconColorPrimary", "deleteIconColorSecondary", "deleteIconOutlinedColorPrimary", "deleteIconOutlinedColorSecondary", "deleteIconFilledColorPrimary", "deleteIconFilledColorSecondary", "focusVisible"]);
-const useUtilityClasses$1E = (ownerState) => {
+const useUtilityClasses$1J = (ownerState) => {
   const {
     classes: classes2,
     disabled,
@@ -26877,7 +26877,7 @@ const Chip = /* @__PURE__ */ reactExports.forwardRef(function Chip2(inProps, ref
     clickable,
     variant
   };
-  const classes2 = useUtilityClasses$1E(ownerState);
+  const classes2 = useUtilityClasses$1J(ownerState);
   const moreProps = component === ButtonBase ? {
     component: ComponentProp || "div",
     focusVisibleClassName: classes2.focusVisible,
@@ -26890,7 +26890,7 @@ const Chip = /* @__PURE__ */ reactExports.forwardRef(function Chip2(inProps, ref
     deleteIcon = deleteIconProp && /* @__PURE__ */ reactExports.isValidElement(deleteIconProp) ? /* @__PURE__ */ reactExports.cloneElement(deleteIconProp, {
       className: clsx$1(deleteIconProp.props.className, classes2.deleteIcon),
       onClick: handleDeleteIconClick
-    }) : /* @__PURE__ */ jsxRuntimeExports.jsx(CancelIcon, {
+    }) : /* @__PURE__ */ jsxRuntimeExports.jsx(CancelIcon$1, {
       className: classes2.deleteIcon,
       onClick: handleDeleteIconClick
     });
@@ -27181,7 +27181,7 @@ const inputOverridesResolver = (props, styles2) => {
   } = props;
   return [styles2.input, ownerState.size === "small" && styles2.inputSizeSmall, ownerState.multiline && styles2.inputMultiline, ownerState.type === "search" && styles2.inputTypeSearch, ownerState.startAdornment && styles2.inputAdornedStart, ownerState.endAdornment && styles2.inputAdornedEnd, ownerState.hiddenLabel && styles2.inputHiddenLabel];
 };
-const useUtilityClasses$1D = (ownerState) => {
+const useUtilityClasses$1I = (ownerState) => {
   const {
     classes: classes2,
     color: color2,
@@ -27567,7 +27567,7 @@ const InputBase = /* @__PURE__ */ reactExports.forwardRef(function InputBase2(in
     startAdornment,
     type
   };
-  const classes2 = useUtilityClasses$1D(ownerState);
+  const classes2 = useUtilityClasses$1I(ownerState);
   const Root2 = slots.root || components.Root || InputBaseRoot;
   const rootProps = slotProps.root || componentsProps.root || {};
   const Input3 = slots.input || components.Input || InputBaseInput;
@@ -27660,7 +27660,7 @@ function getAutocompleteUtilityClass(slot) {
 }
 const autocompleteClasses = generateUtilityClasses("MuiAutocomplete", ["root", "expanded", "fullWidth", "focused", "focusVisible", "tag", "tagSizeSmall", "tagSizeMedium", "hasPopupIcon", "hasClearIcon", "inputRoot", "input", "inputFocused", "endAdornment", "clearIndicator", "popupIndicator", "popupIndicatorOpen", "popper", "popperDisablePortal", "paper", "listbox", "loading", "noOptions", "option", "groupLabel", "groupUl"]);
 var _ClearIcon, _ArrowDropDownIcon;
-const useUtilityClasses$1C = (ownerState) => {
+const useUtilityClasses$1H = (ownerState) => {
   const {
     classes: classes2,
     disablePortal,
@@ -28149,7 +28149,7 @@ const Autocomplete = /* @__PURE__ */ reactExports.forwardRef(function Autocomple
     popupOpen,
     size
   };
-  const classes2 = useUtilityClasses$1C(ownerState);
+  const classes2 = useUtilityClasses$1H(ownerState);
   const externalForwardedProps = {
     slots: {
       paper: PaperComponentProp,
@@ -28370,7 +28370,7 @@ function getAvatarUtilityClass(slot) {
   return generateUtilityClass("MuiAvatar", slot);
 }
 generateUtilityClasses("MuiAvatar", ["root", "colorDefault", "circular", "rounded", "square", "img", "fallback"]);
-const useUtilityClasses$1B = (ownerState) => {
+const useUtilityClasses$1G = (ownerState) => {
   const {
     classes: classes2,
     variant,
@@ -28533,7 +28533,7 @@ const Avatar = /* @__PURE__ */ reactExports.forwardRef(function Avatar2(inProps,
   const hasImgNotFailing = hasImg && loaded !== "error";
   ownerState.colorDefault = !hasImgNotFailing;
   delete ownerState.ownerState;
-  const classes2 = useUtilityClasses$1B(ownerState);
+  const classes2 = useUtilityClasses$1G(ownerState);
   const [RootSlot, rootSlotProps] = useSlot("root", {
     ref,
     className: clsx$1(classes2.root, className),
@@ -28711,7 +28711,7 @@ function getBackdropUtilityClass(slot) {
   return generateUtilityClass("MuiBackdrop", slot);
 }
 generateUtilityClasses("MuiBackdrop", ["root", "invisible"]);
-const useUtilityClasses$1A = (ownerState) => {
+const useUtilityClasses$1F = (ownerState) => {
   const {
     classes: classes2,
     invisible
@@ -28774,7 +28774,7 @@ const Backdrop = /* @__PURE__ */ reactExports.forwardRef(function Backdrop2(inPr
     component,
     invisible
   };
-  const classes2 = useUtilityClasses$1A(ownerState);
+  const classes2 = useUtilityClasses$1F(ownerState);
   const backwardCompatibleSlots = {
     transition: TransitionComponentProp,
     root: components.Root,
@@ -28873,7 +28873,7 @@ const badgeClasses = generateUtilityClasses("MuiBadge", [
 ]);
 const RADIUS_STANDARD = 10;
 const RADIUS_DOT = 4;
-const useUtilityClasses$1z = (ownerState) => {
+const useUtilityClasses$1E = (ownerState) => {
   const {
     color: color2,
     anchorOrigin,
@@ -29135,7 +29135,7 @@ const Badge = /* @__PURE__ */ reactExports.forwardRef(function Badge2(inProps, r
     overlap,
     variant
   };
-  const classes2 = useUtilityClasses$1z(ownerState);
+  const classes2 = useUtilityClasses$1E(ownerState);
   const externalForwardedProps = {
     slots: {
       root: slots?.root ?? components.Root,
@@ -29244,7 +29244,7 @@ function getBreadcrumbsUtilityClass(slot) {
   return generateUtilityClass("MuiBreadcrumbs", slot);
 }
 const breadcrumbsClasses = generateUtilityClasses("MuiBreadcrumbs", ["root", "ol", "li", "separator"]);
-const useUtilityClasses$1y = (ownerState) => {
+const useUtilityClasses$1D = (ownerState) => {
   const {
     classes: classes2
   } = ownerState;
@@ -29329,7 +29329,7 @@ const Breadcrumbs = /* @__PURE__ */ reactExports.forwardRef(function Breadcrumbs
     maxItems,
     separator
   };
-  const classes2 = useUtilityClasses$1y(ownerState);
+  const classes2 = useUtilityClasses$1D(ownerState);
   const collapsedIconSlotProps = useSlotProps({
     elementType: slots.CollapsedIcon,
     externalSlotProps: slotProps.collapsedIcon,
@@ -29385,7 +29385,7 @@ function getButtonUtilityClass(slot) {
 const buttonClasses = generateUtilityClasses("MuiButton", ["root", "text", "textInherit", "textPrimary", "textSecondary", "textSuccess", "textError", "textInfo", "textWarning", "outlined", "outlinedInherit", "outlinedPrimary", "outlinedSecondary", "outlinedSuccess", "outlinedError", "outlinedInfo", "outlinedWarning", "contained", "containedInherit", "containedPrimary", "containedSecondary", "containedSuccess", "containedError", "containedInfo", "containedWarning", "disableElevation", "focusVisible", "disabled", "colorInherit", "colorPrimary", "colorSecondary", "colorSuccess", "colorError", "colorInfo", "colorWarning", "textSizeSmall", "textSizeMedium", "textSizeLarge", "outlinedSizeSmall", "outlinedSizeMedium", "outlinedSizeLarge", "containedSizeSmall", "containedSizeMedium", "containedSizeLarge", "sizeMedium", "sizeSmall", "sizeLarge", "fullWidth", "startIcon", "endIcon", "icon", "iconSizeSmall", "iconSizeMedium", "iconSizeLarge", "loading", "loadingWrapper", "loadingIconPlaceholder", "loadingIndicator", "loadingPositionCenter", "loadingPositionStart", "loadingPositionEnd"]);
 const ButtonGroupContext = /* @__PURE__ */ reactExports.createContext({});
 const ButtonGroupButtonContext = /* @__PURE__ */ reactExports.createContext(void 0);
-const useUtilityClasses$1x = (ownerState) => {
+const useUtilityClasses$1C = (ownerState) => {
   const {
     color: color2,
     disableElevation,
@@ -29885,7 +29885,7 @@ const Button = /* @__PURE__ */ reactExports.forwardRef(function Button2(inProps,
     type,
     variant
   };
-  const classes2 = useUtilityClasses$1x(ownerState);
+  const classes2 = useUtilityClasses$1C(ownerState);
   const startIcon = (startIconProp || loading && loadingPosition === "start") && /* @__PURE__ */ jsxRuntimeExports.jsx(ButtonStartIcon, {
     className: classes2.startIcon,
     ownerState,
@@ -29936,7 +29936,7 @@ function getCardUtilityClass(slot) {
   return generateUtilityClass("MuiCard", slot);
 }
 generateUtilityClasses("MuiCard", ["root"]);
-const useUtilityClasses$1w = (ownerState) => {
+const useUtilityClasses$1B = (ownerState) => {
   const {
     classes: classes2
   } = ownerState;
@@ -29965,7 +29965,7 @@ const Card = /* @__PURE__ */ reactExports.forwardRef(function Card2(inProps, ref
     ...props,
     raised
   };
-  const classes2 = useUtilityClasses$1w(ownerState);
+  const classes2 = useUtilityClasses$1B(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(CardRoot, {
     className: clsx$1(classes2.root, className),
     elevation: raised ? 8 : void 0,
@@ -29978,7 +29978,7 @@ function getCardContentUtilityClass(slot) {
   return generateUtilityClass("MuiCardContent", slot);
 }
 generateUtilityClasses("MuiCardContent", ["root"]);
-const useUtilityClasses$1v = (ownerState) => {
+const useUtilityClasses$1A = (ownerState) => {
   const {
     classes: classes2
   } = ownerState;
@@ -30010,7 +30010,7 @@ const CardContent = /* @__PURE__ */ reactExports.forwardRef(function CardContent
     ...props,
     component
   };
-  const classes2 = useUtilityClasses$1v(ownerState);
+  const classes2 = useUtilityClasses$1A(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(CardContentRoot, {
     as: component,
     className: clsx$1(classes2.root, className),
@@ -30023,7 +30023,7 @@ function getCardMediaUtilityClass(slot) {
   return generateUtilityClass("MuiCardMedia", slot);
 }
 generateUtilityClasses("MuiCardMedia", ["root", "media", "img"]);
-const useUtilityClasses$1u = (ownerState) => {
+const useUtilityClasses$1z = (ownerState) => {
   const {
     classes: classes2,
     isMediaComponent,
@@ -30095,7 +30095,7 @@ const CardMedia = /* @__PURE__ */ reactExports.forwardRef(function CardMedia2(in
     isMediaComponent,
     isImageComponent: IMAGE_COMPONENTS.includes(component)
   };
-  const classes2 = useUtilityClasses$1u(ownerState);
+  const classes2 = useUtilityClasses$1z(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(CardMediaRoot, {
     className: clsx$1(classes2.root, className),
     as: component,
@@ -30112,7 +30112,7 @@ function getSwitchBaseUtilityClass(slot) {
   return generateUtilityClass("PrivateSwitchBase", slot);
 }
 generateUtilityClasses("PrivateSwitchBase", ["root", "checked", "disabled", "input", "edgeStart", "edgeEnd"]);
-const useUtilityClasses$1t = (ownerState) => {
+const useUtilityClasses$1y = (ownerState) => {
   const {
     classes: classes2,
     checked,
@@ -30252,7 +30252,7 @@ const SwitchBase = /* @__PURE__ */ reactExports.forwardRef(function SwitchBase2(
     disableFocusRipple,
     edge
   };
-  const classes2 = useUtilityClasses$1t(ownerState);
+  const classes2 = useUtilityClasses$1y(ownerState);
   const externalForwardedProps = {
     slots,
     slotProps: {
@@ -30339,7 +30339,7 @@ function getCheckboxUtilityClass(slot) {
   return generateUtilityClass("MuiCheckbox", slot);
 }
 const checkboxClasses = generateUtilityClasses("MuiCheckbox", ["root", "checked", "disabled", "indeterminate", "colorPrimary", "colorSecondary", "sizeSmall", "sizeMedium"]);
-const useUtilityClasses$1s = (ownerState) => {
+const useUtilityClasses$1x = (ownerState) => {
   const {
     classes: classes2,
     indeterminate,
@@ -30448,7 +30448,7 @@ const Checkbox$1 = /* @__PURE__ */ reactExports.forwardRef(function Checkbox2(in
     indeterminate,
     size
   };
-  const classes2 = useUtilityClasses$1s(ownerState);
+  const classes2 = useUtilityClasses$1x(ownerState);
   const externalInputProps = slotProps.input ?? inputProps;
   const [RootSlot, rootSlotProps] = useSlot("root", {
     ref,
@@ -31277,7 +31277,7 @@ function getModalUtilityClass(slot) {
   return generateUtilityClass("MuiModal", slot);
 }
 generateUtilityClasses("MuiModal", ["root", "hidden", "backdrop"]);
-const useUtilityClasses$1r = (ownerState) => {
+const useUtilityClasses$1w = (ownerState) => {
   const {
     open: open2,
     exited,
@@ -31384,7 +31384,7 @@ const Modal = /* @__PURE__ */ reactExports.forwardRef(function Modal2(inProps, r
     ...propsWithDefaults,
     exited
   };
-  const classes2 = useUtilityClasses$1r(ownerState);
+  const classes2 = useUtilityClasses$1w(ownerState);
   const childProps = {};
   if (children.props.tabIndex === void 0) {
     childProps.tabIndex = "-1";
@@ -31473,7 +31473,7 @@ const DialogBackdrop = styled(Backdrop, {
   // Improve scrollable dialog support.
   zIndex: -1
 });
-const useUtilityClasses$1q = (ownerState) => {
+const useUtilityClasses$1v = (ownerState) => {
   const {
     classes: classes2,
     scroll,
@@ -31677,7 +31677,7 @@ const Dialog = /* @__PURE__ */ reactExports.forwardRef(function Dialog2(inProps,
     maxWidth: maxWidth2,
     scroll
   };
-  const classes2 = useUtilityClasses$1q(ownerState);
+  const classes2 = useUtilityClasses$1v(ownerState);
   const backdropClick = reactExports.useRef();
   const handleMouseDown = (event) => {
     backdropClick.current = event.target === event.currentTarget;
@@ -31797,7 +31797,7 @@ function getDialogActionsUtilityClass(slot) {
   return generateUtilityClass("MuiDialogActions", slot);
 }
 generateUtilityClasses("MuiDialogActions", ["root", "spacing"]);
-const useUtilityClasses$1p = (ownerState) => {
+const useUtilityClasses$1u = (ownerState) => {
   const {
     classes: classes2,
     disableSpacing
@@ -31847,7 +31847,7 @@ const DialogActions = /* @__PURE__ */ reactExports.forwardRef(function DialogAct
     ...props,
     disableSpacing
   };
-  const classes2 = useUtilityClasses$1p(ownerState);
+  const classes2 = useUtilityClasses$1u(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(DialogActionsRoot, {
     className: clsx$1(classes2.root, className),
     ownerState,
@@ -31863,7 +31863,7 @@ function getDialogTitleUtilityClass(slot) {
   return generateUtilityClass("MuiDialogTitle", slot);
 }
 const dialogTitleClasses = generateUtilityClasses("MuiDialogTitle", ["root"]);
-const useUtilityClasses$1o = (ownerState) => {
+const useUtilityClasses$1t = (ownerState) => {
   const {
     classes: classes2,
     dividers
@@ -31924,7 +31924,7 @@ const DialogContent = /* @__PURE__ */ reactExports.forwardRef(function DialogCon
     ...props,
     dividers
   };
-  const classes2 = useUtilityClasses$1o(ownerState);
+  const classes2 = useUtilityClasses$1t(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(DialogContentRoot, {
     className: clsx$1(classes2.root, className),
     ownerState,
@@ -31932,7 +31932,7 @@ const DialogContent = /* @__PURE__ */ reactExports.forwardRef(function DialogCon
     ...other
   });
 });
-const useUtilityClasses$1n = (ownerState) => {
+const useUtilityClasses$1s = (ownerState) => {
   const {
     classes: classes2
   } = ownerState;
@@ -31959,7 +31959,7 @@ const DialogTitle = /* @__PURE__ */ reactExports.forwardRef(function DialogTitle
     ...other
   } = props;
   const ownerState = props;
-  const classes2 = useUtilityClasses$1n(ownerState);
+  const classes2 = useUtilityClasses$1s(ownerState);
   const {
     titleId = idProp
   } = reactExports.useContext(DialogContext);
@@ -31977,7 +31977,7 @@ function getDividerUtilityClass(slot) {
   return generateUtilityClass("MuiDivider", slot);
 }
 const dividerClasses = generateUtilityClasses("MuiDivider", ["root", "absolute", "fullWidth", "inset", "middle", "flexItem", "light", "vertical", "withChildren", "withChildrenVertical", "textAlignRight", "textAlignLeft", "wrapper", "wrapperVertical"]);
-const useUtilityClasses$1m = (ownerState) => {
+const useUtilityClasses$1r = (ownerState) => {
   const {
     absolute,
     children,
@@ -32191,7 +32191,7 @@ const Divider$1 = /* @__PURE__ */ reactExports.forwardRef(function Divider2(inPr
     textAlign,
     variant
   };
-  const classes2 = useUtilityClasses$1m(ownerState);
+  const classes2 = useUtilityClasses$1r(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(DividerRoot, {
     as: component,
     className: clsx$1(classes2.root, className),
@@ -32424,7 +32424,7 @@ const overridesResolver$4 = (props, styles2) => {
   } = props;
   return [styles2.root, (ownerState.variant === "permanent" || ownerState.variant === "persistent") && styles2.docked, styles2.modal];
 };
-const useUtilityClasses$1l = (ownerState) => {
+const useUtilityClasses$1q = (ownerState) => {
   const {
     classes: classes2,
     anchor,
@@ -32614,7 +32614,7 @@ const Drawer = /* @__PURE__ */ reactExports.forwardRef(function Drawer2(inProps,
     variant,
     ...other
   };
-  const classes2 = useUtilityClasses$1l(ownerState);
+  const classes2 = useUtilityClasses$1q(ownerState);
   const externalForwardedProps = {
     slots: {
       transition: TransitionComponent,
@@ -32715,7 +32715,7 @@ const Drawer = /* @__PURE__ */ reactExports.forwardRef(function Drawer2(inProps,
     children: slidingDrawer
   });
 });
-const useUtilityClasses$1k = (ownerState) => {
+const useUtilityClasses$1p = (ownerState) => {
   const {
     classes: classes2,
     disableUnderline,
@@ -32994,7 +32994,7 @@ const FilledInput = /* @__PURE__ */ reactExports.forwardRef(function FilledInput
     multiline,
     type
   };
-  const classes2 = useUtilityClasses$1k(props);
+  const classes2 = useUtilityClasses$1p(props);
   const filledInputComponentsProps = {
     root: {
       ownerState
@@ -33026,7 +33026,7 @@ function getFormControlUtilityClasses(slot) {
   return generateUtilityClass("MuiFormControl", slot);
 }
 generateUtilityClasses("MuiFormControl", ["root", "marginNone", "marginNormal", "marginDense", "fullWidth", "disabled"]);
-const useUtilityClasses$1j = (ownerState) => {
+const useUtilityClasses$1o = (ownerState) => {
   const {
     classes: classes2,
     margin: margin2,
@@ -33116,7 +33116,7 @@ const FormControl = /* @__PURE__ */ reactExports.forwardRef(function FormControl
     size,
     variant
   };
-  const classes2 = useUtilityClasses$1j(ownerState);
+  const classes2 = useUtilityClasses$1o(ownerState);
   const [adornedStart, setAdornedStart] = reactExports.useState(() => {
     let initialAdornedStart = false;
     if (children) {
@@ -33200,7 +33200,7 @@ function getFormControlLabelUtilityClasses(slot) {
   return generateUtilityClass("MuiFormControlLabel", slot);
 }
 const formControlLabelClasses = generateUtilityClasses("MuiFormControlLabel", ["root", "labelPlacementStart", "labelPlacementTop", "labelPlacementBottom", "disabled", "label", "error", "required", "asterisk"]);
-const useUtilityClasses$1i = (ownerState) => {
+const useUtilityClasses$1n = (ownerState) => {
   const {
     classes: classes2,
     disabled,
@@ -33335,7 +33335,7 @@ const FormControlLabel$1 = /* @__PURE__ */ reactExports.forwardRef(function Form
     required,
     error: fcs.error
   };
-  const classes2 = useUtilityClasses$1i(ownerState);
+  const classes2 = useUtilityClasses$1n(ownerState);
   const externalForwardedProps = {
     slots,
     slotProps: {
@@ -33377,7 +33377,7 @@ function getFormHelperTextUtilityClasses(slot) {
 }
 const formHelperTextClasses = generateUtilityClasses("MuiFormHelperText", ["root", "error", "disabled", "sizeSmall", "sizeMedium", "contained", "focused", "filled", "required"]);
 var _span$3;
-const useUtilityClasses$1h = (ownerState) => {
+const useUtilityClasses$1m = (ownerState) => {
   const {
     classes: classes2,
     contained,
@@ -33472,7 +33472,7 @@ const FormHelperText = /* @__PURE__ */ reactExports.forwardRef(function FormHelp
     required: fcs.required
   };
   delete ownerState.ownerState;
-  const classes2 = useUtilityClasses$1h(ownerState);
+  const classes2 = useUtilityClasses$1m(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(FormHelperTextRoot, {
     as: component,
     className: clsx$1(classes2.root, className),
@@ -33493,7 +33493,7 @@ function getFormLabelUtilityClasses(slot) {
   return generateUtilityClass("MuiFormLabel", slot);
 }
 const formLabelClasses = generateUtilityClasses("MuiFormLabel", ["root", "colorSecondary", "focused", "disabled", "error", "filled", "required", "asterisk"]);
-const useUtilityClasses$1g = (ownerState) => {
+const useUtilityClasses$1l = (ownerState) => {
   const {
     classes: classes2,
     color: color2,
@@ -33590,7 +33590,7 @@ const FormLabel = /* @__PURE__ */ reactExports.forwardRef(function FormLabel2(in
     focused: fcs.focused,
     required: fcs.required
   };
-  const classes2 = useUtilityClasses$1g(ownerState);
+  const classes2 = useUtilityClasses$1l(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(FormLabelRoot, {
     as: component,
     ownerState,
@@ -33783,7 +33783,7 @@ const Grow = /* @__PURE__ */ reactExports.forwardRef(function Grow2(props, ref) 
 if (Grow) {
   Grow.muiSupportAuto = true;
 }
-const useUtilityClasses$1f = (ownerState) => {
+const useUtilityClasses$1k = (ownerState) => {
   const {
     classes: classes2,
     disableUnderline
@@ -33916,7 +33916,7 @@ const Input = /* @__PURE__ */ reactExports.forwardRef(function Input2(inProps, r
     type = "text",
     ...other
   } = props;
-  const classes2 = useUtilityClasses$1f(props);
+  const classes2 = useUtilityClasses$1k(props);
   const ownerState = {
     disableUnderline
   };
@@ -33955,7 +33955,7 @@ const overridesResolver$3 = (props, styles2) => {
   } = props;
   return [styles2.root, styles2[`position${capitalize(ownerState.position)}`], ownerState.disablePointerEvents === true && styles2.disablePointerEvents, styles2[ownerState.variant]];
 };
-const useUtilityClasses$1e = (ownerState) => {
+const useUtilityClasses$1j = (ownerState) => {
   const {
     classes: classes2,
     disablePointerEvents,
@@ -34042,7 +34042,7 @@ const InputAdornment$1 = /* @__PURE__ */ reactExports.forwardRef(function InputA
     position: position2,
     variant
   };
-  const classes2 = useUtilityClasses$1e(ownerState);
+  const classes2 = useUtilityClasses$1j(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(FormControlContext.Provider, {
     value: null,
     children: /* @__PURE__ */ jsxRuntimeExports.jsx(InputAdornmentRoot, {
@@ -34071,7 +34071,7 @@ function getInputLabelUtilityClasses(slot) {
   return generateUtilityClass("MuiInputLabel", slot);
 }
 generateUtilityClasses("MuiInputLabel", ["root", "focused", "disabled", "error", "required", "asterisk", "formControl", "sizeSmall", "shrink", "animated", "standard", "filled", "outlined"]);
-const useUtilityClasses$1d = (ownerState) => {
+const useUtilityClasses$1i = (ownerState) => {
   const {
     classes: classes2,
     formControl,
@@ -34260,7 +34260,7 @@ const InputLabel = /* @__PURE__ */ reactExports.forwardRef(function InputLabel2(
     required: fcs.required,
     focused: fcs.focused
   };
-  const classes2 = useUtilityClasses$1d(ownerState);
+  const classes2 = useUtilityClasses$1i(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(InputLabelRoot, {
     "data-shrink": shrink,
     ref,
@@ -34332,7 +34332,7 @@ const bufferKeyframe = keyframes`
 const bufferAnimation = typeof bufferKeyframe !== "string" ? css`
         animation: ${bufferKeyframe} 3s infinite linear;
       ` : null;
-const useUtilityClasses$1c = (ownerState) => {
+const useUtilityClasses$1h = (ownerState) => {
   const {
     classes: classes2,
     variant,
@@ -34607,7 +34607,7 @@ const LinearProgress = /* @__PURE__ */ reactExports.forwardRef(function LinearPr
     color: color2,
     variant
   };
-  const classes2 = useUtilityClasses$1c(ownerState);
+  const classes2 = useUtilityClasses$1h(ownerState);
   const isRtl = useRtl();
   const rootProps = {};
   const inlineStyles = {
@@ -34687,7 +34687,7 @@ const v6Colors = {
   textSecondary: true,
   textDisabled: true
 };
-const useUtilityClasses$1b = (ownerState) => {
+const useUtilityClasses$1g = (ownerState) => {
   const {
     classes: classes2,
     component,
@@ -34865,7 +34865,7 @@ const Link = /* @__PURE__ */ reactExports.forwardRef(function Link2(inProps, ref
     underline,
     variant
   };
-  const classes2 = useUtilityClasses$1b(ownerState);
+  const classes2 = useUtilityClasses$1g(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(LinkRoot, {
     color: color2,
     className: clsx$1(classes2.root, className),
@@ -34896,7 +34896,7 @@ function getListUtilityClass(slot) {
   return generateUtilityClass("MuiList", slot);
 }
 generateUtilityClasses("MuiList", ["root", "padding", "dense", "subheader"]);
-const useUtilityClasses$1a = (ownerState) => {
+const useUtilityClasses$1f = (ownerState) => {
   const {
     classes: classes2,
     disablePadding,
@@ -34962,7 +34962,7 @@ const List$1 = /* @__PURE__ */ reactExports.forwardRef(function List2(inProps, r
     dense,
     disablePadding
   };
-  const classes2 = useUtilityClasses$1a(ownerState);
+  const classes2 = useUtilityClasses$1f(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(ListContext.Provider, {
     value: context,
     children: /* @__PURE__ */ jsxRuntimeExports.jsxs(ListRoot, {
@@ -34989,7 +34989,7 @@ const overridesResolver$2 = (props, styles2) => {
   } = props;
   return [styles2.root, ownerState.dense && styles2.dense, ownerState.alignItems === "flex-start" && styles2.alignItemsFlexStart, ownerState.divider && styles2.divider, !ownerState.disableGutters && styles2.gutters];
 };
-const useUtilityClasses$19 = (ownerState) => {
+const useUtilityClasses$1e = (ownerState) => {
   const {
     alignItems,
     classes: classes2,
@@ -35130,7 +35130,7 @@ const ListItemButton = /* @__PURE__ */ reactExports.forwardRef(function ListItem
     divider,
     selected
   };
-  const classes2 = useUtilityClasses$19(ownerState);
+  const classes2 = useUtilityClasses$1e(ownerState);
   const handleRef = useForkRef$1(listItemRef, ref);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(ListContext.Provider, {
     value: childContext,
@@ -35151,7 +35151,7 @@ function getListItemSecondaryActionClassesUtilityClass(slot) {
   return generateUtilityClass("MuiListItemSecondaryAction", slot);
 }
 generateUtilityClasses("MuiListItemSecondaryAction", ["root", "disableGutters"]);
-const useUtilityClasses$18 = (ownerState) => {
+const useUtilityClasses$1d = (ownerState) => {
   const {
     disableGutters,
     classes: classes2
@@ -35198,7 +35198,7 @@ const ListItemSecondaryAction = /* @__PURE__ */ reactExports.forwardRef(function
     ...props,
     disableGutters: context.disableGutters
   };
-  const classes2 = useUtilityClasses$18(ownerState);
+  const classes2 = useUtilityClasses$1d(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemSecondaryActionRoot, {
     className: clsx$1(classes2.root, className),
     ownerState,
@@ -35213,7 +35213,7 @@ const overridesResolver$1 = (props, styles2) => {
   } = props;
   return [styles2.root, ownerState.dense && styles2.dense, ownerState.alignItems === "flex-start" && styles2.alignItemsFlexStart, ownerState.divider && styles2.divider, !ownerState.disableGutters && styles2.gutters, !ownerState.disablePadding && styles2.padding, ownerState.hasSecondaryAction && styles2.secondaryAction];
 };
-const useUtilityClasses$17 = (ownerState) => {
+const useUtilityClasses$1c = (ownerState) => {
   const {
     alignItems,
     classes: classes2,
@@ -35380,7 +35380,7 @@ const ListItem = /* @__PURE__ */ reactExports.forwardRef(function ListItem2(inPr
     divider,
     hasSecondaryAction
   };
-  const classes2 = useUtilityClasses$17(ownerState);
+  const classes2 = useUtilityClasses$1c(ownerState);
   const handleRef = useForkRef$1(listItemRef, ref);
   const externalForwardedProps = {
     slots,
@@ -35455,7 +35455,7 @@ function getListItemIconUtilityClass(slot) {
   return generateUtilityClass("MuiListItemIcon", slot);
 }
 const listItemIconClasses = generateUtilityClasses("MuiListItemIcon", ["root", "alignItemsFlexStart"]);
-const useUtilityClasses$16 = (ownerState) => {
+const useUtilityClasses$1b = (ownerState) => {
   const {
     alignItems,
     classes: classes2
@@ -35504,7 +35504,7 @@ const ListItemIcon = /* @__PURE__ */ reactExports.forwardRef(function ListItemIc
     ...props,
     alignItems: context.alignItems
   };
-  const classes2 = useUtilityClasses$16(ownerState);
+  const classes2 = useUtilityClasses$1b(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemIconRoot, {
     className: clsx$1(classes2.root, className),
     ownerState,
@@ -35516,7 +35516,7 @@ function getListItemTextUtilityClass(slot) {
   return generateUtilityClass("MuiListItemText", slot);
 }
 const listItemTextClasses = generateUtilityClasses("MuiListItemText", ["root", "multiline", "dense", "inset", "primary", "secondary"]);
-const useUtilityClasses$15 = (ownerState) => {
+const useUtilityClasses$1a = (ownerState) => {
   const {
     classes: classes2,
     inset,
@@ -35603,7 +35603,7 @@ const ListItemText$1 = /* @__PURE__ */ reactExports.forwardRef(function ListItem
     secondary: !!secondary,
     dense
   };
-  const classes2 = useUtilityClasses$15(ownerState);
+  const classes2 = useUtilityClasses$1a(ownerState);
   const externalForwardedProps = {
     slots,
     slotProps: {
@@ -35880,7 +35880,7 @@ function getTransformOriginValue(transformOrigin2) {
 function resolveAnchorEl(anchorEl) {
   return typeof anchorEl === "function" ? anchorEl() : anchorEl;
 }
-const useUtilityClasses$14 = (ownerState) => {
+const useUtilityClasses$19 = (ownerState) => {
   const {
     classes: classes2
   } = ownerState;
@@ -35958,7 +35958,7 @@ const Popover = /* @__PURE__ */ reactExports.forwardRef(function Popover2(inProp
     transitionDuration: transitionDurationProp,
     TransitionProps
   };
-  const classes2 = useUtilityClasses$14(ownerState);
+  const classes2 = useUtilityClasses$19(ownerState);
   const getAnchorOffset = reactExports.useCallback(() => {
     if (anchorReference === "anchorPosition") {
       return anchorPosition;
@@ -36180,7 +36180,7 @@ const LTR_ORIGIN = {
   vertical: "top",
   horizontal: "left"
 };
-const useUtilityClasses$13 = (ownerState) => {
+const useUtilityClasses$18 = (ownerState) => {
   const {
     classes: classes2
   } = ownerState;
@@ -36251,7 +36251,7 @@ const Menu = /* @__PURE__ */ reactExports.forwardRef(function Menu2(inProps, ref
     TransitionProps,
     variant
   };
-  const classes2 = useUtilityClasses$13(ownerState);
+  const classes2 = useUtilityClasses$18(ownerState);
   const autoFocusItem = autoFocus && !disableAutoFocusItem && open2;
   const menuListActionsRef = reactExports.useRef(null);
   const handleEntering = (element, isAppearing) => {
@@ -36376,7 +36376,7 @@ const overridesResolver = (props, styles2) => {
   } = props;
   return [styles2.root, ownerState.dense && styles2.dense, ownerState.divider && styles2.divider, !ownerState.disableGutters && styles2.gutters];
 };
-const useUtilityClasses$12 = (ownerState) => {
+const useUtilityClasses$17 = (ownerState) => {
   const {
     disabled,
     dense,
@@ -36534,7 +36534,7 @@ const MenuItem = /* @__PURE__ */ reactExports.forwardRef(function MenuItem2(inPr
     divider,
     disableGutters
   };
-  const classes2 = useUtilityClasses$12(props);
+  const classes2 = useUtilityClasses$17(props);
   const handleRef = useForkRef$1(menuItemRef, ref);
   let tabIndex;
   if (!props.disabled) {
@@ -36559,7 +36559,7 @@ function getNativeSelectUtilityClasses(slot) {
   return generateUtilityClass("MuiNativeSelect", slot);
 }
 const nativeSelectClasses = generateUtilityClasses("MuiNativeSelect", ["root", "select", "multiple", "filled", "outlined", "standard", "disabled", "icon", "iconOpen", "iconFilled", "iconOutlined", "iconStandard", "nativeInput", "error"]);
-const useUtilityClasses$11 = (ownerState) => {
+const useUtilityClasses$16 = (ownerState) => {
   const {
     classes: classes2,
     variant,
@@ -36718,7 +36718,7 @@ const NativeSelectInput = /* @__PURE__ */ reactExports.forwardRef(function Nativ
     variant,
     error
   };
-  const classes2 = useUtilityClasses$11(ownerState);
+  const classes2 = useUtilityClasses$16(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(reactExports.Fragment, {
     children: [/* @__PURE__ */ jsxRuntimeExports.jsx(NativeSelectSelect, {
       ownerState,
@@ -36853,7 +36853,7 @@ function NotchedOutline(props) {
     })
   });
 }
-const useUtilityClasses$10 = (ownerState) => {
+const useUtilityClasses$15 = (ownerState) => {
   const {
     classes: classes2
   } = ownerState;
@@ -37031,7 +37031,7 @@ const OutlinedInput = /* @__PURE__ */ reactExports.forwardRef(function OutlinedI
     type = "text",
     ...other
   } = props;
-  const classes2 = useUtilityClasses$10(props);
+  const classes2 = useUtilityClasses$15(props);
   const muiFormControl = useFormControl();
   const fcs = formControlState({
     props,
@@ -37169,7 +37169,7 @@ function areEqualValues(a2, b2) {
 function isEmpty(display) {
   return display == null || typeof display === "string" && !display.trim();
 }
-const useUtilityClasses$$ = (ownerState) => {
+const useUtilityClasses$14 = (ownerState) => {
   const {
     classes: classes2,
     variant,
@@ -37492,7 +37492,7 @@ const SelectInput = /* @__PURE__ */ reactExports.forwardRef(function SelectInput
     open: open2,
     error
   };
-  const classes2 = useUtilityClasses$$(ownerState);
+  const classes2 = useUtilityClasses$14(ownerState);
   const paperProps = {
     ...MenuProps.PaperProps,
     ...typeof MenuProps.slotProps?.paper === "function" ? MenuProps.slotProps.paper(ownerState) : MenuProps.slotProps?.paper
@@ -37587,7 +37587,7 @@ const SelectInput = /* @__PURE__ */ reactExports.forwardRef(function SelectInput
     })]
   });
 });
-const useUtilityClasses$_ = (ownerState) => {
+const useUtilityClasses$13 = (ownerState) => {
   const {
     classes: classes2
   } = ownerState;
@@ -37650,7 +37650,7 @@ const Select = /* @__PURE__ */ reactExports.forwardRef(function Select2(inProps,
     variant,
     classes: classesProp
   };
-  const classes2 = useUtilityClasses$_(ownerState);
+  const classes2 = useUtilityClasses$13(ownerState);
   const {
     root,
     ...restOfClasses
@@ -37720,7 +37720,7 @@ function getSkeletonUtilityClass(slot) {
   return generateUtilityClass("MuiSkeleton", slot);
 }
 generateUtilityClasses("MuiSkeleton", ["root", "text", "rectangular", "rounded", "circular", "pulse", "wave", "withChildren", "fitContent", "heightAuto"]);
-const useUtilityClasses$Z = (ownerState) => {
+const useUtilityClasses$12 = (ownerState) => {
   const {
     classes: classes2,
     variant,
@@ -37906,7 +37906,7 @@ const Skeleton = /* @__PURE__ */ reactExports.forwardRef(function Skeleton2(inPr
     variant,
     hasChildren: Boolean(other.children)
   };
-  const classes2 = useUtilityClasses$Z(ownerState);
+  const classes2 = useUtilityClasses$12(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(SkeletonRoot, {
     as: component,
     ref,
@@ -37927,7 +37927,7 @@ const tooltipClasses = generateUtilityClasses("MuiTooltip", ["popper", "popperIn
 function round(value) {
   return Math.round(value * 1e5) / 1e5;
 }
-const useUtilityClasses$Y = (ownerState) => {
+const useUtilityClasses$11 = (ownerState) => {
   const {
     classes: classes2,
     disableInteractive,
@@ -38466,7 +38466,7 @@ const Tooltip$1 = /* @__PURE__ */ reactExports.forwardRef(function Tooltip2(inPr
       modifiers: tooltipModifiers
     };
   }, [arrowRef, PopperProps.popperOptions, resolvedPopperProps?.popperOptions]);
-  const classes2 = useUtilityClasses$Y(ownerState);
+  const classes2 = useUtilityClasses$11(ownerState);
   const resolvedTransitionProps = typeof slotProps.transition === "function" ? slotProps.transition(ownerState) : slotProps.transition;
   const externalForwardedProps = {
     slots: {
@@ -38567,7 +38567,7 @@ function getStepUtilityClass(slot) {
   return generateUtilityClass("MuiStep", slot);
 }
 generateUtilityClasses("MuiStep", ["root", "horizontal", "vertical", "alternativeLabel", "completed"]);
-const useUtilityClasses$X = (ownerState) => {
+const useUtilityClasses$10 = (ownerState) => {
   const {
     classes: classes2,
     orientation,
@@ -38658,7 +38658,7 @@ const Step = /* @__PURE__ */ reactExports.forwardRef(function Step2(inProps, ref
     expanded,
     component
   };
-  const classes2 = useUtilityClasses$X(ownerState);
+  const classes2 = useUtilityClasses$10(ownerState);
   const newChildren = /* @__PURE__ */ jsxRuntimeExports.jsxs(StepRoot, {
     as: component,
     className: clsx$1(classes2.root, className),
@@ -38685,7 +38685,7 @@ function getStepIconUtilityClass(slot) {
 }
 const stepIconClasses = generateUtilityClasses("MuiStepIcon", ["root", "active", "completed", "error", "text"]);
 var _circle;
-const useUtilityClasses$W = (ownerState) => {
+const useUtilityClasses$$ = (ownerState) => {
   const {
     classes: classes2,
     active,
@@ -38748,7 +38748,7 @@ const StepIcon = /* @__PURE__ */ reactExports.forwardRef(function StepIcon2(inPr
     completed,
     error
   };
-  const classes2 = useUtilityClasses$W(ownerState);
+  const classes2 = useUtilityClasses$$(ownerState);
   if (typeof icon === "number" || typeof icon === "string") {
     const className = clsx$1(classNameProp, classes2.root);
     if (error) {
@@ -38795,7 +38795,7 @@ function getStepLabelUtilityClass(slot) {
   return generateUtilityClass("MuiStepLabel", slot);
 }
 const stepLabelClasses = generateUtilityClasses("MuiStepLabel", ["root", "horizontal", "vertical", "label", "active", "completed", "error", "disabled", "iconContainer", "alternativeLabel", "labelContainer"]);
-const useUtilityClasses$V = (ownerState) => {
+const useUtilityClasses$_ = (ownerState) => {
   const {
     classes: classes2,
     orientation,
@@ -38932,7 +38932,7 @@ const StepLabel = /* @__PURE__ */ reactExports.forwardRef(function StepLabel2(in
     error,
     orientation
   };
-  const classes2 = useUtilityClasses$V(ownerState);
+  const classes2 = useUtilityClasses$_(ownerState);
   const externalForwardedProps = {
     slots,
     slotProps: {
@@ -38989,7 +38989,7 @@ function getStepConnectorUtilityClass(slot) {
   return generateUtilityClass("MuiStepConnector", slot);
 }
 generateUtilityClasses("MuiStepConnector", ["root", "horizontal", "vertical", "alternativeLabel", "active", "completed", "disabled", "line", "lineHorizontal", "lineVertical"]);
-const useUtilityClasses$U = (ownerState) => {
+const useUtilityClasses$Z = (ownerState) => {
   const {
     classes: classes2,
     orientation,
@@ -39097,7 +39097,7 @@ const StepConnector = /* @__PURE__ */ reactExports.forwardRef(function StepConne
     completed,
     disabled
   };
-  const classes2 = useUtilityClasses$U(ownerState);
+  const classes2 = useUtilityClasses$Z(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(StepConnectorRoot, {
     className: clsx$1(classes2.root, className),
     ref,
@@ -39113,7 +39113,7 @@ function getStepperUtilityClass(slot) {
   return generateUtilityClass("MuiStepper", slot);
 }
 generateUtilityClasses("MuiStepper", ["root", "horizontal", "vertical", "nonLinear", "alternativeLabel"]);
-const useUtilityClasses$T = (ownerState) => {
+const useUtilityClasses$Y = (ownerState) => {
   const {
     orientation,
     nonLinear,
@@ -39184,7 +39184,7 @@ const Stepper = /* @__PURE__ */ reactExports.forwardRef(function Stepper2(inProp
     orientation,
     component
   };
-  const classes2 = useUtilityClasses$T(ownerState);
+  const classes2 = useUtilityClasses$Y(ownerState);
   const childrenArray = reactExports.Children.toArray(children).filter(Boolean);
   const steps = childrenArray.map((step, index) => {
     return /* @__PURE__ */ reactExports.cloneElement(step, {
@@ -39216,7 +39216,7 @@ function getSwitchUtilityClass(slot) {
   return generateUtilityClass("MuiSwitch", slot);
 }
 const switchClasses = generateUtilityClasses("MuiSwitch", ["root", "edgeStart", "edgeEnd", "switchBase", "colorPrimary", "colorSecondary", "sizeSmall", "sizeMedium", "checked", "disabled", "input", "thumb", "track"]);
-const useUtilityClasses$S = (ownerState) => {
+const useUtilityClasses$X = (ownerState) => {
   const {
     classes: classes2,
     edge,
@@ -39420,7 +39420,7 @@ const Switch = /* @__PURE__ */ reactExports.forwardRef(function Switch2(inProps,
     edge,
     size
   };
-  const classes2 = useUtilityClasses$S(ownerState);
+  const classes2 = useUtilityClasses$X(ownerState);
   const externalForwardedProps = {
     slots,
     slotProps
@@ -39490,7 +39490,7 @@ function getTabUtilityClass(slot) {
   return generateUtilityClass("MuiTab", slot);
 }
 const tabClasses = generateUtilityClasses("MuiTab", ["root", "labelIcon", "textColorInherit", "textColorPrimary", "textColorSecondary", "selected", "disabled", "fullWidth", "wrapped", "iconWrapper", "icon"]);
-const useUtilityClasses$R = (ownerState) => {
+const useUtilityClasses$W = (ownerState) => {
   const {
     classes: classes2,
     textColor,
@@ -39698,7 +39698,7 @@ const Tab = /* @__PURE__ */ reactExports.forwardRef(function Tab2(inProps, ref) 
     textColor,
     wrapped
   };
-  const classes2 = useUtilityClasses$R(ownerState);
+  const classes2 = useUtilityClasses$W(ownerState);
   const icon = iconProp && label && /* @__PURE__ */ reactExports.isValidElement(iconProp) ? /* @__PURE__ */ reactExports.cloneElement(iconProp, {
     className: clsx$1(classes2.icon, iconProp.props.className)
   }) : iconProp;
@@ -39738,12 +39738,147 @@ const Tab = /* @__PURE__ */ reactExports.forwardRef(function Tab2(inProps, ref) 
   });
 });
 const TableContext = /* @__PURE__ */ reactExports.createContext();
+function getTableUtilityClass(slot) {
+  return generateUtilityClass("MuiTable", slot);
+}
+generateUtilityClasses("MuiTable", ["root", "stickyHeader"]);
+const useUtilityClasses$V = (ownerState) => {
+  const {
+    classes: classes2,
+    stickyHeader
+  } = ownerState;
+  const slots = {
+    root: ["root", stickyHeader && "stickyHeader"]
+  };
+  return composeClasses(slots, getTableUtilityClass, classes2);
+};
+const TableRoot = styled("table", {
+  name: "MuiTable",
+  slot: "Root",
+  overridesResolver: (props, styles2) => {
+    const {
+      ownerState
+    } = props;
+    return [styles2.root, ownerState.stickyHeader && styles2.stickyHeader];
+  }
+})(memoTheme(({
+  theme
+}) => ({
+  display: "table",
+  width: "100%",
+  borderCollapse: "collapse",
+  borderSpacing: 0,
+  "& caption": {
+    ...theme.typography.body2,
+    padding: theme.spacing(2),
+    color: (theme.vars || theme).palette.text.secondary,
+    textAlign: "left",
+    captionSide: "bottom"
+  },
+  variants: [{
+    props: ({
+      ownerState
+    }) => ownerState.stickyHeader,
+    style: {
+      borderCollapse: "separate"
+    }
+  }]
+})));
+const defaultComponent$3 = "table";
+const Table$1 = /* @__PURE__ */ reactExports.forwardRef(function Table2(inProps, ref) {
+  const props = useDefaultProps({
+    props: inProps,
+    name: "MuiTable"
+  });
+  const {
+    className,
+    component = defaultComponent$3,
+    padding: padding2 = "normal",
+    size = "medium",
+    stickyHeader = false,
+    ...other
+  } = props;
+  const ownerState = {
+    ...props,
+    component,
+    padding: padding2,
+    size,
+    stickyHeader
+  };
+  const classes2 = useUtilityClasses$V(ownerState);
+  const table = reactExports.useMemo(() => ({
+    padding: padding2,
+    size,
+    stickyHeader
+  }), [padding2, size, stickyHeader]);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(TableContext.Provider, {
+    value: table,
+    children: /* @__PURE__ */ jsxRuntimeExports.jsx(TableRoot, {
+      as: component,
+      role: component === defaultComponent$3 ? null : "table",
+      ref,
+      className: clsx$1(classes2.root, className),
+      ownerState,
+      ...other
+    })
+  });
+});
 const Tablelvl2Context = /* @__PURE__ */ reactExports.createContext();
+function getTableBodyUtilityClass(slot) {
+  return generateUtilityClass("MuiTableBody", slot);
+}
+generateUtilityClasses("MuiTableBody", ["root"]);
+const useUtilityClasses$U = (ownerState) => {
+  const {
+    classes: classes2
+  } = ownerState;
+  const slots = {
+    root: ["root"]
+  };
+  return composeClasses(slots, getTableBodyUtilityClass, classes2);
+};
+const TableBodyRoot = styled("tbody", {
+  name: "MuiTableBody",
+  slot: "Root"
+})({
+  display: "table-row-group"
+});
+const tablelvl2$1 = {
+  variant: "body"
+};
+const defaultComponent$2 = "tbody";
+const TableBody = /* @__PURE__ */ reactExports.forwardRef(function TableBody2(inProps, ref) {
+  const props = useDefaultProps({
+    props: inProps,
+    name: "MuiTableBody"
+  });
+  const {
+    className,
+    component = defaultComponent$2,
+    ...other
+  } = props;
+  const ownerState = {
+    ...props,
+    component
+  };
+  const classes2 = useUtilityClasses$U(ownerState);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(Tablelvl2Context.Provider, {
+    value: tablelvl2$1,
+    children: /* @__PURE__ */ jsxRuntimeExports.jsx(TableBodyRoot, {
+      className: clsx$1(classes2.root, className),
+      as: component,
+      ref,
+      role: component === defaultComponent$2 ? null : "rowgroup",
+      ownerState,
+      ...other
+    })
+  });
+});
 function getTableCellUtilityClass(slot) {
   return generateUtilityClass("MuiTableCell", slot);
 }
 const tableCellClasses = generateUtilityClasses("MuiTableCell", ["root", "head", "body", "footer", "sizeSmall", "sizeMedium", "paddingCheckbox", "paddingNone", "alignLeft", "alignCenter", "alignRight", "alignJustify", "stickyHeader"]);
-const useUtilityClasses$Q = (ownerState) => {
+const useUtilityClasses$T = (ownerState) => {
   const {
     classes: classes2,
     variant,
@@ -39892,8 +40027,8 @@ const TableCell = /* @__PURE__ */ reactExports.forwardRef(function TableCell2(in
     ...other
   } = props;
   const table = reactExports.useContext(TableContext);
-  const tablelvl2 = reactExports.useContext(Tablelvl2Context);
-  const isHeadCell = tablelvl2 && tablelvl2.variant === "head";
+  const tablelvl22 = reactExports.useContext(Tablelvl2Context);
+  const isHeadCell = tablelvl22 && tablelvl22.variant === "head";
   let component;
   if (componentProp) {
     component = componentProp;
@@ -39906,7 +40041,7 @@ const TableCell = /* @__PURE__ */ reactExports.forwardRef(function TableCell2(in
   } else if (!scope && isHeadCell) {
     scope = "col";
   }
-  const variant = variantProp || tablelvl2 && tablelvl2.variant;
+  const variant = variantProp || tablelvl22 && tablelvl22.variant;
   const ownerState = {
     ...props,
     align,
@@ -39917,7 +40052,7 @@ const TableCell = /* @__PURE__ */ reactExports.forwardRef(function TableCell2(in
     stickyHeader: variant === "head" && table && table.stickyHeader,
     variant
   };
-  const classes2 = useUtilityClasses$Q(ownerState);
+  const classes2 = useUtilityClasses$T(ownerState);
   let ariaSort = null;
   if (sortDirection) {
     ariaSort = sortDirection === "asc" ? "ascending" : "descending";
@@ -39932,11 +40067,104 @@ const TableCell = /* @__PURE__ */ reactExports.forwardRef(function TableCell2(in
     ...other
   });
 });
+function getTableContainerUtilityClass(slot) {
+  return generateUtilityClass("MuiTableContainer", slot);
+}
+generateUtilityClasses("MuiTableContainer", ["root"]);
+const useUtilityClasses$S = (ownerState) => {
+  const {
+    classes: classes2
+  } = ownerState;
+  const slots = {
+    root: ["root"]
+  };
+  return composeClasses(slots, getTableContainerUtilityClass, classes2);
+};
+const TableContainerRoot = styled("div", {
+  name: "MuiTableContainer",
+  slot: "Root"
+})({
+  width: "100%",
+  overflowX: "auto"
+});
+const TableContainer = /* @__PURE__ */ reactExports.forwardRef(function TableContainer2(inProps, ref) {
+  const props = useDefaultProps({
+    props: inProps,
+    name: "MuiTableContainer"
+  });
+  const {
+    className,
+    component = "div",
+    ...other
+  } = props;
+  const ownerState = {
+    ...props,
+    component
+  };
+  const classes2 = useUtilityClasses$S(ownerState);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(TableContainerRoot, {
+    ref,
+    as: component,
+    className: clsx$1(classes2.root, className),
+    ownerState,
+    ...other
+  });
+});
+function getTableHeadUtilityClass(slot) {
+  return generateUtilityClass("MuiTableHead", slot);
+}
+generateUtilityClasses("MuiTableHead", ["root"]);
+const useUtilityClasses$R = (ownerState) => {
+  const {
+    classes: classes2
+  } = ownerState;
+  const slots = {
+    root: ["root"]
+  };
+  return composeClasses(slots, getTableHeadUtilityClass, classes2);
+};
+const TableHeadRoot = styled("thead", {
+  name: "MuiTableHead",
+  slot: "Root"
+})({
+  display: "table-header-group"
+});
+const tablelvl2 = {
+  variant: "head"
+};
+const defaultComponent$1 = "thead";
+const TableHead = /* @__PURE__ */ reactExports.forwardRef(function TableHead2(inProps, ref) {
+  const props = useDefaultProps({
+    props: inProps,
+    name: "MuiTableHead"
+  });
+  const {
+    className,
+    component = defaultComponent$1,
+    ...other
+  } = props;
+  const ownerState = {
+    ...props,
+    component
+  };
+  const classes2 = useUtilityClasses$R(ownerState);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(Tablelvl2Context.Provider, {
+    value: tablelvl2,
+    children: /* @__PURE__ */ jsxRuntimeExports.jsx(TableHeadRoot, {
+      as: component,
+      className: clsx$1(classes2.root, className),
+      ref,
+      role: component === defaultComponent$1 ? null : "rowgroup",
+      ownerState,
+      ...other
+    })
+  });
+});
 function getToolbarUtilityClass(slot) {
   return generateUtilityClass("MuiToolbar", slot);
 }
 generateUtilityClasses("MuiToolbar", ["root", "gutters", "regular", "dense"]);
-const useUtilityClasses$P = (ownerState) => {
+const useUtilityClasses$Q = (ownerState) => {
   const {
     classes: classes2,
     disableGutters,
@@ -40006,7 +40234,7 @@ const Toolbar$1 = /* @__PURE__ */ reactExports.forwardRef(function Toolbar2(inPr
     disableGutters,
     variant
   };
-  const classes2 = useUtilityClasses$P(ownerState);
+  const classes2 = useUtilityClasses$Q(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(ToolbarRoot$1, {
     as: component,
     className: clsx$1(classes2.root, className),
@@ -40025,7 +40253,7 @@ function getTablePaginationActionsUtilityClass(slot) {
   return generateUtilityClass("MuiTablePaginationActions", slot);
 }
 generateUtilityClasses("MuiTablePaginationActions", ["root"]);
-const useUtilityClasses$O = (ownerState) => {
+const useUtilityClasses$P = (ownerState) => {
   const {
     classes: classes2
   } = ownerState;
@@ -40061,7 +40289,7 @@ const TablePaginationActions = /* @__PURE__ */ reactExports.forwardRef(function 
   } = props;
   const isRtl = useRtl();
   const ownerState = props;
-  const classes2 = useUtilityClasses$O(ownerState);
+  const classes2 = useUtilityClasses$P(ownerState);
   const handleFirstPageButtonClick = (event) => {
     onPageChange(event, 0);
   };
@@ -40247,7 +40475,7 @@ function defaultLabelDisplayedRows({
 function defaultGetAriaLabel(type) {
   return `Go to ${type} page`;
 }
-const useUtilityClasses$N = (ownerState) => {
+const useUtilityClasses$O = (ownerState) => {
   const {
     classes: classes2
   } = ownerState;
@@ -40294,7 +40522,7 @@ const TablePagination = /* @__PURE__ */ reactExports.forwardRef(function TablePa
     ...other
   } = props;
   const ownerState = props;
-  const classes2 = useUtilityClasses$N(ownerState);
+  const classes2 = useUtilityClasses$O(ownerState);
   const selectProps = slotProps?.select ?? SelectProps;
   const MenuItemComponent = selectProps.native ? "option" : TablePaginationMenuItem;
   let colSpan;
@@ -40424,6 +40652,82 @@ const TablePagination = /* @__PURE__ */ reactExports.forwardRef(function TablePa
         disabled
       })]
     })
+  });
+});
+function getTableRowUtilityClass(slot) {
+  return generateUtilityClass("MuiTableRow", slot);
+}
+const tableRowClasses = generateUtilityClasses("MuiTableRow", ["root", "selected", "hover", "head", "footer"]);
+const useUtilityClasses$N = (ownerState) => {
+  const {
+    classes: classes2,
+    selected,
+    hover,
+    head,
+    footer
+  } = ownerState;
+  const slots = {
+    root: ["root", selected && "selected", hover && "hover", head && "head", footer && "footer"]
+  };
+  return composeClasses(slots, getTableRowUtilityClass, classes2);
+};
+const TableRowRoot = styled("tr", {
+  name: "MuiTableRow",
+  slot: "Root",
+  overridesResolver: (props, styles2) => {
+    const {
+      ownerState
+    } = props;
+    return [styles2.root, ownerState.head && styles2.head, ownerState.footer && styles2.footer];
+  }
+})(memoTheme(({
+  theme
+}) => ({
+  color: "inherit",
+  display: "table-row",
+  verticalAlign: "middle",
+  // We disable the focus ring for mouse, touch and keyboard users.
+  outline: 0,
+  [`&.${tableRowClasses.hover}:hover`]: {
+    backgroundColor: (theme.vars || theme).palette.action.hover
+  },
+  [`&.${tableRowClasses.selected}`]: {
+    backgroundColor: theme.alpha((theme.vars || theme).palette.primary.main, (theme.vars || theme).palette.action.selectedOpacity),
+    "&:hover": {
+      backgroundColor: theme.alpha((theme.vars || theme).palette.primary.main, `${(theme.vars || theme).palette.action.selectedOpacity} + ${(theme.vars || theme).palette.action.hoverOpacity}`)
+    }
+  }
+})));
+const defaultComponent = "tr";
+const TableRow = /* @__PURE__ */ reactExports.forwardRef(function TableRow2(inProps, ref) {
+  const props = useDefaultProps({
+    props: inProps,
+    name: "MuiTableRow"
+  });
+  const {
+    className,
+    component = defaultComponent,
+    hover = false,
+    selected = false,
+    ...other
+  } = props;
+  const tablelvl22 = reactExports.useContext(Tablelvl2Context);
+  const ownerState = {
+    ...props,
+    component,
+    hover,
+    selected,
+    head: tablelvl22 && tablelvl22.variant === "head",
+    footer: tablelvl22 && tablelvl22.variant === "footer"
+  };
+  const classes2 = useUtilityClasses$N(ownerState);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(TableRowRoot, {
+    as: component,
+    ref,
+    className: clsx$1(classes2.root, className),
+    role: component === defaultComponent ? null : "row",
+    ownerState,
+    ...other
   });
 });
 function easeInOutSin(time) {
@@ -41705,7 +42009,7 @@ const ToggleButton = /* @__PURE__ */ reactExports.forwardRef(function ToggleButt
 const AddIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
 }));
-const AssessmentIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
+const ReportIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M9 17H7v-7h2zm4 0h-2V7h2zm4 0h-2v-4h2z"
 }));
 const DarkModeIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
@@ -41716,6 +42020,16 @@ const LightModeIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("pat
 }));
 const CalendarIcon$1 = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 18H4V8h16z"
+}));
+const CameraIcon = createSvgIcon$1([/* @__PURE__ */ jsxRuntimeExports.jsx("circle", {
+  cx: "12",
+  cy: "12",
+  r: "3.2"
+}, "0"), /* @__PURE__ */ jsxRuntimeExports.jsx("path", {
+  d: "M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5"
+}, "1")]);
+const CancelIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
+  d: "M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12z"
 }));
 const CheckIcon$1 = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8z"
@@ -41743,6 +42057,9 @@ const DragIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
 }));
 const EditIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"
+}));
+const ErrorIcon$1 = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
+  d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 15h-2v-2h2zm0-4h-2V7h2z"
 }));
 const ExpandLessIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "m12 8-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
@@ -41811,6 +42128,9 @@ const PlayArrowIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("pat
 const QrCodeIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M3 11h8V3H3zm2-6h4v4H5zM3 21h8v-8H3zm2-6h4v4H5zm8-12v8h8V3zm6 6h-4V5h4zm0 10h2v2h-2zm-6-6h2v2h-2zm2 2h2v2h-2zm-2 2h2v2h-2zm2 2h2v2h-2zm2-2h2v2h-2zm0-4h2v2h-2zm2 2h2v2h-2z"
 }));
+const ScannerIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
+  d: "M9.5 6.5v3h-3v-3zM11 5H5v6h6zm-1.5 9.5v3h-3v-3zM11 13H5v6h6zm6.5-6.5v3h-3v-3zM19 5h-6v6h6zm-6 8h1.5v1.5H13zm1.5 1.5H16V16h-1.5zM16 13h1.5v1.5H16zm-3 3h1.5v1.5H13zm1.5 1.5H16V19h-1.5zM16 16h1.5v1.5H16zm1.5-1.5H19V16h-1.5zm0 3H19V19h-1.5zM22 7h-2V4h-3V2h5zm0 15v-5h-2v3h-3v2zM2 22h5v-2H4v-3H2zM2 2v5h2V4h3V2z"
+}));
 const CalendarIcon = createSvgIcon$1([/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2M12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
 }, "0"), /* @__PURE__ */ jsxRuntimeExports.jsx("path", {
@@ -41833,6 +42153,9 @@ const StarIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
 }));
 const StarBorderIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "m22 9.24-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28z"
+}));
+const StopIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
+  d: "M6 6h12v12H6z"
 }));
 const StockIcon = createSvgIcon$1(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M2 20h20v-4H2zm2-3h2v2H4zM2 4v4h20V4zm4 3H4V5h2zm-4 7h20v-4H2zm2-3h2v2H4z"
@@ -43087,7 +43410,7 @@ function DashboardPage() {
     {
       title: "Valeur Stock",
       value: `${totalStockValue.toLocaleString()} DZD`,
-      icon: /* @__PURE__ */ jsxRuntimeExports.jsx(AssessmentIcon, {}),
+      icon: /* @__PURE__ */ jsxRuntimeExports.jsx(ReportIcon, {}),
       color: "#06b6d4",
       subtitle: "Valeur totale"
     }
@@ -54223,7 +54546,7 @@ function le() {
   var h2 = l2.getContext("2d");
   h2.fillStyle = "#fff", h2.fillRect(0, 0, l2.width, l2.height);
   var f2 = { ignoreMouse: true, ignoreAnimation: true, ignoreDimensions: true }, d2 = this;
-  return (i$1.canvg ? Promise.resolve(i$1.canvg) : __vitePreload(() => import("./index.es-DZwAEQHJ.js"), true ? [] : void 0, import.meta.url)).catch(function(t4) {
+  return (i$1.canvg ? Promise.resolve(i$1.canvg) : __vitePreload(() => import("./index.es-6a24WekE.js"), true ? [] : void 0, import.meta.url)).catch(function(t4) {
     return Promise.reject(new Error("Could not load canvg: " + t4));
   }).then(function(t4) {
     return t4.default ? t4.default : t4;
@@ -55716,7 +56039,7 @@ var CellHookData = (
 var Table = (
   /** @class */
   (function() {
-    function Table2(input, content) {
+    function Table3(input, content) {
       this.pageNumber = 1;
       this.id = input.id;
       this.settings = input.settings;
@@ -55727,20 +56050,20 @@ var Table = (
       this.body = content.body;
       this.foot = content.foot;
     }
-    Table2.prototype.getHeadHeight = function(columns) {
+    Table3.prototype.getHeadHeight = function(columns) {
       return this.head.reduce(function(acc, row) {
         return acc + row.getMaxCellHeight(columns);
       }, 0);
     };
-    Table2.prototype.getFootHeight = function(columns) {
+    Table3.prototype.getFootHeight = function(columns) {
       return this.foot.reduce(function(acc, row) {
         return acc + row.getMaxCellHeight(columns);
       }, 0);
     };
-    Table2.prototype.allRows = function() {
+    Table3.prototype.allRows = function() {
       return this.head.concat(this.body).concat(this.foot);
     };
-    Table2.prototype.callCellHooks = function(doc, handlers, cell, row, column2, cursor2) {
+    Table3.prototype.callCellHooks = function(doc, handlers, cell, row, column2, cursor2) {
       for (var _i = 0, handlers_1 = handlers; _i < handlers_1.length; _i++) {
         var handler = handlers_1[_i];
         var data = new CellHookData(doc, this, cell, row, column2, cursor2);
@@ -55752,20 +56075,20 @@ var Table = (
       }
       return true;
     };
-    Table2.prototype.callEndPageHooks = function(doc, cursor2) {
+    Table3.prototype.callEndPageHooks = function(doc, cursor2) {
       doc.applyStyles(doc.userStyles);
       for (var _i = 0, _a2 = this.hooks.didDrawPage; _i < _a2.length; _i++) {
         var handler = _a2[_i];
         handler(new HookData(doc, this, cursor2));
       }
     };
-    Table2.prototype.callWillDrawPageHooks = function(doc, cursor2) {
+    Table3.prototype.callWillDrawPageHooks = function(doc, cursor2) {
       for (var _i = 0, _a2 = this.hooks.willDrawPage; _i < _a2.length; _i++) {
         var handler = _a2[_i];
         handler(new HookData(doc, this, cursor2));
       }
     };
-    Table2.prototype.getWidth = function(pageWidth) {
+    Table3.prototype.getWidth = function(pageWidth) {
       if (typeof this.settings.tableWidth === "number") {
         return this.settings.tableWidth;
       } else if (this.settings.tableWidth === "wrap") {
@@ -55778,7 +56101,7 @@ var Table = (
         return pageWidth - margin2.left - margin2.right;
       }
     };
-    return Table2;
+    return Table3;
   })()
 );
 var Row = (
@@ -83721,7 +84044,7 @@ DataGridRaw.propTypes = {
    */
   virtualizeColumnsWithAutoRowHeight: PropTypes.bool
 };
-function DataTable({ rows, columns, loading, onRowContextMenu, contextMenuItems }) {
+function DataTable$1({ rows, columns, loading, onRowContextMenu, contextMenuItems }) {
   const { darkMode } = useAppStore();
   const [contextMenu, setContextMenu] = React.useState(null);
   const handleContextMenu = (event) => {
@@ -84620,7 +84943,7 @@ function ParfumsPage() {
       }
     ) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { "data-tour": "data-table", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-      DataTable,
+      DataTable$1,
       {
         rows: filteredParfums,
         columns,
@@ -85137,7 +85460,7 @@ function StockPage() {
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "body2", sx: { opacity: 0.7 }, children: "Suivez et ajustez vos niveaux de stock en temps réel" })
     ] }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(DataTable, { rows: stock, columns, loading }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(DataTable$1, { rows: stock, columns, loading }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       Menu,
       {
@@ -85399,6 +85722,511 @@ function StockPage() {
     )
   ] }) });
 }
+function InventoryPage() {
+  const { darkMode } = useAppStore();
+  const [inventories, setInventories] = reactExports.useState([]);
+  const [loading, setLoading] = reactExports.useState(false);
+  const [selectedInventory, setSelectedInventory] = reactExports.useState(null);
+  const [createDialogOpen, setCreateDialogOpen] = reactExports.useState(false);
+  const [scanDialogOpen, setScanDialogOpen] = reactExports.useState(false);
+  const [reportDialogOpen, setReportDialogOpen] = reactExports.useState(false);
+  const [currentLine, setCurrentLine] = reactExports.useState(null);
+  const [countedQty, setCountedQty] = reactExports.useState("");
+  const [notes, setNotes] = reactExports.useState("");
+  const [searchBarcode, setSearchBarcode] = reactExports.useState("");
+  const [anchorEl, setAnchorEl] = reactExports.useState(null);
+  const [menuInventory, setMenuInventory] = reactExports.useState(null);
+  const videoRef = reactExports.useRef(null);
+  const canvasRef = reactExports.useRef(null);
+  const [createForm, setCreateForm] = reactExports.useState({
+    nom: "",
+    description: "",
+    warehouseId: ""
+  });
+  reactExports.useEffect(() => {
+    fetchInventories();
+  }, []);
+  const fetchInventories = async () => {
+    setLoading(true);
+    const res = await window.api.inventory.getAll();
+    if (res.success) {
+      setInventories(res.data);
+    }
+    setLoading(false);
+  };
+  const handleCreateInventory = async () => {
+    const res = await window.api.inventory.create({
+      nom: createForm.nom,
+      description: createForm.description,
+      warehouseId: createForm.warehouseId ? parseInt(createForm.warehouseId) : void 0
+    });
+    if (res.success) {
+      fetchInventories();
+      setCreateDialogOpen(false);
+      setCreateForm({ nom: "", description: "", warehouseId: "" });
+    }
+  };
+  const handleStartInventory = async (inventory) => {
+    const res = await window.api.inventory.start(inventory.id);
+    if (res.success) {
+      fetchInventories();
+    }
+  };
+  const handleCompleteInventory = async (inventory) => {
+    const res = await window.api.inventory.complete(inventory.id);
+    if (res.success) {
+      fetchInventories();
+    }
+  };
+  const handleCancelInventory = async (inventory) => {
+    const res = await window.api.inventory.cancel(inventory.id);
+    if (res.success) {
+      fetchInventories();
+    }
+  };
+  const handleScanProduct = async () => {
+    if (!searchBarcode.trim()) return;
+    const res = await window.api.inventory.findByBarcode(searchBarcode);
+    if (res.success && selectedInventory) {
+      const stock = res.data;
+      const existingLine = selectedInventory.lines?.find((line2) => line2.stockId === stock.id);
+      if (existingLine) {
+        setCurrentLine(existingLine);
+        setCountedQty(existingLine.countedQty?.toString() || "");
+        setNotes(existingLine.notes || "");
+      } else {
+        const newLine = {
+          id: Date.now(),
+          // Temporary ID
+          stockId: stock.id,
+          stock,
+          expectedQty: stock.quantite
+        };
+        setCurrentLine(newLine);
+        setCountedQty("");
+        setNotes("");
+      }
+      setScanDialogOpen(true);
+    }
+  };
+  const handleSaveCount = async () => {
+    if (!selectedInventory || !currentLine) return;
+    const qty = parseFloat(countedQty);
+    if (isNaN(qty)) return;
+    const res = await window.api.inventory.updateLine(
+      selectedInventory.id,
+      currentLine.stockId,
+      qty,
+      notes
+    );
+    if (res.success) {
+      fetchInventories();
+      setScanDialogOpen(false);
+      setCurrentLine(null);
+      setCountedQty("");
+      setNotes("");
+    }
+  };
+  const handleMenuOpen = (event, inventory) => {
+    setAnchorEl(event.currentTarget);
+    setMenuInventory(inventory);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setMenuInventory(null);
+  };
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "COMPLETED":
+        return "success";
+      case "IN_PROGRESS":
+        return "primary";
+      case "CANCELLED":
+        return "error";
+      default:
+        return "default";
+    }
+  };
+  const getStatusLabel = (status) => {
+    switch (status) {
+      case "COMPLETED":
+        return "Terminé";
+      case "IN_PROGRESS":
+        return "En cours";
+      case "CANCELLED":
+        return "Annulé";
+      default:
+        return "Brouillon";
+    }
+  };
+  const columns = [
+    {
+      field: "nom",
+      headerName: "Nom",
+      flex: 1,
+      renderCell: (params) => /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "subtitle2", sx: { fontWeight: 600 }, children: params.value })
+    },
+    {
+      field: "warehouse",
+      headerName: "Entrepôt",
+      flex: 1,
+      valueGetter: (_value, row) => row.warehouse?.nom || "Tous",
+      renderCell: (params) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Chip,
+        {
+          label: params.value,
+          size: "small",
+          variant: "outlined"
+        }
+      )
+    },
+    {
+      field: "status",
+      headerName: "Statut",
+      width: 120,
+      renderCell: (params) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Chip,
+        {
+          label: getStatusLabel(params.value),
+          size: "small",
+          color: getStatusColor(params.value)
+        }
+      )
+    },
+    {
+      field: "progress",
+      headerName: "Progression",
+      width: 150,
+      renderCell: (params) => {
+        const total = params.row.lines?.length || 0;
+        const counted = params.row.lines?.filter((line2) => line2.countedQty !== null).length || 0;
+        const percentage = total > 0 ? counted / total * 100 : 0;
+        return /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { sx: { display: "flex", alignItems: "center", gap: 1 }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            LinearProgress,
+            {
+              variant: "determinate",
+              value: percentage,
+              sx: { flex: 1, height: 8, borderRadius: 4 }
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(Typography, { variant: "caption", sx: { minWidth: 35 }, children: [
+            counted,
+            "/",
+            total
+          ] })
+        ] });
+      }
+    },
+    {
+      field: "startedAt",
+      headerName: "Début",
+      width: 120,
+      valueGetter: (_value, row) => row.startedAt ? new Date(row.startedAt).toLocaleDateString() : "-"
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      width: 80,
+      renderCell: (params) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+        IconButton,
+        {
+          size: "small",
+          onClick: (e2) => handleMenuOpen(e2, params.row),
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx(MoreVertIcon, {})
+        }
+      )
+    }
+  ];
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(Fade, { in: true, timeout: 500, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { sx: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      mb: 3,
+      flexWrap: "wrap",
+      gap: 2
+    }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Typography,
+          {
+            variant: "h4",
+            sx: {
+              mb: 0.5,
+              background: darkMode ? "linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)" : "linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent"
+            },
+            children: "Inventaire Périodique"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "body2", sx: { opacity: 0.7 }, children: "Gestion des sessions d'inventaire avec scan de codes-barres" })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Button,
+        {
+          variant: "contained",
+          startIcon: /* @__PURE__ */ jsxRuntimeExports.jsx(AddIcon, {}),
+          onClick: () => setCreateDialogOpen(true),
+          sx: { borderRadius: 2 },
+          children: "Nouvelle Session"
+        }
+      )
+    ] }),
+    inventories.some((inv) => inv.status === "IN_PROGRESS") && /* @__PURE__ */ jsxRuntimeExports.jsx(Card, { sx: { mb: 3, background: alpha("#3b82f6", 0.05) }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(CardContent, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(Typography, { variant: "h6", sx: { mb: 2, display: "flex", alignItems: "center", gap: 1 }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ScannerIcon, {}),
+        "Scan Rapide"
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(Grid, { container: true, spacing: 2, alignItems: "center", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, sm: 6, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TextField,
+          {
+            fullWidth: true,
+            label: "Code-barres ou référence",
+            value: searchBarcode,
+            onChange: (e2) => setSearchBarcode(e2.target.value),
+            onKeyPress: (e2) => e2.key === "Enter" && handleScanProduct(),
+            InputProps: {
+              endAdornment: /* @__PURE__ */ jsxRuntimeExports.jsx(InputAdornment$1, { position: "end", children: /* @__PURE__ */ jsxRuntimeExports.jsx(IconButton, { onClick: handleScanProduct, disabled: !searchBarcode.trim(), children: /* @__PURE__ */ jsxRuntimeExports.jsx(SearchIcon, {}) }) })
+            }
+          }
+        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, sm: 3, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Button,
+          {
+            fullWidth: true,
+            variant: "outlined",
+            startIcon: /* @__PURE__ */ jsxRuntimeExports.jsx(CameraIcon, {}),
+            onClick: () => {
+            },
+            children: "Scanner Caméra"
+          }
+        ) })
+      ] })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(DataTable, { rows: inventories, columns, loading }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      Menu,
+      {
+        anchorEl,
+        open: Boolean(anchorEl),
+        onClose: handleMenuClose,
+        children: [
+          menuInventory?.status === "DRAFT" && /* @__PURE__ */ jsxRuntimeExports.jsxs(MenuItem, { onClick: () => {
+            handleStartInventory(menuInventory);
+            handleMenuClose();
+          }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemIcon, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(PlayArrowIcon, { fontSize: "small" }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemText$1, { children: "Démarrer" })
+          ] }),
+          menuInventory?.status === "IN_PROGRESS" && /* @__PURE__ */ jsxRuntimeExports.jsxs(MenuItem, { onClick: () => {
+            handleCompleteInventory(menuInventory);
+            handleMenuClose();
+          }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemIcon, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(StopIcon, { fontSize: "small" }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemText$1, { children: "Terminer" })
+          ] }),
+          (menuInventory?.status === "DRAFT" || menuInventory?.status === "IN_PROGRESS") && /* @__PURE__ */ jsxRuntimeExports.jsxs(MenuItem, { onClick: () => {
+            handleCancelInventory(menuInventory);
+            handleMenuClose();
+          }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemIcon, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(CancelIcon, { fontSize: "small" }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemText$1, { children: "Annuler" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(MenuItem, { onClick: () => {
+            setSelectedInventory(menuInventory);
+            setReportDialogOpen(true);
+            handleMenuClose();
+          }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemIcon, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(ReportIcon, { fontSize: "small" }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemText$1, { children: "Rapport" })
+          ] })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      Dialog,
+      {
+        open: createDialogOpen,
+        onClose: () => setCreateDialogOpen(false),
+        maxWidth: "sm",
+        fullWidth: true,
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(DialogTitle, { children: "Nouvelle Session d'Inventaire" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogContent, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              TextField,
+              {
+                fullWidth: true,
+                label: "Nom de la session",
+                margin: "normal",
+                value: createForm.nom,
+                onChange: (e2) => setCreateForm({ ...createForm, nom: e2.target.value })
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              TextField,
+              {
+                fullWidth: true,
+                label: "Description (optionnel)",
+                margin: "normal",
+                multiline: true,
+                rows: 3,
+                value: createForm.description,
+                onChange: (e2) => setCreateForm({ ...createForm, description: e2.target.value })
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              TextField,
+              {
+                fullWidth: true,
+                label: "ID Entrepôt (optionnel)",
+                margin: "normal",
+                type: "number",
+                value: createForm.warehouseId,
+                onChange: (e2) => setCreateForm({ ...createForm, warehouseId: e2.target.value })
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogActions, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { onClick: () => setCreateDialogOpen(false), children: "Annuler" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { onClick: handleCreateInventory, variant: "contained", disabled: !createForm.nom.trim(), children: "Créer" })
+          ] })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      Dialog,
+      {
+        open: scanDialogOpen,
+        onClose: () => setScanDialogOpen(false),
+        maxWidth: "md",
+        fullWidth: true,
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(DialogTitle, { children: "Comptage Produit" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogContent, { children: [
+            currentLine?.stock && /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { sx: { mb: 3, p: 2, borderRadius: 2, background: alpha("#3b82f6", 0.05) }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "subtitle1", sx: { fontWeight: 600, mb: 1 }, children: currentLine.stock.reference?.parfum?.nom }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(Stack, { direction: "row", spacing: 1, sx: { mb: 1 }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Chip, { label: currentLine.stock.reference?.referenceCode, size: "small" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Chip, { label: currentLine.stock.reference?.fournisseur?.nom, size: "small", color: "primary" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(Typography, { variant: "body2", children: [
+                "Quantité attendue: ",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: currentLine.expectedQty }),
+                " ",
+                currentLine.stock.reference?.unite
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(Grid, { container: true, spacing: 2, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, sm: 6, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                TextField,
+                {
+                  fullWidth: true,
+                  label: "Quantité comptée",
+                  type: "number",
+                  value: countedQty,
+                  onChange: (e2) => setCountedQty(e2.target.value),
+                  autoFocus: true
+                }
+              ) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, sm: 6, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                TextField,
+                {
+                  fullWidth: true,
+                  label: "Différence",
+                  value: countedQty ? (parseFloat(countedQty) - (currentLine?.expectedQty || 0)).toFixed(2) : "",
+                  InputProps: { readOnly: true }
+                }
+              ) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                TextField,
+                {
+                  fullWidth: true,
+                  label: "Notes (optionnel)",
+                  multiline: true,
+                  rows: 2,
+                  value: notes,
+                  onChange: (e2) => setNotes(e2.target.value)
+                }
+              ) })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogActions, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { onClick: () => setScanDialogOpen(false), children: "Annuler" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { onClick: handleSaveCount, variant: "contained", disabled: !countedQty, children: "Enregistrer" })
+          ] })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      Dialog,
+      {
+        open: reportDialogOpen,
+        onClose: () => setReportDialogOpen(false),
+        maxWidth: "lg",
+        fullWidth: true,
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(DialogTitle, { children: "Rapport d'Inventaire" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(DialogContent, { children: selectedInventory && /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(Typography, { variant: "h6", sx: { mb: 2 }, children: [
+              "Session: ",
+              selectedInventory.nom
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(Grid, { container: true, spacing: 2, sx: { mb: 3 }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, sm: 3, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Card, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(CardContent, { sx: { textAlign: "center" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "h4", color: "primary", children: selectedInventory.lines?.length || 0 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "body2", children: "Total Produits" })
+              ] }) }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, sm: 3, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Card, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(CardContent, { sx: { textAlign: "center" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "h4", color: "success.main", children: selectedInventory.lines?.filter((l2) => l2.countedQty !== null).length || 0 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "body2", children: "Comptés" })
+              ] }) }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, sm: 3, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Card, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(CardContent, { sx: { textAlign: "center" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "h4", color: "warning.main", children: selectedInventory.lines?.filter((l2) => l2.difference !== 0 && l2.difference !== null).length || 0 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "body2", children: "Écarts" })
+              ] }) }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Grid, { item: true, xs: 12, sm: 3, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Card, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(CardContent, { sx: { textAlign: "center" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(Typography, { variant: "h4", color: selectedInventory.lines && selectedInventory.lines.length > 0 ? selectedInventory.lines.filter((l2) => l2.countedQty !== null).length / selectedInventory.lines.length * 100 >= 80 ? "success.main" : "warning.main" : "text.secondary", children: [
+                  selectedInventory.lines && selectedInventory.lines.length > 0 ? Math.round(selectedInventory.lines.filter((l2) => l2.countedQty !== null).length / selectedInventory.lines.length * 100) : 0,
+                  "%"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "body2", children: "Progression" })
+              ] }) }) })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(TableContainer, { component: Paper, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Table$1, { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(TableRow, { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: "Produit" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: "Référence" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { align: "right", children: "Attendu" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { align: "right", children: "Compté" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { align: "right", children: "Écart" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: "Statut" })
+              ] }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(TableBody, { children: selectedInventory.lines?.map((line2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(TableRow, { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: line2.stock?.reference?.parfum?.nom }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: line2.stock?.reference?.referenceCode }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { align: "right", children: line2.expectedQty }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { align: "right", children: line2.countedQty !== null ? line2.countedQty : "-" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { align: "right", children: line2.difference !== null ? /* @__PURE__ */ jsxRuntimeExports.jsxs(Typography, { color: line2.difference !== 0 ? "error" : "success", children: [
+                  line2.difference > 0 ? "+" : "",
+                  line2.difference
+                ] }) : "-" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: line2.countedQty !== null ? /* @__PURE__ */ jsxRuntimeExports.jsx(CheckIcon$1, { color: "success" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ErrorIcon$1, { color: "warning" }) })
+              ] }, line2.id)) })
+            ] }) })
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(DialogActions, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { onClick: () => setReportDialogOpen(false), children: "Fermer" }) })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("video", { ref: videoRef, style: { display: "none" } }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("canvas", { ref: canvasRef, style: { display: "none" } })
+  ] }) });
+}
 function FournisseursPage() {
   const { fournisseurs, loading, fetchFournisseurs } = useDataStore();
   const { darkMode } = useAppStore();
@@ -85513,7 +86341,7 @@ function FournisseursPage() {
         }
       )
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(DataTable, { rows: fournisseurs, columns, loading }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(DataTable$1, { rows: fournisseurs, columns, loading }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       Dialog,
       {
@@ -87158,7 +87986,7 @@ function ClientsPage() {
       )
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(ErrorFeedback, { error, onClose: () => setError(null) }),
-    loading ? /* @__PURE__ */ jsxRuntimeExports.jsx(TableSkeleton, { rows: 8, columns: 3 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(DataTable, { rows: clients, columns, loading: false }),
+    loading ? /* @__PURE__ */ jsxRuntimeExports.jsx(TableSkeleton, { rows: 8, columns: 3 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(DataTable$1, { rows: clients, columns, loading: false }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       Dialog,
       {
@@ -87421,7 +88249,7 @@ function ReferencesPage() {
         }
       )
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(DataTable, { rows: references, columns, loading }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(DataTable$1, { rows: references, columns, loading }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       Dialog,
       {
@@ -87563,7 +88391,8 @@ function App() {
     { text: "Références", icon: /* @__PURE__ */ jsxRuntimeExports.jsx(InventoryIcon, {}), path: "/references", color: "#8b5cf6" },
     { text: "Fournisseurs", icon: /* @__PURE__ */ jsxRuntimeExports.jsx(SupplierIcon, {}), path: "/fournisseurs", color: "#f59e0b" },
     { text: "Clients", icon: /* @__PURE__ */ jsxRuntimeExports.jsx(PeopleIcon, {}), path: "/clients", color: "#10b981" },
-    { text: "Stock", icon: /* @__PURE__ */ jsxRuntimeExports.jsx(StockIcon, {}), path: "/stock", color: "#3b82f6" }
+    { text: "Stock", icon: /* @__PURE__ */ jsxRuntimeExports.jsx(StockIcon, {}), path: "/stock", color: "#3b82f6" },
+    { text: "Inventaire", icon: /* @__PURE__ */ jsxRuntimeExports.jsx(InventoryIcon, {}), path: "/inventory", color: "#06b6d4" }
   ];
   const drawer = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { sx: { p: 3, display: "flex", alignItems: "center", gap: 2 }, children: [
@@ -87823,6 +88652,7 @@ function App() {
               /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/fournisseurs", element: /* @__PURE__ */ jsxRuntimeExports.jsx(FournisseursPage, {}) }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/clients", element: /* @__PURE__ */ jsxRuntimeExports.jsx(ClientsPage, {}) }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/stock", element: /* @__PURE__ */ jsxRuntimeExports.jsx(StockPage, {}) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/inventory", element: /* @__PURE__ */ jsxRuntimeExports.jsx(InventoryPage, {}) }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/", element: /* @__PURE__ */ jsxRuntimeExports.jsx(DashboardPage, {}) })
             ] }) }) })
           ]

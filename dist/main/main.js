@@ -1254,6 +1254,291 @@ class WarehouseService {
     }
   }
 }
+class InventoryRepository {
+  async getAll() {
+    return prisma.inventory.findMany({
+      include: {
+        warehouse: true,
+        lines: {
+          include: {
+            stock: {
+              include: {
+                reference: {
+                  include: {
+                    parfum: true,
+                    fournisseur: true
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      orderBy: { createdAt: "desc" }
+    });
+  }
+  async getById(id) {
+    return prisma.inventory.findUnique({
+      where: { id },
+      include: {
+        warehouse: true,
+        lines: {
+          include: {
+            stock: {
+              include: {
+                reference: {
+                  include: {
+                    parfum: true,
+                    fournisseur: true
+                  }
+                }
+              }
+            }
+          },
+          orderBy: { createdAt: "asc" }
+        }
+      }
+    });
+  }
+  async create(data) {
+    const whereClause = {};
+    if (data.warehouseId) {
+      whereClause.warehouseId = data.warehouseId;
+    }
+    const stocks = await prisma.stock.findMany({
+      where: whereClause,
+      include: {
+        reference: {
+          include: {
+            parfum: true,
+            fournisseur: true
+          }
+        }
+      }
+    });
+    const inventory = await prisma.inventory.create({
+      data: {
+        nom: data.nom,
+        description: data.description,
+        warehouseId: data.warehouseId,
+        user: data.user,
+        lines: {
+          create: stocks.map((stock) => ({
+            stockId: stock.id,
+            expectedQty: stock.quantite
+          }))
+        }
+      },
+      include: {
+        warehouse: true,
+        lines: {
+          include: {
+            stock: {
+              include: {
+                reference: {
+                  include: {
+                    parfum: true,
+                    fournisseur: true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+    return inventory;
+  }
+  async startInventory(id, user) {
+    return prisma.inventory.update({
+      where: { id },
+      data: {
+        status: "IN_PROGRESS",
+        startedAt: /* @__PURE__ */ new Date(),
+        user
+      }
+    });
+  }
+  async completeInventory(id, user) {
+    return prisma.inventory.update({
+      where: { id },
+      data: {
+        status: "COMPLETED",
+        completedAt: /* @__PURE__ */ new Date(),
+        user
+      }
+    });
+  }
+  async cancelInventory(id, user) {
+    return prisma.inventory.update({
+      where: { id },
+      data: {
+        status: "CANCELLED",
+        user
+      }
+    });
+  }
+  async updateLine(inventoryId, stockId, countedQty, notes, user) {
+    const line = await prisma.inventoryLine.findUnique({
+      where: {
+        inventoryId_stockId: {
+          inventoryId,
+          stockId
+        }
+      }
+    });
+    if (!line) {
+      throw new Error("Inventory line not found");
+    }
+    const difference = countedQty - line.expectedQty;
+    return prisma.inventoryLine.update({
+      where: {
+        inventoryId_stockId: {
+          inventoryId,
+          stockId
+        }
+      },
+      data: {
+        countedQty,
+        difference,
+        notes,
+        scannedAt: /* @__PURE__ */ new Date()
+      }
+    });
+  }
+  async getInventoryReport(id) {
+    const inventory = await this.getById(id);
+    if (!inventory) return null;
+    const totalItems = inventory.lines.length;
+    const countedItems = inventory.lines.filter((line) => line.countedQty !== null).length;
+    const discrepancies = inventory.lines.filter((line) => line.difference !== 0 && line.difference !== null);
+    const totalExpectedValue = inventory.lines.reduce((sum, line) => sum + line.expectedQty * line.stock.reference.prixUnitaire, 0);
+    const totalCountedValue = inventory.lines.reduce((sum, line) => sum + (line.countedQty || 0) * line.stock.reference.prixUnitaire, 0);
+    return {
+      ...inventory,
+      summary: {
+        totalItems,
+        countedItems,
+        completionPercentage: totalItems > 0 ? countedItems / totalItems * 100 : 0,
+        discrepanciesCount: discrepancies.length,
+        totalExpectedValue,
+        totalCountedValue,
+        valueDifference: totalCountedValue - totalExpectedValue
+      }
+    };
+  }
+  async delete(id) {
+    await prisma.inventoryLine.deleteMany({
+      where: { inventoryId: id }
+    });
+    return prisma.inventory.delete({
+      where: { id }
+    });
+  }
+}
+class InventoryService {
+  repo = new InventoryRepository();
+  async getAll() {
+    try {
+      const result = await this.repo.getAll();
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async getById(id) {
+    try {
+      const result = await this.repo.getById(id);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async create(data) {
+    try {
+      const result = await this.repo.create(data);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async startInventory(id, user) {
+    try {
+      const result = await this.repo.startInventory(id, user);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async completeInventory(id, user) {
+    try {
+      const result = await this.repo.completeInventory(id, user);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async cancelInventory(id, user) {
+    try {
+      const result = await this.repo.cancelInventory(id, user);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async updateLine(inventoryId, stockId, countedQty, notes, user) {
+    try {
+      const result = await this.repo.updateLine(inventoryId, stockId, countedQty, notes, user);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async getInventoryReport(id) {
+    try {
+      const result = await this.repo.getInventoryReport(id);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  async delete(id) {
+    try {
+      await this.repo.delete(id);
+      return { success: true, data: null };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  // Barcode scanning helper - find stock by barcode
+  async findStockByBarcode(barcode) {
+    try {
+      const stock = await prisma.stock.findFirst({
+        where: {
+          reference: {
+            parfum: {
+              barcode
+            }
+          }
+        },
+        include: {
+          reference: {
+            include: {
+              parfum: true,
+              fournisseur: true
+            }
+          }
+        }
+      });
+      if (!stock) {
+        return { success: false, error: "Produit non trouvé pour ce code-barres" };
+      }
+      return { success: true, data: stock };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+}
 class CategoryRepository {
   prisma = new client.PrismaClient();
   async getAll() {
@@ -1452,6 +1737,7 @@ function registerIpcHandlers() {
   const referenceService = new ParfumReferenceService();
   const stockService = new StockService();
   const warehouseService = new WarehouseService();
+  const inventoryService = new InventoryService();
   const categoryService = new CategoryService();
   const tagService = new TagService();
   electron.ipcMain.handle("parfum:getAll", () => parfumService.getAllParfums());
@@ -1502,6 +1788,16 @@ function registerIpcHandlers() {
   electron.ipcMain.handle("warehouse:create", (_, data) => warehouseService.create(data));
   electron.ipcMain.handle("warehouse:update", (_, { id, data }) => warehouseService.update(id, data));
   electron.ipcMain.handle("warehouse:delete", (_, id) => warehouseService.delete(id));
+  electron.ipcMain.handle("inventory:getAll", () => inventoryService.getAll());
+  electron.ipcMain.handle("inventory:getById", (_, id) => inventoryService.getById(id));
+  electron.ipcMain.handle("inventory:create", (_, data) => inventoryService.create(data));
+  electron.ipcMain.handle("inventory:start", (_, { id, user }) => inventoryService.startInventory(id, user));
+  electron.ipcMain.handle("inventory:complete", (_, { id, user }) => inventoryService.completeInventory(id, user));
+  electron.ipcMain.handle("inventory:cancel", (_, { id, user }) => inventoryService.cancelInventory(id, user));
+  electron.ipcMain.handle("inventory:updateLine", (_, { inventoryId, stockId, countedQty, notes, user }) => inventoryService.updateLine(inventoryId, stockId, countedQty, notes, user));
+  electron.ipcMain.handle("inventory:getReport", (_, id) => inventoryService.getInventoryReport(id));
+  electron.ipcMain.handle("inventory:delete", (_, id) => inventoryService.delete(id));
+  electron.ipcMain.handle("inventory:findByBarcode", (_, barcode) => inventoryService.findStockByBarcode(barcode));
   electron.ipcMain.handle("upload:image", async (_, formData) => {
     try {
       const { image, type } = formData;
