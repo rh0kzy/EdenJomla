@@ -14,7 +14,14 @@ import {
   Chip,
   Stack
 } from '@mui/material';
-import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon, Inventory as InventoryIcon } from '@mui/icons-material';
+import { 
+  Add as AddIcon, 
+  Edit as EditIcon, 
+  Delete as DeleteIcon, 
+  Inventory as InventoryIcon,
+  UploadFile as UploadIcon,
+  ShoppingCart as OrdersIcon
+} from '@mui/icons-material';
 import { GridColDef } from '@mui/x-data-grid';
 import { useDataStore } from '../store/useDataStore';
 import { useAppStore } from '../store/useAppStore';
@@ -33,6 +40,8 @@ export default function ReferencesPage() {
   const { darkMode } = useAppStore();
   
   const [open, setOpen] = useState(false);
+  const [openImport, setOpenImport] = useState(false);
+  const [importData, setImportData] = useState('');
   const [selectedRef, setSelectedRef] = useState<any>(null);
   const [formData, setFormData] = useState({ 
     parfumId: '', 
@@ -75,6 +84,24 @@ export default function ReferencesPage() {
   };
 
   const handleClose = () => setOpen(false);
+
+  const handleImport = async () => {
+    try {
+      const parsed = JSON.parse(importData);
+      if (!Array.isArray(parsed)) throw new Error('Format invalide: un tableau est attendu');
+      
+      const response = await window.api.references.import(parsed);
+      if (response.success) {
+        fetchReferences();
+        setOpenImport(false);
+        setImportData('');
+      } else {
+        alert(response.error);
+      }
+    } catch (e: any) {
+      alert('Erreur: ' + e.message);
+    }
+  };
 
   const handleSubmit = async () => {
     const data = {
@@ -210,10 +237,21 @@ export default function ReferencesPage() {
           }} sx={{ background: darkMode ? 'rgba(16,185,129,0.12)' : 'rgba(16,185,129,0.06)' }}>
             <EditIcon fontSize="small" sx={{ color: '#10b981' }} />
           </IconButton>
+          <IconButton size="small" onClick={async () => {
+            setOrderRefId(params.row.id);
+            setOpenOrders(true);
+          }} sx={{ background: darkMode ? 'rgba(245,158,11,0.12)' : 'rgba(245,158,11,0.06)' }}>
+            <OrdersIcon fontSize="small" sx={{ color: '#f59e0b' }} />
+          </IconButton>
         </Stack>
       ),
     },
   ];
+
+  // Order history dialog state
+  const [openOrders, setOpenOrders] = useState(false);
+  const [orderRefId, setOrderRefId] = useState<number | null>(null);
+  const [orderHistory, setOrderHistory] = useState<{ purchases: any[], sales: any[] }>({ purchases: [], sales: [] });
 
   // Price history dialog state
   const [openHistory, setOpenHistory] = useState(false);
@@ -240,6 +278,14 @@ export default function ReferencesPage() {
       });
     }
   }, [openTiers, tiersReferenceId]);
+
+  useEffect(() => {
+    if (openOrders && orderRefId) {
+      window.api.references.getOrderHistory(orderRefId).then((res) => {
+        if (res.success) setOrderHistory(res.data);
+      });
+    }
+  }, [openOrders, orderRefId]);
 
   const saveTiers = async () => {
     if (!tiersReferenceId) return;
@@ -293,14 +339,25 @@ export default function ReferencesPage() {
               Gérez les références fournisseurs de vos parfums
             </Typography>
           </Box>
-          <Button 
-            variant="contained" 
-            startIcon={<AddIcon />} 
-            onClick={() => handleOpen()}
-            size="large"
-          >
-            Nouvelle Référence
-          </Button>
+          <Stack direction="row" spacing={2}>
+            <Button
+              variant="outlined"
+              startIcon={<UploadIcon />}
+              onClick={() => setOpenImport(true)}
+              sx={{ borderRadius: 2 }}
+            >
+              Import Auto
+            </Button>
+            <Button 
+              variant="contained" 
+              startIcon={<AddIcon />} 
+              onClick={() => handleOpen()}
+              size="large"
+              sx={{ borderRadius: 2 }}
+            >
+              Nouvelle Référence
+            </Button>
+          </Stack>
         </Box>
 
         <DataTable rows={references} columns={columns} loading={loading} />
@@ -441,6 +498,55 @@ export default function ReferencesPage() {
           </DialogActions>
         </Dialog>
 
+        {/* Order History Dialog */}
+        <Dialog open={openOrders} onClose={() => setOpenOrders(false)} fullWidth maxWidth="md">
+          <DialogTitle>Historique des Commandes</DialogTitle>
+          <DialogContent>
+            <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>Achats (Fournisseurs)</Typography>
+            {orderHistory.purchases.length === 0 ? (
+              <Typography variant="body2" sx={{ opacity: 0.6 }}>Aucun achat enregistré.</Typography>
+            ) : (
+              <Stack spacing={1}>
+                {orderHistory.purchases.map((p) => (
+                  <Box key={p.id} sx={{ p: 1.5, borderRadius: 2, bgcolor: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)', display: 'flex', justifyContent: 'space-between' }}>
+                    <Box>
+                      <Typography sx={{ fontWeight: 600 }}>{p.party}</Typography>
+                      <Typography variant="caption">{new Date(p.date).toLocaleDateString()}</Typography>
+                    </Box>
+                    <Box sx={{ textAlign: 'right' }}>
+                      <Typography sx={{ fontWeight: 600, color: '#10b981' }}>{p.quantity} unités @ {p.price} DH</Typography>
+                      <Chip label={p.status} size="small" variant="outlined" />
+                    </Box>
+                  </Box>
+                ))}
+              </Stack>
+            )}
+
+            <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>Ventes (Clients)</Typography>
+            {orderHistory.sales.length === 0 ? (
+              <Typography variant="body2" sx={{ opacity: 0.6 }}>Aucune vente enregistrée.</Typography>
+            ) : (
+              <Stack spacing={1}>
+                {orderHistory.sales.map((s) => (
+                  <Box key={s.id} sx={{ p: 1.5, borderRadius: 2, bgcolor: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)', display: 'flex', justifyContent: 'space-between' }}>
+                    <Box>
+                      <Typography sx={{ fontWeight: 600 }}>{s.party}</Typography>
+                      <Typography variant="caption">{new Date(s.date).toLocaleDateString()}</Typography>
+                    </Box>
+                    <Box sx={{ textAlign: 'right' }}>
+                      <Typography sx={{ fontWeight: 600, color: '#6366f1' }}>{s.quantity} unités @ {s.price} DH</Typography>
+                      <Chip label={s.status} size="small" variant="outlined" />
+                    </Box>
+                  </Box>
+                ))}
+              </Stack>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenOrders(false)}>Fermer</Button>
+          </DialogActions>
+        </Dialog>
+
         {/* Price Tiers Dialog */}
         <Dialog open={openTiers} onClose={() => setOpenTiers(false)} fullWidth maxWidth="sm">
           <DialogTitle>Tarifs Dégressifs</DialogTitle>
@@ -459,6 +565,30 @@ export default function ReferencesPage() {
           <DialogActions>
             <Button onClick={() => setOpenTiers(false)}>Annuler</Button>
             <Button onClick={saveTiers} variant="contained">Enregistrer</Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Import Dialog */}
+        <Dialog open={openImport} onClose={() => setOpenImport(false)} fullWidth maxWidth="sm">
+          <DialogTitle>Import Automatique des Références</DialogTitle>
+          <DialogContent>
+            <Typography variant="body2" sx={{ mb: 2, opacity: 0.7 }}>
+              Collez le JSON des références ici. Le format doit être un tableau d'objets :
+              {'[{"referenceCode": "...", "parfumId": 1, "fournisseurId": 1, "prixUnitaire": 50, ...}]'}
+            </Typography>
+            <TextField
+              fullWidth
+              multiline
+              rows={10}
+              placeholder='[{"referenceCode": "REF001", "parfumId": 1, ...}]'
+              value={importData}
+              onChange={(e) => setImportData(e.target.value)}
+              sx={{ fontFamily: 'monospace' }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenImport(false)}>Annuler</Button>
+            <Button onClick={handleImport} variant="contained">Lancer l'Import</Button>
           </DialogActions>
         </Dialog>
       </Box>

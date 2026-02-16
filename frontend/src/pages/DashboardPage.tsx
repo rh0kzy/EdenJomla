@@ -139,6 +139,13 @@ export default function DashboardPage() {
     })
     .slice(0, 6);
 
+  // Mock data for supplier new products (Nouveautés Fournisseurs)
+  const supplierNews = [
+    { id: 1, fournisseur: 'Argeville', product: 'Nouveau Musc Blanc 2026', date: 'Aujourd\'hui', price: '45€/kg' },
+    { id: 2, fournisseur: 'Givaudan', product: 'Essence de Rose Rare', date: 'Hier', price: '120€/kg' },
+    { id: 3, fournisseur: 'Robertet', product: 'Oud Synthétique Bio', date: 'Il y a 2 jours', price: '85€/kg' },
+  ];
+
   const statsCards = [
     {
       title: 'Total Parfums',
@@ -638,6 +645,64 @@ export default function DashboardPage() {
                                  item.priority === 'high' ? '#f59e0b' : '#10b981'
                         }}
                       />
+                    </Box>
+                  ))}
+                </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* Nouveautés Fournisseurs */}
+          <Grid size={{ xs: 12, md: 12, lg: 4 }}>
+            <Card
+              elevation={0}
+              sx={{
+                background: darkMode
+                  ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%)'
+                  : 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
+                backdropFilter: 'blur(20px)',
+                border: darkMode ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.05)',
+                boxShadow: darkMode
+                  ? '0 20px 60px rgba(0,0,0,0.3)'
+                  : '0 20px 60px rgba(0,0,0,0.08)',
+                height: '100%'
+              }}
+            >
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <SupplierIcon sx={{ mr: 1, color: '#6366f1' }} />
+                  <Typography variant="h6" sx={{ fontWeight: 600, color: darkMode ? '#fff' : '#1f2937' }}>
+                    Nouveautés Fournisseurs
+                  </Typography>
+                </Box>
+                <Stack spacing={1.5}>
+                  {supplierNews.map((news) => (
+                    <Box
+                      key={news.id}
+                      sx={{
+                        p: 1.5,
+                        borderRadius: 2,
+                        bgcolor: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)',
+                        transition: 'all 0.2s',
+                        '&:hover': {
+                          bgcolor: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)',
+                        }
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 600, color: '#6366f1' }}>
+                          {news.fournisseur}
+                        </Typography>
+                        <Typography variant="caption" sx={{ opacity: 0.6 }}>
+                          {news.date}
+                        </Typography>
+                      </Box>
+                      <Typography variant="body2" sx={{ mt: 0.5 }}>
+                        {news.product}
+                      </Typography>
+                      <Typography variant="caption" sx={{ display: 'block', mt: 0.5, fontWeight: 700, color: '#10b981' }}>
+                        {news.price}
+                      </Typography>
                     </Box>
                   ))}
                 </Stack>

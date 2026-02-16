@@ -19,6 +19,9 @@ model Parfum {
   category    Category?    @relation(fields: [categoryId], references: [id])
   tags        ParfumTag[]
   references  ParfumReference[]
+  certifications String?          // Certifications like IFRA, ISO
+  msdsUrl        String?          // URL or path to MSDS document
+  techSheetUrl   String?          // URL or path to Technical Sheet
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
   createdBy   String?           @default("system")
@@ -64,21 +67,67 @@ model ParfumTag {
 }
 
 model Fournisseur {
-  id         Int               @id @default(autoincrement())
-  nom        String
-  telephone  String?
-  email      String?
-  references ParfumReference[]
-  createdAt  DateTime          @default(now())
-  updatedAt  DateTime          @updatedAt
+  id              Int                @id @default(autoincrement())
+  nom             String
+  telephone       String?
+  email           String?
+  adresse         String?
+  rating          Float?             @default(0)
+  reliabilityRate Float?             @default(100)
+  avgDeliveryTime Float?             // in days
+  notes           String?
+  contacts        SupplierContact[]
+  documents       SupplierDocument[]
+  references      ParfumReference[]
+  purchaseOrders  PurchaseOrder[]
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
 }
+
+model SupplierContact {
+  id            Int         @id @default(autoincrement())
+  nom           String
+  fonction      String?
+  telephone     String?
+  email         String?
+  fournisseurId Int
+  fournisseur   Fournisseur @relation(fields: [fournisseurId], references: [id], onDelete: Cascade)
+}
+
+model SupplierDocument {
+  id            Int         @id @default(autoincrement())
+  nom           String
+  url           String
+  type          String?     // 'CONTRACT', 'INVOICE', 'TECHNICAL'
+  fournisseurId Int
+  fournisseur   Fournisseur @relation(fields: [fournisseurId], references: [id], onDelete: Cascade)
+  createdAt     DateTime    @default(now())
+}
+
 
 model Client {
   id        Int      @id @default(autoincrement())
   nom       String
   telephone String?
+  email     String?
+  points    Int      @default(0)
+  segment   String?  @default("Nouveau") // VIP, Régulier, Nouveau
+  notes     String?
+  anniversaire DateTime?
+  adresses  Address[]
+  salesOrders SalesOrder[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Address {
+  id        Int      @id @default(autoincrement())
+  rue       String
+  ville     String
+  codePostal String?
+  clientId  Int
+  client    Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  isDefault Boolean  @default(false)
 }
 
 model ParfumReference {
@@ -98,6 +147,8 @@ model ParfumReference {
   // Pricing relations
   priceHistory  PriceHistory[]
   priceTiers    PriceTier[]
+  purchaseOrderItems PurchaseOrderItem[]
+  salesOrderItems    SalesOrderItem[]
 }
 
 model Stock {
@@ -195,4 +246,48 @@ model PriceTier {
 
   parfumReference    ParfumReference @relation(fields: [parfumReferenceId], references: [id], onDelete: Cascade)
   @@index([parfumReferenceId, minQty, maxQty])
+}
+
+model PurchaseOrder {
+  id              Int                  @id @default(autoincrement())
+  fournisseurId   Int
+  fournisseur     Fournisseur          @relation(fields: [fournisseurId], references: [id])
+  status          String               @default("PENDING") // PENDING, RECEIVED, CANCELLED
+  totalAmount     Float
+  receivedAt      DateTime?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  items           PurchaseOrderItem[]
+}
+
+
+model PurchaseOrderItem {
+  id                Int             @id @default(autoincrement())
+  purchaseOrderId   Int
+  purchaseOrder     PurchaseOrder   @relation(fields: [purchaseOrderId], references: [id], onDelete: Cascade)
+  parfumReferenceId Int
+  parfumReference   ParfumReference @relation(fields: [parfumReferenceId], references: [id])
+  quantite          Float
+  prixUnitaire      Float
+}
+
+model SalesOrder {
+  id          Int              @id @default(autoincrement())
+  clientId    Int
+  client      Client           @relation(fields: [clientId], references: [id])
+  status      String           @default("COMPLETED") // PENDING, COMPLETED, CANCELLED
+  totalAmount Float
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  items       SalesOrderItem[]
+}
+
+model SalesOrderItem {
+  id                Int             @id @default(autoincrement())
+  salesOrderId      Int
+  salesOrder        SalesOrder      @relation(fields: [salesOrderId], references: [id], onDelete: Cascade)
+  parfumReferenceId Int
+  parfumReference   ParfumReference @relation(fields: [parfumReferenceId], references: [id])
+  quantite          Float
+  prixUnitaire      Float
 }

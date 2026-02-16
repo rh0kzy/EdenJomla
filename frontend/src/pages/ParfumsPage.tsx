@@ -26,7 +26,7 @@ import {
   FormControlLabel,
   Autocomplete
 } from '@mui/material';
-import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon, Opacity as ParfumIcon, PhotoCamera as PhotoIcon, Delete as RemoveIcon, Upload as UploadIcon, Download as DownloadIcon, PictureAsPdf as PdfIcon, TableChart as CsvIcon, ContentCopy as ContentCopyIcon, Visibility as VisibilityIcon, QrCode as QrCodeIcon } from '@mui/icons-material';
+import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon, Opacity as ParfumIcon, PhotoCamera as PhotoIcon, Delete as RemoveIcon, Upload as UploadIcon, Download as DownloadIcon, PictureAsPdf as PdfIcon, TableChart as CsvIcon, ContentCopy as ContentCopyIcon, Visibility as VisibilityIcon, QrCode as QrCodeIcon, CompareArrows as CompareIcon, Description as DocIcon, VerifiedUser as CertIcon } from '@mui/icons-material';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import QRCode from 'qrcode';
@@ -43,8 +43,21 @@ export default function ParfumsPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [openCompare, setOpenCompare] = useState(false);
+  const [comparedPrices, setComparedPrices] = useState<any[]>([]);
   const [selectedParfum, setSelectedParfum] = useState<any>(null);
-  const [formData, setFormData] = useState({ nom: '', marque: '', description: '', image: '', notes: '', barcode: '', categoryId: '' });
+  const [formData, setFormData] = useState({ 
+    nom: '', 
+    marque: '', 
+    description: '', 
+    image: '', 
+    notes: '', 
+    barcode: '', 
+    categoryId: '',
+    certifications: '',
+    msdsUrl: '',
+    techSheetUrl: ''
+  });
   const [selectedTags, setSelectedTags] = useState<number[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [tags, setTags] = useState<any[]>([]);
@@ -122,18 +135,50 @@ export default function ParfumsPage() {
         image: parfum.image || '',
         notes: parfum.notes || '',
         barcode: parfum.barcode || '',
-        categoryId: parfum.categoryId || ''
+        categoryId: parfum.categoryId || '',
+        certifications: parfum.certifications || '',
+        msdsUrl: parfum.msdsUrl || '',
+        techSheetUrl: parfum.techSheetUrl || ''
       });
       setSelectedTags(parfum.tags?.map((pt: any) => pt.tagId) || []);
       setImagePreview(parfum.image ? `/images/parfums/${parfum.image}` : null);
     } else {
       setSelectedParfum(null);
-      setFormData({ nom: '', marque: '', description: '', image: '', notes: '', barcode: '', categoryId: '' });
+      setFormData({ 
+        nom: '', 
+        marque: '', 
+        description: '', 
+        image: '', 
+        notes: '', 
+        barcode: '', 
+        categoryId: '',
+        certifications: '',
+        msdsUrl: '',
+        techSheetUrl: ''
+      });
       setSelectedTags([]);
       setImagePreview(null);
     }
     setSelectedImage(null);
     setOpen(true);
+  };
+
+  const handleOpenCompare = async (parfum: any) => {
+    setSelectedParfum(parfum);
+    try {
+      const response = await window.api.fournisseurs.comparePrices(parfum.id);
+      if (response.success) {
+        setComparedPrices(response.data || []);
+      }
+    } catch (error) {
+      console.error('Error comparing prices:', error);
+    }
+    setOpenCompare(true);
+  };
+
+  const handleCloseCompare = () => {
+    setOpenCompare(false);
+    setComparedPrices([]);
   };
 
   const handleClose = () => {
@@ -598,6 +643,19 @@ export default function ParfumsPage() {
           </IconButton>
           <IconButton 
             size="small" 
+            onClick={() => handleOpenCompare(params.row)}
+            sx={{
+              background: darkMode ? 'rgba(245, 158, 11, 0.15)' : 'rgba(245, 158, 11, 0.08)',
+              '&:hover': {
+                background: darkMode ? 'rgba(245, 158, 11, 0.25)' : 'rgba(245, 158, 11, 0.15)',
+              }
+            }}
+            title="Comparer les prix"
+          >
+            <CompareIcon fontSize="small" sx={{ color: '#f59e0b' }} />
+          </IconButton>
+          <IconButton 
+            size="small" 
             onClick={() => handleDelete(params.row.id)}
             sx={{
               background: darkMode ? 'rgba(239, 68, 68, 0.15)' : 'rgba(239, 68, 68, 0.08)',
@@ -839,6 +897,32 @@ export default function ParfumsPage() {
               onChange={(e) => setFormData({ ...formData, barcode: e.target.value })}
               placeholder="Scanner ou saisir le code-barres..."
             />
+            
+            <Typography variant="subtitle2" sx={{ mt: 3, mb: 1, color: 'primary.main', fontWeight: 600 }}>
+              Documents & Certifications
+            </Typography>
+            <TextField
+              fullWidth
+              label="Certifications (ex: IFRA, ISO 22716)"
+              margin="normal"
+              value={formData.certifications}
+              onChange={(e) => setFormData({ ...formData, certifications: e.target.value })}
+            />
+            <TextField
+              fullWidth
+              label="Lien Fiche Technique (Tech Sheet)"
+              margin="normal"
+              value={formData.techSheetUrl}
+              onChange={(e) => setFormData({ ...formData, techSheetUrl: e.target.value })}
+            />
+            <TextField
+              fullWidth
+              label="Lien MSDS"
+              margin="normal"
+              value={formData.msdsUrl}
+              onChange={(e) => setFormData({ ...formData, msdsUrl: e.target.value })}
+            />
+
             <FormControl fullWidth margin="normal">
               <InputLabel>Catégorie</InputLabel>
               <Select
@@ -917,6 +1001,74 @@ export default function ParfumsPage() {
               }}
             >
               Enregistrer
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Comparison Dialog */}
+        <Dialog 
+          open={openCompare} 
+          onClose={handleCloseCompare}
+          maxWidth="md"
+          fullWidth
+        >
+          <DialogTitle sx={{ 
+            fontWeight: 700,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1
+          }}>
+            <CompareIcon color="warning" />
+            Comparateur de Prix - {selectedParfum?.nom}
+          </DialogTitle>
+          <DialogContent>
+            <Typography variant="body2" sx={{ mb: 3, opacity: 0.7 }}>
+              Comparaison des tarifs entre les différents fournisseurs pour ce parfum.
+            </Typography>
+            
+            <Stack spacing={2}>
+              {comparedPrices.length > 0 ? (
+                comparedPrices.map((supplier: any) => (
+                  <Card 
+                    key={supplier.id}
+                    variant="outlined"
+                    sx={{ 
+                      p: 2,
+                      background: darkMode ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.01)',
+                      border: '1px solid',
+                      borderColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Box>
+                        <Typography variant="h6" sx={{ color: 'primary.main', fontWeight: 600 }}>
+                          {supplier.nom}
+                        </Typography>
+                        <Typography variant="caption" sx={{ display: 'block' }}>
+                          {supplier.telephone || 'Pas de téléphone'}
+                        </Typography>
+                      </Box>
+                      <Box sx={{ textAlign: 'right' }}>
+                        <Typography variant="h5" sx={{ fontWeight: 700, color: '#10b981' }}>
+                          {supplier.references?.[0]?.prixUnitaire?.toLocaleString()} DZD
+                        </Typography>
+                        <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                          Prix Unitaire
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Card>
+                ))
+              ) : (
+                <Box sx={{ py: 4, textAlign: 'center', opacity: 0.5 }}>
+                  <Typography>Aucune donnée de prix trouvée pour ce parfum.</Typography>
+                </Box>
+              )}
+            </Stack>
+          </DialogContent>
+          <DialogActions sx={{ p: 2 }}>
+            <Button onClick={handleCloseCompare} variant="contained" sx={{ borderRadius: 2 }}>
+              Fermer
             </Button>
           </DialogActions>
         </Dialog>

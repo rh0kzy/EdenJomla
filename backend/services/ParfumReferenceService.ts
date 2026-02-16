@@ -41,6 +41,15 @@ export class ParfumReferenceService {
     }
   }
 
+  async importReferences(data: any[]): Promise<ApiResponse<any[]>> {
+    try {
+      const result = await this.repo.bulkCreateOrUpdate(data);
+      return { success: true, data: result };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  }
+
   async updatePrice(id: number, newPrice: number, reason?: string, changedBy?: string): Promise<ApiResponse<ParfumReference>> {
     try {
       const result = await this.repo.updatePrice(id, newPrice, reason, changedBy);
@@ -72,6 +81,15 @@ export class ParfumReferenceService {
     try {
       const result = await this.repo.getPriceTiers(referenceId);
       return { success: true, data: result as any };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  async getOrderHistory(referenceId: number): Promise<ApiResponse<any>> {
+    try {
+      const result = await this.repo.getOrderHistory(referenceId);
+      return { success: true, data: result };
     } catch (error: any) {
       return { success: false, error: error.message };
     }

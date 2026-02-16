@@ -17,6 +17,9 @@ export interface Parfum {
   categoryId?: number | null;
   category?: Category | null;
   tags?: ParfumTag[];
+  certifications?: string | null;
+  msdsUrl?: string | null;
+  techSheetUrl?: string | null;
   createdAt?: Date;
   updatedAt?: Date;
   createdBy?: string | null;
@@ -28,13 +31,56 @@ export interface Fournisseur {
   nom: string;
   telephone?: string | null;
   email?: string | null;
+  adresse?: string | null;
+  rating?: number | null;
+  reliabilityRate?: number | null;
+  avgDeliveryTime?: number | null;
+  notes?: string | null;
+  contacts?: SupplierContact[];
+  documents?: SupplierDocument[];
+  purchaseOrders?: PurchaseOrder[];
 }
+
+export interface SupplierContact {
+  id: number;
+  nom: string;
+  fonction?: string | null;
+  telephone?: string | null;
+  email?: string | null;
+  fournisseurId: number;
+}
+
+export interface SupplierDocument {
+  id: number;
+  nom: string;
+  url: string;
+  type?: string | null;
+  fournisseurId: number;
+  createdAt: Date;
+}
+
 
 export interface Client {
   id: number;
   nom: string;
   telephone?: string | null;
+  email?: string | null;
+  points: number;
+  segment?: string | null;
+  notes?: string | null;
+  anniversaire?: Date | null;
+  adresses?: Address[];
 }
+
+export interface Address {
+  id: number;
+  rue: string;
+  ville: string;
+  codePostal?: string | null;
+  clientId: number;
+  isDefault: boolean;
+}
+
 
 export interface ParfumHistory {
   id: number;
@@ -168,4 +214,24 @@ export interface InventoryLine {
   scannedAt?: Date | null;
   createdAt?: Date;
   updatedAt?: Date;
+}
+export interface PurchaseOrder {
+  id: number;
+  fournisseurId: number;
+  fournisseur?: Fournisseur;
+  status: string;
+  totalAmount: number;
+  receivedAt?: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+  items?: PurchaseOrderItem[];
+}
+
+export interface PurchaseOrderItem {
+  id: number;
+  purchaseOrderId: number;
+  parfumReferenceId: number;
+  parfumReference?: ParfumReference;
+  quantite: number;
+  prixUnitaire: number;
 }

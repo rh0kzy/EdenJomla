@@ -53,6 +53,13 @@ export function registerIpcHandlers() {
   ipcMain.handle('fournisseur:create', (_, data) => fournisseurService.create(data));
   ipcMain.handle('fournisseur:update', (_, { id, data }) => fournisseurService.update(id, data));
   ipcMain.handle('fournisseur:delete', (_, id) => fournisseurService.delete(id));
+  ipcMain.handle('fournisseur:comparePrices', (_, productId) => fournisseurService.compareSupplierPrices(productId));
+  ipcMain.handle('fournisseur:addContact', (_, { fournisseurId, data }) => fournisseurService.addContact(fournisseurId, data));
+  ipcMain.handle('fournisseur:deleteContact', (_, id) => fournisseurService.deleteContact(id));
+  ipcMain.handle('fournisseur:addDocument', (_, { fournisseurId, data }) => fournisseurService.addDocument(fournisseurId, data));
+  ipcMain.handle('fournisseur:deleteDocument', (_, id) => fournisseurService.deleteDocument(id));
+  ipcMain.handle('fournisseur:updateStats', (_, id) => fournisseurService.updateStats(id));
+
 
   // Client Handlers
   ipcMain.handle('client:getAll', () => clientService.getAll());
@@ -71,6 +78,8 @@ export function registerIpcHandlers() {
   ipcMain.handle('reference:getPriceHistory', (_, { referenceId, limit }) => referenceService.getPriceHistory(referenceId, limit));
   ipcMain.handle('reference:getPriceTiers', (_, referenceId) => referenceService.getPriceTiers(referenceId));
   ipcMain.handle('reference:setPriceTiers', (_, { referenceId, tiers }) => referenceService.setPriceTiers(referenceId, tiers));
+  ipcMain.handle('reference:getOrderHistory', (_, referenceId) => referenceService.getOrderHistory(referenceId));
+  ipcMain.handle('reference:import', (_, data) => referenceService.importReferences(data));
 
   // Stock Handlers
   ipcMain.handle('stock:getAll', () => stockService.getAll());
@@ -110,7 +119,7 @@ export function registerIpcHandlers() {
   ipcMain.handle('upload:image', async (_, formData) => {
     try {
       const { image, type } = formData;
-      
+
       if (!image || !type) {
         throw new Error('Image and type are required');
       }
@@ -118,7 +127,7 @@ export function registerIpcHandlers() {
       // Generate unique filename
       const fileExtension = path.extname(image.originalFilename || 'image.jpg');
       const filename = `${uuidv4()}${fileExtension}`;
-      
+
       // Create directory if it doesn't exist
       const uploadDir = path.join(process.cwd(), 'public', 'images', type);
       if (!fs.existsSync(uploadDir)) {

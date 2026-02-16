@@ -31,6 +31,7 @@ export interface IElectronAPI {
     create: (data: Omit<Fournisseur, 'id'>) => Promise<ApiResponse<Fournisseur>>;
     update: (id: number, data: Partial<Fournisseur>) => Promise<ApiResponse<Fournisseur>>;
     delete: (id: number) => Promise<ApiResponse<void>>;
+    comparePrices: (productId: number) => Promise<ApiResponse<any[]>>;
   };
   clients: {
     getAll: () => Promise<ApiResponse<Client[]>>;
@@ -49,6 +50,8 @@ export interface IElectronAPI {
     getPriceHistory: (referenceId: number, limit?: number) => Promise<ApiResponse<PriceHistory[]>>;
     getPriceTiers: (referenceId: number) => Promise<ApiResponse<PriceTier[]>>;
     setPriceTiers: (referenceId: number, tiers: Omit<PriceTier, 'id' | 'createdAt' | 'parfumReferenceId'>[]) => Promise<ApiResponse<PriceTier[]>>;
+    getOrderHistory: (referenceId: number) => Promise<ApiResponse<any>>;
+    import: (data: any[]) => Promise<ApiResponse<any[]>>;
   };
   stock: {
     getAll: () => Promise<ApiResponse<Stock[]>>;

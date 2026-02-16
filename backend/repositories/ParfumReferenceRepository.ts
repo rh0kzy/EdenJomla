@@ -89,6 +89,74 @@ export class ParfumReferenceRepository {
     return prisma.priceTier.findMany({ where: { parfumReferenceId: referenceId }, orderBy: { minQty: 'asc' } });
   }
 
+  async getOrderHistory(referenceId: number) {
+    const purchaseItems = await prisma.purchaseOrderItem.findMany({
+      where: { parfumReferenceId: referenceId },
+      include: { purchaseOrder: { include: { fournisseur: true } } },
+      orderBy: { purchaseOrder: { createdAt: 'desc' } }
+    });
+
+    const salesItems = await prisma.salesOrderItem.findMany({
+      where: { parfumReferenceId: referenceId },
+      include: { salesOrder: { include: { client: true } } },
+      orderBy: { salesOrder: { createdAt: 'desc' } }
+    });
+
+    return {
+      purchases: purchaseItems.map(item => ({
+        id: item.id,
+        orderId: item.purchaseOrderId,
+        date: item.purchaseOrder.createdAt,
+        type: 'PURCHASE',
+        party: item.purchaseOrder.fournisseur.nom,
+        quantity: item.quantite,
+        price: item.prixUnitaire,
+        status: item.purchaseOrder.status
+      })),
+      sales: salesItems.map(item => ({
+        id: item.id,
+        orderId: item.salesOrderId,
+        date: item.salesOrder.createdAt,
+        type: 'SALE',
+        party: item.salesOrder.client.nom,
+        quantity: item.quantite,
+        price: item.prixUnitaire,
+        status: item.salesOrder.status
+      }))
+    };
+  }
+
+  async bulkCreateOrUpdate(data: any[]) {
+    return prisma.$transaction(async (tx) => {
+      const results = [];
+      for (const item of data) {
+        const ref = await tx.parfumReference.upsert({
+          where: { referenceCode: item.referenceCode },
+          update: {
+            unite: item.unite,
+            prixUnitaire: item.prixUnitaire,
+            prixPar100g: item.prixPar100g,
+            parfumId: item.parfumId,
+            fournisseurId: item.fournisseurId,
+          },
+          create: {
+            referenceCode: item.referenceCode,
+            unite: item.unite,
+            prixUnitaire: item.prixUnitaire,
+            prixPar100g: item.prixPar100g,
+            parfumId: item.parfumId,
+            fournisseurId: item.fournisseurId,
+            stock: {
+              create: { quantite: 0 }
+            }
+          }
+        });
+        results.push(ref);
+      }
+      return results;
+    });
+  }
+
   async setPriceTiers(referenceId: number, tiers: { minQty: number; maxQty?: number | null; price: number }[]) {
     return prisma.$transaction(async (tx) => {
       await tx.priceTier.deleteMany({ where: { parfumReferenceId: referenceId } });

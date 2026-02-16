@@ -96,36 +96,33 @@
 
 📝 Gestion des Références
   [✓] CRUD de base
-  [ ] Import automatique des références fournisseurs
-  [ ] Notification nouveaux produits fournisseurs
-  [ ] Comparateur de prix entre fournisseurs
-  [ ] Gestion des certifications/normes
-  [ ] Documents associés (fiches techniques, MSDS)
-  [ ] Historique des commandes par référence
+  [✓] Import automatique des références fournisseurs
+  [✓] Notification nouveaux produits fournisseurs
+  [✓] Comparateur de prix entre fournisseurs
+  [✓] Gestion des certifications/normes
+  [✓] Documents associés (fiches techniques, MSDS)
+  [✓] Historique des commandes par référence
 
 👥 Gestion des Clients
   [✓] CRUD de base
-  [ ] Système de fidélité/points
-  [ ] Historique des achats par client
-  [ ] Carte de fidélité virtuelle
-  [ ] Gestion des adresses multiples
-  [ ] Notes sur le client
-  [ ] Segmentation clients (VIP, nouveau, etc.)
-  [ ] Envoi d'emails automatiques
-  [ ] Notifications SMS
-  [ ] Anniversaires et dates importantes
-  [ ] Analyse du comportement d'achat
+  [✓] Système de fidélité/points
+  [✓] Historique des achats par client
+  [✓] Carte de fidélité virtuelle
+  [✓] Gestion des adresses multiples
+  [✓] Notes sur le client
+  [✓] Segmentation clients (VIP, nouveau, etc.)
+  [✓] Anniversaires et dates importantes
 
 🏢 Gestion des Fournisseurs
   [✓] CRUD de base
-  [ ] Évaluation/notation des fournisseurs
-  [ ] Historique des commandes passées
-  [ ] Délais de livraison moyens
-  [ ] Taux de fiabilité
-  [ ] Documents contractuels
-  [ ] Gestion des contacts multiples
+  [✓] Évaluation/notation des fournisseurs
+  [✓] Historique des commandes passées
+  [✓] Délais de livraison moyens
+  [✓] Taux de fiabilité
+  [✓] Documents contractuels
+  [✓] Gestion des contacts multiples
   [ ] Reminder rappel de commande
-  [ ] Comparaison entre fournisseurs
+  [✓] Comparaison entre fournisseurs
 
 
 ═══════════════════════════════════════════════════════════════════════════════
